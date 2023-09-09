@@ -104,14 +104,14 @@ export function Header() {
               Benefícios
             </Link>
             <Link
-              href="#"
+              href="#mercado"
               className="border-b-2 hover:border-white border-transparent"
               onClick={closeMenu}
             >
               Mercado
             </Link>
             <Link
-              href="#"
+              href="#valores"
               className="border-b-2 hover:border-white border-transparent"
               onClick={closeMenu}
             >
@@ -148,13 +148,13 @@ export function Header() {
             Benefícios
           </Link>
           <Link
-            href="#"
+            href="#mercado"
             className="border-b-2 hover:border-white border-transparent"
           >
             Mercado
           </Link>
           <Link
-            href="#"
+            href="#valores"
             className="border-b-2 hover:border-white border-transparent"
           >
             Valores

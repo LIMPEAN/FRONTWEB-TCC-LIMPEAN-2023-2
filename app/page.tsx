@@ -1,17 +1,20 @@
 import { Header } from "./components/header";
 import { HomeComponent } from "./components/home";
 import { Beneficios } from "./components/beneficios";
+import { Mercado } from "./components/mercado";
+import { Valores } from "./components/valores";
 
 export default function Home() {
   return (
     <>
-      <main className="bg-blue-600 flex flex-col justify-start h-fit">
-        <div className="lg:h-screen min-h-screen ">
+      <main className=" flex flex-col justify-start h-fit">
+        <div className="lg:h-screen min-h-screen bg-blue-600">
           <Header />
           <HomeComponent />
-          <Beneficios/>
-
         </div>
+          <Beneficios/>
+          <Mercado/>
+          <Valores />
     
 
       </main>
