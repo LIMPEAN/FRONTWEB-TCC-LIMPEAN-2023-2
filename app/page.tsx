@@ -7,15 +7,16 @@ import { Valores } from "./components/valores";
 export default function Home() {
   return (
     <>
-      <main className=" flex flex-col justify-start h-fit">
-        <div className="lg:h-screen min-h-screen bg-blue-600">
-          <Header />
+      <Header />
+
+      <main className=" flex flex-col h-fit">
+        <div className="lg:h-screen min-h-screen bg-blue-600 flex justify-center items-start ">
           <HomeComponent />
         </div>
-          <Beneficios/>
-          <Mercado/>
-          <Valores />
-    
+        <Beneficios />
+        <Mercado />
+        <Valores />
+
 
       </main>
     </>
