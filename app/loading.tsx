@@ -1,8 +1,7 @@
 export default function Loading() {
-  return (
+  return(
     <>
       <h1>Loading</h1>
-      {/* Criar uma skeleton screen */}
     </>
   )
 }
