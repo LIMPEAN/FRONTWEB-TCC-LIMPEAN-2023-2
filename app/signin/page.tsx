@@ -1,4 +1,5 @@
 import { getUsers } from "./services/get-users"
+import Image from "next/image"
 
 interface IUserCard {
   id: string | number,
@@ -17,8 +18,8 @@ export default async function UserPage() {
       <h2 className="text-green-500 ">User Page</h2>
       <div className="grid min-w-fit md:grid-cols-2 xl:grid-cols-3 grid-cols-1 m-4 gap-4 bg-black ">
         {users.map((user: IUserCard) => (
-          <div className="flex bg-white/70 w-96 p-4 gap-4 rounded-xl drop-shadow-sm">
-            <img src={user.avatar} />
+          <div key={user.id} className="flex bg-white/70 w-96 p-4 gap-4 rounded-xl drop-shadow-sm">
+            <Image src={user.avatar} width={400} height={400} alt="User avatar" />
             <div className='flex flex-col'>
               <span>
                 <span className="pl-4 font-bold">Name:</span> 
