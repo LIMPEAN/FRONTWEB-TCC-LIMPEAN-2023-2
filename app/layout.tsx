@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-br" className={mainFontFamily.variable}>
-      <body>{children}</body>
+    <html lang="pt-br" className={`${mainFontFamily.variable} scroll-smooth`}>
+      <body className='bg-slate-100'>{children}</body>
     </html>
   )
 }

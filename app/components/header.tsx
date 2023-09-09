@@ -1,8 +1,8 @@
 "use client"
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -55,10 +55,11 @@ export function Header() {
           </svg>
         </button>
         <div
-          className={`${menuOpen
+          className={`${
+            menuOpen
               ? "fixed top-0 left-0 w-full h-screen flex flex-col gap-4 justify-center items-center bg-blue-600"
               : "hidden"
-            } lg:hidden text-white font-thin`}
+          } lg:hidden text-white font-thin`}
         >
           <Image
             className="absolute top-6 left-6"
@@ -87,37 +88,41 @@ export function Header() {
               />
             </svg>
           </button>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 items-center">
             <Link
-              href="#"
+              href="#home"
               className="border-b-2 hover:border-white border-transparent"
+              onClick={closeMenu}
             >
               Home
             </Link>
             <Link
-              href="#"
+              href="#beneficios"
               className="border-b-2 hover:border-white border-transparent"
+              onClick={closeMenu}
             >
               Benefícios
             </Link>
             <Link
               href="#"
               className="border-b-2 hover:border-white border-transparent"
+              onClick={closeMenu}
             >
               Mercado
             </Link>
             <Link
               href="#"
               className="border-b-2 hover:border-white border-transparent"
+              onClick={closeMenu}
             >
               Valores
             </Link>
-
           </div>
 
           <a
             className="flex gap-2 bg-white text-blue-600 font-medium px-4 py-1 rounded-full hover:bg-white/90"
             href="/login"
+            onClick={closeMenu}
           >
             Entrar
             <Image
@@ -131,13 +136,13 @@ export function Header() {
         </div>
         <div className="lg:flex hidden gap-4 text-white">
           <Link
-            href="#"
+            href="#home"
             className="border-b-2 hover:border-white border-transparent"
           >
             Home
           </Link>
           <Link
-            href="#"
+            href="#beneficios"
             className="border-b-2 hover:border-white border-transparent"
           >
             Benefícios
@@ -154,7 +159,6 @@ export function Header() {
           >
             Valores
           </Link>
-
         </div>
         <a
           className="lg:flex hidden gap-2 bg-white text-blue-600 font-medium px-4 py-1 rounded-full hover:bg-white/90"
