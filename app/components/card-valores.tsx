@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function CardValores() {
   return (
-    <div className="bg-blue-600 text-white grid grid-cols-1 md:grid-cols-2 py-8 px-4 gap-4 rounded-lg md:place-items-center md:gap-0">
+    <div className="bg-blue-700 text-white grid grid-cols-1 md:grid-cols-2 py-8 px-4 gap-4 rounded-lg md:place-items-center md:gap-0">
       <Image
         className="sm:h-full w-fit"
         src="/assets/alvo-branco.svg"

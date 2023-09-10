@@ -17,7 +17,7 @@ export function Header() {
 
   return (
     <>
-      <header className="flex p-6 justify-between items-center fixed w-full bg-blue-600">
+      <header className="flex p-6 justify-between items-center fixed w-full bg-blue-700">
         <Image
           className=""
           src="/assets/logo-branca.svg"
@@ -57,7 +57,7 @@ export function Header() {
         <div
           className={`${
             menuOpen
-              ? "fixed top-0 left-0 w-full h-screen flex flex-col gap-4 justify-center items-center bg-blue-600"
+              ? "fixed top-0 left-0 w-full h-screen flex flex-col gap-4 justify-center items-center bg-blue-700"
               : "hidden"
           } lg:hidden text-white font-thin`}
         >
@@ -120,7 +120,7 @@ export function Header() {
           </div>
 
           <a
-            className="flex gap-2 bg-white text-blue-600 font-medium px-4 py-1 rounded-full hover:bg-white/90"
+            className="flex gap-2 bg-white text-blue-700 font-medium px-4 py-1 rounded-full hover:bg-white/90"
             href="/login"
             onClick={closeMenu}
           >
@@ -161,7 +161,7 @@ export function Header() {
           </Link>
         </div>
         <a
-          className="lg:flex hidden gap-2 bg-white text-blue-600 font-medium px-4 py-1 rounded-full hover:bg-white/90"
+          className="lg:flex hidden gap-2 bg-white text-blue-700 font-medium px-4 py-1 rounded-full hover:bg-white/90"
           href="/login"
         >
           Entrar

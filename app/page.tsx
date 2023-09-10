@@ -10,7 +10,7 @@ export default function Home() {
       <Header />
 
       <main className=" flex flex-col h-fit">
-        <div className="lg:h-screen min-h-screen bg-blue-600 flex justify-center lg:items-center items-start ">
+        <div className="lg:h-screen min-h-screen bg-blue-700 flex justify-center lg:items-center items-start ">
           <HomeComponent />
         </div>
         <Beneficios />

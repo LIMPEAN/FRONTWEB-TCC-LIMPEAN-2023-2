@@ -12,23 +12,23 @@ interface Props {
 
 export function CardBeneficios({ whiteTheme, children, title, button, textButton }: Props) {
 
-  let background = "bg-blue-600"
+  let background = "bg-blue-700"
   let fontTitleColor = "text-white"
   let fontColor = "text-white"
   let imageTheme = "/assets/beneficios-card-white.svg"
   let buttonConfig = {
     background: "bg-white",
-    textColor: "text-blue-600"
+    textColor: "text-blue-700"
   }
 
   if (whiteTheme === true) {
 
     background = "bg-white"
-    fontTitleColor = "text-blue-600"
+    fontTitleColor = "text-blue-700"
     fontColor = "text-slate-700"
     imageTheme = "/assets/beneficios-card-blue.svg"
     buttonConfig = {
-      background: "bg-blue-600",
+      background: "bg-blue-700",
       textColor: "text-white"
     }
 
