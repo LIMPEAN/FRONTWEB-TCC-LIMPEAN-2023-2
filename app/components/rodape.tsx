@@ -1,21 +1,20 @@
 'use client'
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 
 export function Rodape() {
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  // const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  // const toggleMenu = () => {
+  //   setMenuOpen(!menuOpen);
+  // };
 
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  // const closeMenu = () => {
+  //   setMenuOpen(false);
+  // };
 
   return (
     <>
@@ -32,21 +31,21 @@ export function Rodape() {
             <Link
               href="#home"
               className="border-b-2 hover:border-black border-transparent"
-              onClick={closeMenu}
+              // onClick={closeMenu}
             >
               Home
             </Link>
             <Link
               href="#beneficios"
               className="border-b-2 hover:border-black border-transparent"
-              onClick={closeMenu}
+              // onClick={closeMenu}
             >
               Benefícios
             </Link>
             <Link
               href="#mercado"
               className="border-b-2 hover:border-black border-transparent"
-              onClick={closeMenu}
+              // onClick={closeMenu}
             >
               Mercado
             </Link>
@@ -55,7 +54,7 @@ export function Rodape() {
             <Link
               href="#"
               className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-600 bg-white hover:bg-blue-700"
-              onClick={closeMenu}
+              // onClick={closeMenu}
             >
               <Image
                 className=""
@@ -68,7 +67,7 @@ export function Rodape() {
             <Link
               href="#"
               className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-600 bg-white hover:bg-blue-700"
-              onClick={closeMenu}
+              // onClick={closeMenu}
             >
               <Image
                 className=""
@@ -81,7 +80,7 @@ export function Rodape() {
             <Link
               href="#"
               className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-600 bg-white hover:bg-blue-700"
-              onClick={closeMenu}
+              // onClick={closeMenu}
             >
               <Image
                 className=""
