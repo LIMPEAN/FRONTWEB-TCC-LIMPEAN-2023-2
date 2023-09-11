@@ -35,9 +35,9 @@ export function CardBeneficios({ whiteTheme, children, title, button, textButton
   }
   return (
 
-    <div className={`${background}  flex flex-col rounded-lg p-8 gap-8 h-fit`}>
+    <div className={`${background}  flex flex-col rounded-lg p-8 gap-8 h-fit 2xl:text-2xl`}>
       <Image className="" src={imageTheme} alt="Logo" width={75} height={75} />
-      <span className={`${fontTitleColor} font-medium text-lg`}>{title}</span>
+      <span className={`${fontTitleColor} font-medium text-lg 2xl:text-2xl`}>{title}</span>
 
       <span className={fontColor}>
         {children}

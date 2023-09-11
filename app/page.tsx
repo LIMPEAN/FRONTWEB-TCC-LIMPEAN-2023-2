@@ -3,6 +3,7 @@ import { HomeComponent } from "./components/home";
 import { Beneficios } from "./components/beneficios";
 import { Mercado } from "./components/mercado";
 import { Valores } from "./components/valores";
+import { Rodape } from "./components/rodape";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <Beneficios />
         <Mercado />
         <Valores />
+        <Rodape />
 
 
       </main>

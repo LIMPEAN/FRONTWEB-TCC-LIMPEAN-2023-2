@@ -11,7 +11,7 @@ export default async function Login() {
     <>
       <div className="flex h-screen md:w-screen md:justify-center">
         <div className="lg:flex hidden w-2/3 h-screen bg-cover bg-no-repeat bg-[url('/assets/login-bg.svg')] ">
-          <span>teste</span>
+          
         </div>
         <div className="w-full lg:w-1/3 md:w-2/3 p-4 flex flex-col items-end h-screen">
           <Link href="/" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">

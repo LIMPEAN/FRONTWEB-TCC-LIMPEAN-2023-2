@@ -11,8 +11,8 @@ export function CardValores() {
         height={86}
       />
       <div className="flex flex-col gap-4">
-        <span className="font-semibold text-xl">Quem é Limpean?</span>
-        <span className="font-extralight">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard</span>
+        <span className="font-semibold text-xl 2xl:text-2xl">Quem é Limpean?</span>
+        <span className="font-extralight 2xl:text-2xl">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard</span>
       </div>
     </div>
   )
