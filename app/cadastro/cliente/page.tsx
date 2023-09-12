@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
 
 interface IUserData {
   typeUser: "client",
@@ -29,7 +30,7 @@ interface IUserHomeData {
   houseNumber?: string
 }
 
-export default function CadastroDiarista() {
+export default function CadastroCliente() {
 
   const createUserSchema = z.object({
     nome: z.string().nonempty("* Este é um campo obrigatório"),
@@ -62,7 +63,9 @@ export default function CadastroDiarista() {
 
   function createUser(data: any) {
     alert('entrei')
-    console.log(data);
+    // console.log(data);
+    localStorage.setItem('meusDados', JSON.stringify(data));
+
   }
 
   type CreateUserFormData = z.infer<typeof createUserSchema>
@@ -72,7 +75,7 @@ export default function CadastroDiarista() {
 
   return (
     <>
-      <form onSubmit={handleSubmitUser(createUser)}>
+      <form className='w-1/4' onSubmit={handleSubmitUser(createUser)}>
         <div className='flex flex-col'>
           <label htmlFor="nome">NOME</label>
           <input
@@ -116,7 +119,7 @@ export default function CadastroDiarista() {
         <div className='flex flex-col'>
           <label htmlFor="genero">Informe seu gênero</label>
           <select id="genero" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
-          {...registerUser('genero')}>
+            {...registerUser('genero')}>
             <option selected value="1">Feminino</option>
             <option value="2">Masculino</option>
             <option value="3">Outros</option>
@@ -125,6 +128,7 @@ export default function CadastroDiarista() {
         </div>
         <input type="submit" />
       </form>
+
     </>
   );
 }

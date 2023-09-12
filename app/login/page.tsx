@@ -1,10 +1,31 @@
+"use client"
+
 import Image from "next/image";
 import { TextInput } from "@tremor/react";
 import Link from "next/link";
+import { log } from "console";
 
+const pegarLocalStorage = () => {
+  const dadosString = localStorage.getItem('meusDados');
+  
 
+  if (dadosString !== null) {
+    const dados = JSON.parse(dadosString);
+    console.log(dados);
+    
+    // Faça algo com os dados
+  } else {
+    // A chave 'meusDados' não existe no localStorage
+    console.log("dados não encontrados");
+
+  }
+}
 
 export default async function Login() {
+  const handleEntrarComClick = () => {
+    pegarLocalStorage();
+  };
+
 
 
   return (
@@ -55,7 +76,7 @@ export default async function Login() {
                 <div className="w-full bg-gray-300 h-px"></div>
 
               </div>
-              <button className="text-blue-700 grid font-extralight place-items-center bg-transparent text-xs h-10 py-2 px-4 border border-gray-300 hover:bg-gray-200 rounded-full" type="submit">Entrar com </button>
+              <button onClick={handleEntrarComClick} className="text-blue-700 grid font-extralight place-items-center bg-transparent text-xs h-10 py-2 px-4 border border-gray-300 hover:bg-gray-200 rounded-full" type="button">Entrar com </button>
 
               <div className="flex flex-col items start text-gray-500 text-xs">
                 <span className="w-full ">Ainda não possuí uma conta? Realize seu cadastro como</span>
