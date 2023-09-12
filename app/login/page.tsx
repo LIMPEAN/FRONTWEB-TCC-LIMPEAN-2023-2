@@ -10,8 +10,18 @@ export default async function Login() {
   return (
     <>
       <div className="flex h-screen md:w-screen md:justify-center">
-        <div className="lg:flex hidden w-2/3 h-screen bg-cover bg-no-repeat bg-[url('/assets/login-bg.svg')] ">
-          
+        <div className="lg:flex hidden w-2/3 h-screen bg-cover bg-no-repeat bg-[url('/assets/login-bg.jpg')]">
+          <Image
+            className="ml-8 flex absolute mt-11"
+            src="/assets/logo-branca.svg"
+            alt="Logo"
+            width={212}
+            height={212}
+          />
+          <div className=" absolute bottom-20 ml-8">
+            <h2 className="2xl:text-2xl text-white">Deixe sua casa mais limpa!</h2>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem</p>
+          </div>
         </div>
         <div className="w-full lg:w-1/3 md:w-2/3 p-4 flex flex-col items-end h-screen">
           <Link href="/" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">
