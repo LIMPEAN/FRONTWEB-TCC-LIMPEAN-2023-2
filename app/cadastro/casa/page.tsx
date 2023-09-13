@@ -4,36 +4,15 @@ import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
+import axios from 'axios';
 
-interface IUserData {
-  typeUser: "client",
-  nameUser?: string,
-  biography?: string,
-  email?: string,
-  password?: string,
-  idGender?: number,
-  cpf?: string,
-  phone?: string,
-  ddd?: string,
-  address?: IUserHomeData
-}
 
-interface IUserHomeData {
-  typeHouse?: string,
-  state?: number,
-  city?: string,
-  cep?: string,
-  publicPlace?: string,
-  complement?: string,
-  district?: string,
-  houseNumber?: string
-}
+
 
 export default function CadastroCliente() {
 
   const createAdressSchema = z.object({
-    tipo_residencia: z.number().min(1).max(1),
+    tipo_residencia: z.string(),
     estado: z.string().nonempty("* Este campo é obrigatório"), //esse parametro é na verdade um select e pede um numero
     cidade: z.string().nonempty("* Este campo é obrigatório"),
     cep: z.string().min(8).max(8),
@@ -46,27 +25,51 @@ export default function CadastroCliente() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setValue,
   } = useForm<CreateAdressFormData>({
     resolver: zodResolver(createAdressSchema),
   })
 
 
-  function createUser(data: any) {
+  function createAdress(data: any) {
     alert('entrei')
-    // console.log(data);
-    // localStorage.setItem('meusDados', JSON.stringify(data));
+    localStorage.setItem('endereco', JSON.stringify(data));
+    console.log(data);
 
   }
 
   type CreateAdressFormData = z.infer<typeof createAdressSchema>
 
+  async function fetchAddressData(cep: string) {
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      const addressData = response.data;
+
+      setValue('estado', addressData.uf);
+      setValue('cidade', addressData.localidade);
+      setValue('bairro', addressData.bairro);
+      setValue('logradouro', addressData.logradouro);
+
+      // You can add more fields as needed
+    } catch (error) {
+      console.error('Error fetching address data:', error);
+
+    }
+  }
 
 
+  const handleCepBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const cep = event.target.value.trim(); // Remove leading/trailing spaces
+    if (cep.length === 8) {
+      // Call the function to fetch address data when CEP has 8 characters
+      fetchAddressData(cep);
+    }
+  };
 
   return (
     <>
-      <form className='w-1/4' onSubmit={handleSubmit(createUser)}>
+      <form className='w-1/4' onSubmit={handleSubmit(createAdress)}>
         <div className='flex flex-col'>
           <label htmlFor="tipo_residencia">TIPO DE RESIDÊNCIA</label>
           <select id="tipo_residencia" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
@@ -81,17 +84,18 @@ export default function CadastroCliente() {
           <label htmlFor="nome">CEP</label>
           <input
             maxLength={8}
-            type="text"
+            type="number"
             id="cep"
             className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
             {...register("cep")}
+            onBlur={handleCepBlur}
           />
           {errors.cep ? <span>{errors.cep?.message}</span> : null}
         </div>
         <div className='flex flex-col'>
           <label htmlFor="nome">ESTADO</label>
           <input
-          disabled
+            disabled
             type="text"
             id="estado"
             className='mt-1 px-3 py-2 bg-gray-100 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
@@ -102,14 +106,14 @@ export default function CadastroCliente() {
         <div className='flex flex-col'>
           <label htmlFor="nome">CIDADE</label>
           <input
-          disabled
+            disabled
             id="cidade"
             className='mt-1 px-3 py-2 bg-gray-100 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
             {...register("cidade")}
           />
           {errors.cidade ? <span>{errors.cidade?.message}</span> : null}
         </div>
-        
+
         <div className='flex flex-col'>
           <label htmlFor="nome">BAIRRO</label>
           <input
@@ -119,6 +123,16 @@ export default function CadastroCliente() {
             {...register("bairro")}
           />
           {errors.bairro ? <span>{errors.bairro?.message}</span> : null}
+        </div>
+        <div className='flex flex-col'>
+          <label htmlFor="nome">LOGRADOURO</label>
+          <input
+            disabled
+            id="logradouro"
+            className='mt-1 px-3 py-2 bg-gray-100 border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
+            {...register("logradouro")}
+          />
+          {errors.logradouro ? <span>{errors.logradouro?.message}</span> : null}
         </div>
         <div className='flex flex-col'>
           <label htmlFor="nome">NÚMERO</label>
@@ -138,7 +152,7 @@ export default function CadastroCliente() {
           />
           {errors.complemento ? <span>{errors.complemento?.message}</span> : null}
         </div>
-        <input type="submit" />
+        <input className='bg-blue-700 h-12 w-full text-white' type="submit" />
       </form>
     </>
   );

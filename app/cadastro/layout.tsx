@@ -25,7 +25,7 @@ export default function RootLayout({
     <>
       <html className={`${mainFontFamily.variable} scroll-smooth`}>
         <body className=''>
-          <div className='flex h-screen md:w-screen'>
+          <div className='flex h-screen md:w-screen justify-between'>
             <div className="lg:flex hidden w-2/3 h-screen bg-cover bg-no-repeat bg-[url('/assets/login-bg.jpg')]">
               <Image
                 className="ml-8 flex absolute mt-11"

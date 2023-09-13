@@ -38,7 +38,7 @@ export default function CadastroCliente() {
       .string()
       .nonempty("* Este é um campo obrigatório")
       .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'Faltam dígitos'),
-    telefone: z.string().nonempty("* Este é um campo obrigatório").min(19, "O telefone deve possuir no mínimo 8 caracteres").max(20, "O telefone deve possuir no máximo 9 caracteres"),
+    telefone: z.string().nonempty("* Este é um campo obrigatório").min(9, "O telefone deve possuir no mínimo 8 caracteres").max(11, "O telefone deve possuir no máximo 9 caracteres"),
     data_nascimento: z.string().refine((value) => {
       // Use uma função de validação de data personalizada aqui
       const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // Formato de data YYYY-MM-DD
