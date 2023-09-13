@@ -3,34 +3,62 @@
 import Image from "next/image";
 import { TextInput } from "@tremor/react";
 import Link from "next/link";
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { log } from "console";
+import { postApi } from "../cadastro/perfil/services/fetchApi";
 
-const pegarLocalStorage = () => {
-  const dadosString = localStorage.getItem('meusDados');
-  
-
-  if (dadosString !== null) {
-    const dados = JSON.parse(dadosString);
-    console.log(dados);
-    
-    // Faça algo com os dados
-  } else {
-    // A chave 'meusDados' não existe no localStorage
-    console.log("dados não encontrados");
-
-  }
+interface ILogin {
+  typeUser: string,
+  email: string,
+  password: string
 }
 
-export default async function Login() {
-  const handleEntrarComClick = () => {
-    pegarLocalStorage();
-  };
+export default function Login() {
 
 
+  const createLoginSchema = z.object({
+
+    email: z.string().nonempty("* Este campo é obrigatório"),
+    senha: z.string().nonempty("* Este campo é obrigatório"),
+    tipo_usuario: z.string().nonempty("* Este campo é obrigatório")
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<CreateLoginFormData>({
+    resolver: zodResolver(createLoginSchema),
+  });
+
+  async function createLogin(data: any) {
+    console.log(data);
+
+    const jsonApi: ILogin = {
+      typeUser: data.tipo_usuario,
+      email: data.email,
+      password: data.senha
+    }
+
+    try {
+      const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/login");
+      console.log("Resposta da API:", response);
+      localStorage.setItem("token", response.token)
+
+      // Você pode fazer o que quiser com os dados da resposta aqui.
+    } catch (error) {
+      console.error('Erro ao fazer a solicitação POST:', error);
+    }
+  }
+
+  type CreateLoginFormData = z.infer<typeof createLoginSchema>;
 
   return (
     <>
-      <div className="flex h-screen md:w-screen md:justify-center">
+      <form onSubmit={handleSubmit(createLogin)} className="flex h-screen md:w-screen md:justify-center">
         <div className="lg:flex hidden w-2/3 h-screen bg-cover bg-no-repeat bg-[url('/assets/login-bg.jpg')]">
           <Image
             className="ml-8 flex absolute mt-11"
@@ -56,10 +84,27 @@ export default async function Login() {
             </div>
             <div className="flex flex-col gap-4">
               <div>
-                <TextInput className="rounded-md bg-white text-xs h-12" placeholder="Digite seu e-mail" error={false} errorMessage="Formato de e-mail errado" />
+                <TextInput className="rounded-md bg-white text-xs h-12" placeholder="Digite seu e-mail" error=
+                  {false} errorMessage="Formato de e-mail errado" id="email"
+                  {...register("email")}
+                />
+                {errors.email ? <span className="text-red-300">{errors.email.message}</span> : null}
               </div>
               <div>
-                <TextInput className="rounded-md bg-white  text-xs h-12 " placeholder="Digite sua Senha" />
+                <TextInput type="password" className="rounded-md bg-white  text-xs h-12 " placeholder="Digite sua Senha"
+                  {...register("senha")}
+                />
+                {errors.senha ? <span className="text-red-300">{errors.senha.message}</span> : null}
+              </div>
+              <div className="flex flex-col">
+                <div className="flex gap-2 text-sm">
+                  <input className="" type="radio" id="huey" value="client" checked {...register("tipo_usuario")} />
+                  <label htmlFor="huey">Cliente</label>
+                </div>
+                <div className="flex gap-2 text-sm">
+                  <input className="flex gap-2 text-sm" type="radio" id="dewey" value="diarist" {...register("tipo_usuario")} />
+                  <label htmlFor="dewey">Diarista</label>
+                </div>
               </div>
               <div className="flex justify-between text-xs text-blue-700 hover:text-blue-800">
                 <div className="gap-2 flex items-center justify-center">
@@ -76,7 +121,7 @@ export default async function Login() {
                 <div className="w-full bg-gray-300 h-px"></div>
 
               </div>
-              <button onClick={handleEntrarComClick} className="text-blue-700 grid font-extralight place-items-center bg-transparent text-xs h-10 py-2 px-4 border border-gray-300 hover:bg-gray-200 rounded-full" type="button">Entrar com </button>
+              <button typeof="submit" className="text-blue-700 grid font-extralight place-items-center bg-transparent text-xs h-10 py-2 px-4 border border-gray-300 hover:bg-gray-200 rounded-full" type="button">Entrar com </button>
 
               <div className="flex flex-col items start text-gray-500 text-xs">
                 <span className="w-full ">Ainda não possuí uma conta? Realize seu cadastro como</span>
@@ -90,8 +135,14 @@ export default async function Login() {
             </div>
           </div>
         </div>
-      </div>
-
+      </form>
+    
+      <button onClick={
+        () => {
+          console.log(localStorage.getItem("token"));
+          
+        }
+        }>ver token</button>
     </>
   )
 } 
