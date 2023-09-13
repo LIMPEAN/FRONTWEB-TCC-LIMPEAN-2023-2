@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import InputMask from 'react-input-mask';
+
 
 
 interface IUserData {
@@ -42,20 +44,62 @@ export default function CadastroCliente() {
     cpf: z
       .string()
       .nonempty("* Este é um campo obrigatório")
-      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'Faltam dígitos'),
-    telefone: z.string().nonempty("* Este é um campo obrigatório").min(9, "O telefone deve possuir no mínimo 8 caracteres").max(11, "O telefone deve possuir no máximo 9 caracteres"),
-    data_nascimento: z.string().refine((value) => {
-      // Use uma função de validação de data personalizada aqui
-      const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // Formato de data YYYY-MM-DD
+      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'Faltam dígitos')
+      .refine((cpf) => {
+        const numericCPF = cpf.replace(/\D/g, '');
 
-      if (!dateRegex.test(value)) {
-        return false; // A data é inválida
-      }
+        // Check if CPF is not a repetitive sequence (e.g., "111.111.111-11")
+        if (/^(\d)\1+$/.test(numericCPF)) {
+          return false;
+        }
 
-      return true; // A data é válida
-    }, 'Data inválida'),
+        // Check if CPF length is 11 digits
+        if (numericCPF.length !== 11) {
+          return false;
+        }
+
+        // Calculate CPF digits
+        let sum = 0;
+        let remainder;
+
+        for (let i = 1; i <= 9; i++) {
+          sum += parseInt(numericCPF.charAt(i - 1)) * (11 - i);
+        }
+
+        remainder = (sum * 10) % 11;
+
+        if (remainder === 10 || remainder === 11) {
+          remainder = 0;
+        }
+
+        if (remainder !== parseInt(numericCPF.charAt(9))) {
+          return false;
+        }
+
+        sum = 0;
+        for (let i = 1; i <= 10; i++) {
+          sum += parseInt(numericCPF.charAt(i - 1)) * (12 - i);
+        }
+
+        remainder = (sum * 10) % 11;
+
+        if (remainder === 10 || remainder === 11) {
+          remainder = 0;
+        }
+
+        if (remainder !== parseInt(numericCPF.charAt(10))) {
+          return false;
+        }
+
+        return true;
+      }, {
+        message: 'CPF inválido',
+      }),
+    telefone: z.string().nonempty("* Este é um campo obrigatório").min(9, "O telefone deve possuir no mínimo 8 caracteres"),
+    data_nascimento: z.string(),
     genero: z.string()
   });
+
 
   const {
     register: registerUser,
@@ -67,73 +111,111 @@ export default function CadastroCliente() {
 
 
   function createUser(data: any) {
-    
-    alert('entrei')
-    // console.log(data);
+
     localStorage.setItem('meusDados', JSON.stringify(data));
-    router.push('/cadastro/perfil')
+    router.push('/cadastro/casa')
 
   }
 
   type CreateUserFormData = z.infer<typeof createUserSchema>
-  
-
-
 
   return (
     <>
-      <form className='w-1/4' onSubmit={handleSubmitUser(createUser)}>
-        <div className='flex flex-col'>
-          <label htmlFor="nome">NOME</label>
-          <input
-            type="text"
-            id="nome"
-            className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
-            {...registerUser("nome")}
-          />
-          {errorsUser.nome ? <span>{errorsUser.nome?.message}</span> : null}
+
+      <form className='w-1/3 flex items-end flex-col gap-4 p-8' onSubmit={handleSubmitUser(createUser)}>
+        <Link href="/login" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-fit h-4"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+        </Link>
+        <div className="flex flex-col w-full mb-4">
+          <span className="text-3xl font-semibold text-blue-700">Dados pessoais</span>
+          <span className="text-gray-700">Crie sua conta como cliente</span>
         </div>
-        <div className='flex flex-col'>
-          <label htmlFor="nome">cpf</label>
-          <input
-            type="text"
-            id="cpf"
-            className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
-            {...registerUser("cpf")}
-          />
-          {errorsUser.cpf ? <span>{errorsUser.cpf?.message}</span> : null}
+        <div className='w-full overflow-y-auto h-max-screen'>
+          <div>
+            <label htmlFor="nome" className='text-sm font-semibold'>NOME</label>
+            <input
+              type="text"
+              placeholder='Digite seu nome aqui...'
+              id="nome"
+              className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
+              {...registerUser("nome")}
+            />
+            {errorsUser.nome ? <span className='text-red-300 text-bold text-xs'>{errorsUser.nome?.message}</span> : null}
+          </div>
+          <div className='flex flex-col'>
+            <label htmlFor="nome" className='text-sm font-semibold'>CPF</label>
+            <InputMask
+              mask="999.999.999-99"
+              maskPlaceholder={null}
+              type="text"
+              placeholder='Digite o seu cpf aqui...'
+              id="cpf"
+              className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
+              {...registerUser("cpf", {
+                validate: (value) => {
+                  // Remove non-numeric characters
+                  const numericValue = value.replace(/\D/g, '');
+
+                  // Check if CPF is not a repetitive sequence (e.g., "111.111.111-11")
+                  if (/^(\d)\1+$/.test(numericValue)) {
+                    return 'CPF inválido';
+                  }
+
+                  return true;
+                },
+              })}
+            />
+            {errorsUser.cpf ? <span className='text-red-300 text-bold text-xs'>{errorsUser.cpf?.message}</span> : null}
+          </div>
+          <div className='flex flex-col'>
+            <label htmlFor="nome" className='text-sm font-semibold'>TELFONE</label>
+            <InputMask
+              mask="(99) 99999-9999"
+              maskPlaceholder={null}
+              type="text"
+              placeholder='Digite seu telefone aqui...'
+              id="telefone"
+              className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
+              {...registerUser("telefone", {
+                validate: (value) => {
+                  // Remove non-numeric characters
+                  const numericValue = value.replace(/\D/g, '');
+
+                  // Check if phone number length is between 9 and 11 digits
+                  if (numericValue.length < 9 || numericValue.length > 11) {
+                    return 'Telefone inválido';
+                  }
+
+                  // Other phone number validation logic (if needed)
+
+                  return true;
+                },
+              })}
+            />
+            {errorsUser.telefone ? <span className='text-red-300 text-bold text-xs'>{errorsUser.telefone?.message}</span> : null}
+          </div>
+          <div className='flex flex-col'>
+            <label htmlFor="nome" className='text-sm font-semibold'>DATA DE NASCIMENTO</label>
+            <input
+              type="date"
+              id="data_nascimento"
+              className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
+              {...registerUser("data_nascimento")}
+            />
+            {errorsUser.data_nascimento ? <span className='text-red-300 text-bold text-xs'>{errorsUser.data_nascimento?.message}</span> : null}
+          </div>
+          <div className='flex flex-col'>
+            <label htmlFor="genero" className='text-sm font-semibold'>GÊNERO</label>
+            <select id="genero" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+              {...registerUser('genero')}>
+              <option selected value="1">Feminino</option>
+              <option value="2">Masculino</option>
+              <option value="3">Outros</option>
+              <option value="4">Não informar</option>
+            </select>
+          </div>
+          <input className='flex items-center justify-center w-full font-extralight mt-8 py-2 gap-4 rounded-full text-white text-xs h-10 hover:bg-blue-800 bg-blue-700' type="submit" />
         </div>
-        <div className='flex flex-col'>
-          <label htmlFor="nome">telefone</label>
-          <input
-            type="text"
-            id="telefone"
-            className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
-            {...registerUser("telefone")}
-          />
-          {errorsUser.telefone ? <span>{errorsUser.telefone?.message}</span> : null}
-        </div>
-        <div className='flex flex-col'>
-          <label htmlFor="nome">data_nascimento</label>
-          <input
-            type="date"
-            id="data_nascimento"
-            className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
-            {...registerUser("data_nascimento")}
-          />
-          {errorsUser.data_nascimento ? <span>{errorsUser.data_nascimento?.message}</span> : null}
-        </div>
-        <div className='flex flex-col'>
-          <label htmlFor="genero">Informe seu gênero</label>
-          <select id="genero" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
-            {...registerUser('genero')}>
-            <option selected value="1">Feminino</option>
-            <option value="2">Masculino</option>
-            <option value="3">Outros</option>
-            <option value="4">Não informar</option>
-          </select>
-        </div>
-        <input type="submit" />
       </form>
 
     </>

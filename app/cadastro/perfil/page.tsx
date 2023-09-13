@@ -10,6 +10,8 @@ import { firebaseConfig } from './services/firebase';
 import { Estado } from "../estadosEnum"
 import { postApi } from './services/fetchApi';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+// import { router } from 'next/navigation';
 
 
 const app = initializeApp(firebaseConfig);
@@ -41,6 +43,8 @@ interface CreateUserRequest {
 }
 
 export default function CadastroCliente() {
+
+  const router = useRouter()
 
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -85,7 +89,7 @@ export default function CadastroCliente() {
     resolver: zodResolver(createPerfilSchema),
   });
 
-  function createPerfil(data: any) {
+  async function createPerfil(data: any) {
     data.urlFoto = imageUrl;
 
     localStorage.setItem('perfil', JSON.stringify(data));
@@ -135,7 +139,20 @@ export default function CadastroCliente() {
       address: jsonEnderecoApi,
     }
 
-    postApi(jsonApi, "http://localhost:8080/v1/limpean/cadastro")
+    try {
+      const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/cadastro");
+      console.log("Resposta da API:", response);
+      alert('Cliente cadastrado com sucesso')
+      router.push('/login')
+
+      // Você pode fazer o que quiser com os dados da resposta aqui.
+    } catch (error) {
+      alert('Erro ao fazer a solicitação POST:' + error);
+      console.log('Erro ao fazer a solicitação POST:' + error);
+      
+    }
+    
+
   }
   type CreatePerfilFormData = z.infer<typeof createPerfilSchema>;
   return (

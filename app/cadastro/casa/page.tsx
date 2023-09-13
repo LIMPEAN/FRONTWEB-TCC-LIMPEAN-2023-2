@@ -5,11 +5,14 @@ import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 
 
 
 export default function CadastroCliente() {
+
+  const router = useRouter();
 
   const createAdressSchema = z.object({
     tipo_residencia: z.string(),
@@ -35,7 +38,8 @@ export default function CadastroCliente() {
   function createAdress(data: any) {
     alert('entrei')
     localStorage.setItem('endereco', JSON.stringify(data));
-    console.log(data);
+    router.push('/cadastro/perfil')
+
 
   }
 
