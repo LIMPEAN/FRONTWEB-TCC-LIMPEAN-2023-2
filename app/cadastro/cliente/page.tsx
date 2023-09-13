@@ -1,10 +1,12 @@
-"use client"
+'use client'
 
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 
 interface IUserData {
   typeUser: "client",
@@ -31,6 +33,9 @@ interface IUserHomeData {
 }
 
 export default function CadastroCliente() {
+  const router = useRouter();
+
+
 
   const createUserSchema = z.object({
     nome: z.string().nonempty("* Este é um campo obrigatório"),
@@ -62,14 +67,16 @@ export default function CadastroCliente() {
 
 
   function createUser(data: any) {
+    
     alert('entrei')
     // console.log(data);
     localStorage.setItem('meusDados', JSON.stringify(data));
+    router.push('/cadastro/perfil')
 
   }
 
   type CreateUserFormData = z.infer<typeof createUserSchema>
-
+  
 
 
 

@@ -83,7 +83,7 @@ export default async function Login() {
                 <div className="flex gap-1">
                   <Link href="/cadastro" className="text-blue-700 underline">Diarista</Link>
                   <span>ou</span>
-                  <Link href="/cadastro" className="text-blue-700 underline">Cliente</Link>
+                  <Link href="/cadastro/cliente" className="text-blue-700 underline">Cliente</Link>
                 </div>
               </div>
 
