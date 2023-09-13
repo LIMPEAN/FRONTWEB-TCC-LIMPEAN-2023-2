@@ -19,8 +19,8 @@ export default async function Login() {
             height={212}
           />
           <div className=" absolute bottom-20 ml-8">
-            <h2 className="2xl:text-2xl text-white">Deixe sua casa mais limpa!</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem</p>
+            <h1 className="2xl:text-5xl text-white  ">Deixe sua casa mais limpa!</h1>
+            <p className="2xl:text-2xl text-white w-3/5">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem</p>
           </div>
         </div>
         <div className="w-full lg:w-1/3 md:w-2/3 p-4 flex flex-col items-end h-screen">
@@ -30,8 +30,8 @@ export default async function Login() {
 
           <div className="flex flex-col w-full h-full justify-center p-4 ">
             <div className="flex flex-col mb-4">
-              <span className="text-3xl font-semibold text-blue-700">Entrar</span>
-              <span className="text-gray-700">Entre com seu e-mail e senha</span>
+              <span className="2xl:text-4xl font-semibold text-blue-700">Entrar</span>
+              <span className="2xl:text-2xltext-gray-700">Entre com seu e-mail e senha</span>
             </div>
             <div className="flex flex-col gap-4">
               <div>
