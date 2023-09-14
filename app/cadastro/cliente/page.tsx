@@ -122,7 +122,7 @@ export default function CadastroCliente() {
   return (
     <>
 
-      <form className='w-1/3 flex items-end flex-col gap-4 p-8' onSubmit={handleSubmitUser(createUser)}>
+      <form className='w-full lg:w-1/3 flex items-end flex-col gap-4 p-8' onSubmit={handleSubmitUser(createUser)}>
         <Link href="/login" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-fit h-4"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
         </Link>
@@ -130,7 +130,7 @@ export default function CadastroCliente() {
           <span className="text-3xl font-semibold text-blue-700">Dados pessoais</span>
           <span className="text-gray-700">Crie sua conta como cliente</span>
         </div>
-        <div className='w-full overflow-y-auto h-max-screen'>
+        <div className='w-full overflo  w-y-auto h-max-screen'>
           <div>
             <label htmlFor="nome" className='text-sm font-semibold'>NOME</label>
             <input
