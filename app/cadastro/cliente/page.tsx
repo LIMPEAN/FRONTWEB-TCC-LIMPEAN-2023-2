@@ -121,8 +121,8 @@ export default function CadastroCliente() {
 
   return (
     <>
-
       <form className='w-full lg:w-1/3 flex items-end flex-col gap-4 p-8' onSubmit={handleSubmitUser(createUser)}>
+
         <Link href="/login" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-fit h-4"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
         </Link>
@@ -130,9 +130,9 @@ export default function CadastroCliente() {
           <span className="text-3xl font-semibold text-blue-700">Dados pessoais</span>
           <span className="text-gray-700">Crie sua conta como cliente</span>
         </div>
-        <div className='w-full overflo  w-y-auto h-max-screen'>
+        <div className='flex flex-col gap-4 w-full overflow-y-auto w-y-auto h-max-screen'>
           <div>
-            <label htmlFor="nome" className='text-sm font-semibold'>NOME</label>
+            <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>NOME</label>
             <input
               type="text"
               placeholder='Digite seu nome aqui...'
@@ -143,7 +143,7 @@ export default function CadastroCliente() {
             {errorsUser.nome ? <span className='text-red-300 text-bold text-xs'>{errorsUser.nome?.message}</span> : null}
           </div>
           <div className='flex flex-col'>
-            <label htmlFor="nome" className='text-sm font-semibold'>CPF</label>
+            <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>CPF</label>
             <InputMask
               mask="999.999.999-99"
               maskPlaceholder={null}
@@ -153,10 +153,7 @@ export default function CadastroCliente() {
               className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
               {...registerUser("cpf", {
                 validate: (value) => {
-                  // Remove non-numeric characters
                   const numericValue = value.replace(/\D/g, '');
-
-                  // Check if CPF is not a repetitive sequence (e.g., "111.111.111-11")
                   if (/^(\d)\1+$/.test(numericValue)) {
                     return 'CPF inválido';
                   }
@@ -168,7 +165,7 @@ export default function CadastroCliente() {
             {errorsUser.cpf ? <span className='text-red-300 text-bold text-xs'>{errorsUser.cpf?.message}</span> : null}
           </div>
           <div className='flex flex-col'>
-            <label htmlFor="nome" className='text-sm font-semibold'>TELFONE</label>
+            <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>TELFONE</label>
             <InputMask
               mask="(99) 99999-9999"
               maskPlaceholder={null}
@@ -178,15 +175,12 @@ export default function CadastroCliente() {
               className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1'
               {...registerUser("telefone", {
                 validate: (value) => {
-                  // Remove non-numeric characters
                   const numericValue = value.replace(/\D/g, '');
 
-                  // Check if phone number length is between 9 and 11 digits
                   if (numericValue.length < 9 || numericValue.length > 11) {
                     return 'Telefone inválido';
                   }
 
-                  // Other phone number validation logic (if needed)
 
                   return true;
                 },
@@ -195,7 +189,7 @@ export default function CadastroCliente() {
             {errorsUser.telefone ? <span className='text-red-300 text-bold text-xs'>{errorsUser.telefone?.message}</span> : null}
           </div>
           <div className='flex flex-col'>
-            <label htmlFor="nome" className='text-sm font-semibold'>DATA DE NASCIMENTO</label>
+            <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>DATA DE NASCIMENTO</label>
             <input
               type="date"
               id="data_nascimento"
@@ -205,7 +199,7 @@ export default function CadastroCliente() {
             {errorsUser.data_nascimento ? <span className='text-red-300 text-bold text-xs'>{errorsUser.data_nascimento?.message}</span> : null}
           </div>
           <div className='flex flex-col'>
-            <label htmlFor="genero" className='text-sm font-semibold'>GÊNERO</label>
+            <label htmlFor="genero" className='text-xs text-blue-700 font-bold'>GÊNERO</label>
             <select id="genero" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
               {...registerUser('genero')}>
               <option selected value="1">Feminino</option>

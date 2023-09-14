@@ -9,6 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { log } from "console";
 import { postApi } from "../cadastro/perfil/services/fetchApi";
 import { useState } from "react";
+import { SHA256 } from 'crypto-js';
+
 
 interface ILogin {
   typeUser: string,
@@ -38,13 +40,18 @@ export default function Login() {
   });
 
   async function createLogin(data: any) {
-    console.log(data);
+
+    const senhaSHA256 = SHA256(data.senha).toString();
+
 
     const jsonApi: ILogin = {
       typeUser: data.tipo_usuario,
       email: data.email,
-      password: data.senha
+      password: senhaSHA256
     }
+
+    console.log(jsonApi);
+    
 
     try {
       const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/login");

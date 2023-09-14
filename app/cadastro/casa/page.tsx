@@ -88,7 +88,7 @@ export default function CadastroCliente() {
           <span className="text-3xl font-semibold text-blue-700">Dados residenciais</span>
           <span className="text-gray-700">Crie sua conta como cliente</span>
         </div>
-        <div className='w-full overflow-y-auto h-max-screen flex flex-col gap-2'>
+        <div className='w-full overflow-y-auto h-max-screen flex flex-col gap-4'>
           <div className='flex flex-col'>
             <label htmlFor="tipo_residencia" className='text-xs text-blue-700 font-bold'>RESIDÊNCIA</label>
             <select id="tipo_residencia" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
