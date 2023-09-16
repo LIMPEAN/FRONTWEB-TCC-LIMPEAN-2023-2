@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { SHA256 } from 'crypto-js';
 import Link from 'next/link';
 import InputMask from 'react-input-mask';
+import toast from 'react-hot-toast';
 
 
 const app = initializeApp(firebaseConfig);
@@ -69,6 +70,7 @@ export default function CadastroCliente() {
 
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    toast.loading("Carregando imagem")
     const file = e.target.files?.[0];
     if (file) {
       try {
@@ -84,10 +86,11 @@ export default function CadastroCliente() {
         const downloadURL = await getDownloadURL(storageRef);
 
         setImageUrl(downloadURL);
-        alert('Imagem enviada com sucesso!');
+        toast.dismiss()
+        toast.success("Upload realizado com sucesso")
       } catch (error) {
         console.error('Erro no upload:', error);
-        alert('Erro no upload da imagem.');
+        toast.error("Erro ao realizar upload, tente novamente")
       }
     }
   }
@@ -109,9 +112,7 @@ export default function CadastroCliente() {
     resolver: zodResolver(createPerfilSchema),
   });
 
-  async function createPerfil(data: any) {
-    
-    
+  async function createPerfil(data: any) { 
     
     data.urlFoto = imageUrl;
     data.precoMedio = precoMedio
@@ -126,6 +127,10 @@ export default function CadastroCliente() {
     const jsonEndereco = jsonEnderecoStr ? JSON.parse(jsonEnderecoStr) : null;
 
     const jsonPerfil = data
+
+    if (!jsonEndereco) {
+      toast.error("Endereço não encontrado, recadastre-o");
+    }
 
     function getStateIdBySigla(sigla: string): number | undefined {
       const upperCaseSigla = sigla.toUpperCase();
@@ -181,17 +186,17 @@ export default function CadastroCliente() {
 
     try {
       const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/cadastro");
-      console.log("Resposta da API:", response);
-      alert('Cliente cadastrado com sucesso')
-      localStorage.clear();
-      // router.push('/login')
-
-      // Você pode fazer o que quiser com os dados da resposta aqui.
+      if(response.status = 201) {
+        toast.success("Usuário cadastrado com sucesso!")
+        toast.loading("Aguarde enquanto redirecionamos você")
+        setTimeout(()=> {
+          router.push("/login")
+        }, 1000)
+      }else{
+        toast.error("Usuário não cadastrado, verifique as informações")
+      }
     } catch (error) {
-      alert('Erro ao fazer a solicitação POST:' + error);
-      console.log('Erro ao fazer a solicitação POST:' + error);
-      localStorage.clear();
-      // router.push('/cliente')
+      toast.error("Servidor indisponível para esse processo")
     }
 
 

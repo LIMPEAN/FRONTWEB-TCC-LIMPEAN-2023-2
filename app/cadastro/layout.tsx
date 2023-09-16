@@ -1,7 +1,7 @@
 import '../globals.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
-import Image from 'next/image'
+import { Toaster } from 'react-hot-toast'
 import { RootLayoutComponent } from './components/rootLayout'
 
 const mainFontFamily = Poppins({
@@ -26,6 +26,9 @@ export default function RootLayout({
     <>
       <html className={`${mainFontFamily.variable} scroll-smooth`}>
         <body className=''>
+          <Toaster
+            // reverseOrder={false}
+          />
           <RootLayoutComponent>
             {children}
           </RootLayoutComponent>

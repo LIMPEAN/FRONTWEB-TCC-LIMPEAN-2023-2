@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputMask from 'react-input-mask';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 
 
@@ -45,7 +46,6 @@ export default function CadastroCliente() {
   type CreateAdressFormData = z.infer<typeof createAdressSchema>
 
   async function fetchAddressData(cep: string) {
-
     try {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
       const addressData = response.data;
@@ -54,23 +54,39 @@ export default function CadastroCliente() {
       setValue('cidade', addressData.localidade);
       setValue('bairro', addressData.bairro);
       setValue('logradouro', addressData.logradouro);
-      
-      response.data.erro ? alert('Deu erro') : alert("Deu certo")
 
+      if (response.data.erro == true) {
+        return false
+
+      }
+
+      return true
+
+      // You can add more fields as needed
     } catch (error) {
-      console.error('Error fetching address data:', error);
+     return false
 
     }
   }
 
 
-  const handleCepBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleCepBlur = async (event: React.FocusEvent<HTMLInputElement>) => {
 
     const cepSemEspaco = event.target.value.trim();
     const cep = cepSemEspaco.replace(/\D/g, '');
 
     if (cep.length === 8) {
-      fetchAddressData(cep);
+      // Call the function to fetch address data when CEP has 8 characters
+      const loadingToast = toast.loading("Verificando o CEP")
+      const cepVerificado = await fetchAddressData(cep)
+      if(cepVerificado){
+        toast.dismiss(loadingToast);
+        toast.success("CEP encontrado com sucesso.")
+      }else{
+        toast.dismiss(loadingToast);
+        toast.error("CEP não encontrado.")
+      }
+    
     }
   };
 
@@ -146,6 +162,8 @@ export default function CadastroCliente() {
               {...register("numero")}
             />
             {errors.numero ? <span>{errors.numero?.message}</span> : null}
+            {errors.numero ? toast.error("Número inválido."): null}
+
           </div>
           <div className='flex flex-col'>
             <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>COMPLEMENTO</label>
@@ -155,6 +173,8 @@ export default function CadastroCliente() {
               {...register("complemento")}
             />
             {errors.complemento ? <span>{errors.complemento?.message}</span> : null}
+            {errors.complemento ? toast.error("Erro no complemento."): null}
+
           </div>
           <input className='flex items-center justify-center w-full font-extralight mt-8 py-2 gap-4 rounded-full text-white text-xs h-10 hover:bg-blue-800 bg-blue-700' type="submit" />
         </div>

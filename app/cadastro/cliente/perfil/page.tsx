@@ -13,6 +13,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { SHA256 } from 'crypto-js';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 
 const app = initializeApp(firebaseConfig);
@@ -51,6 +52,7 @@ export default function CadastroCliente() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    toast.loading("Carregando imagem")
     const file = e.target.files?.[0];
     if (file) {
       try {
@@ -66,18 +68,21 @@ export default function CadastroCliente() {
         const downloadURL = await getDownloadURL(storageRef);
 
         setImageUrl(downloadURL);
-        alert('Imagem enviada com sucesso!');
+        toast.dismiss()
+        toast.success("Upload realizado com sucesso")
       } catch (error) {
         console.error('Erro no upload:', error);
-        alert('Erro no upload da imagem.');
+        toast.error("Erro ao realizar upload, tente novamente")
       }
     }
   }
 
+
+
   const createPerfilSchema = z.object({
     urlFoto: z.string().optional(),
     biografia: z.string(),
-    email: z.string().nonempty("* Este campo é obrigatório"),
+    email: z.string().nonempty("* Este campo é obrigatório").email("Formato de e-mail inválido"),
     senha: z.string().nonempty("* Este campo é obrigatório").min(6, "Crie uma senha de no mínimo 6 caracteres"),
   })
 
@@ -95,11 +100,16 @@ export default function CadastroCliente() {
 
     localStorage.setItem('perfil', JSON.stringify(data));
     const jsonClienteStr = localStorage.getItem("meusDados");
+
     const jsonCliente = jsonClienteStr ? JSON.parse(jsonClienteStr) : null;
     const jsonEnderecoStr = localStorage.getItem("endereco");
-    const jsonEndereco = jsonEnderecoStr ? JSON.parse(jsonEnderecoStr) : null;
 
+    const jsonEndereco = jsonEnderecoStr ? JSON.parse(jsonEnderecoStr) : null;
     const jsonPerfil = data
+
+    if (!jsonEndereco) {
+      toast.error("Endereço não encontrado, recadastre-o");
+    }
 
     function getStateIdBySigla(sigla: string): number | undefined {
       const upperCaseSigla = sigla.toUpperCase();
@@ -110,9 +120,7 @@ export default function CadastroCliente() {
       }
       return undefined;
     }
-
     const stateId = getStateIdBySigla(jsonEndereco.estado);
-
 
     const jsonEnderecoApi: Address = {
       typeHouse: Number(jsonEndereco.tipo_residencia),
@@ -127,10 +135,7 @@ export default function CadastroCliente() {
     const senhaSHA256 = SHA256(data.senha).toString();
 
     const telefoneLimpo = jsonCliente.telefone.replace(/\D/g, '');
-    // Pegar os dois primeiros dígitos
     const ddd = telefoneLimpo.slice(0, 2);
-
-    // Pegar o restante da string
     const restante = telefoneLimpo.slice(2);
 
     const jsonApi: CreateUserRequest = {
@@ -153,17 +158,17 @@ export default function CadastroCliente() {
 
     try {
       const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/cadastro");
-      console.log("Resposta da API:", response);
-      alert('Cliente cadastrado com sucesso')
-      localStorage.clear();
-      // router.push('/login')
-
-      // Você pode fazer o que quiser com os dados da resposta aqui.
+      if (response.status = 201) {
+        toast.success("Usuário cadastrado com sucesso!")
+        toast.loading("Aguarde enquanto redirecionamos você")
+        setTimeout(() => {
+          router.push("/login")
+        }, 1000)
+      } else {
+        toast.error("Usuário não cadastrado, verifique as informações")
+      }
     } catch (error) {
-      alert('Erro ao fazer a solicitação POST:' + error);
-      console.log('Erro ao fazer a solicitação POST:' + error);
-      localStorage.clear();
-      // router.push('/cliente')
+      toast.error("Servidor indisponível para esse processo")
     }
 
 
@@ -171,6 +176,7 @@ export default function CadastroCliente() {
   type CreatePerfilFormData = z.infer<typeof createPerfilSchema>;
   return (
     <>
+      {/* {toast.dismiss()} */}
       <form className='w-full lg:w-1/3 flex items-end flex-col gap-4 p-8' onSubmit={handleSubmit(createPerfil)}>
         <Link href="/login" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-fit h-4"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>

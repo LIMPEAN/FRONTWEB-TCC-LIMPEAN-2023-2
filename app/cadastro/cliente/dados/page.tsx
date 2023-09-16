@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import InputMask from 'react-input-mask';
+import toast from 'react-hot-toast';
 
 
 
@@ -96,9 +97,11 @@ export default function CadastroCliente() {
         message: 'CPF inválido',
       }),
     telefone: z.string().nonempty("* Este é um campo obrigatório").min(9, "O telefone deve possuir no mínimo 8 caracteres"),
-    data_nascimento: z.string(),
+    data_nascimento: z.string().nonempty("* Este é um campo obrigatório"),
     genero: z.string()
   });
+
+
 
 
   const {
@@ -112,17 +115,23 @@ export default function CadastroCliente() {
 
   function createUser(data: any) {
 
-    localStorage.setItem('meusDados', JSON.stringify(data));
-    router.push('/cadastro/cliente/casa')
+    if (data) {
+      localStorage.setItem('meusDados', JSON.stringify(data));
+      router.push('/cadastro/cliente/casa')
+      toast.loading("Aguarde enquanto redirecionamos")
 
+    } else {
+      toast.error("Erro no servidor, refaça o cadastro")
+      router.push('/login')
+    }
   }
 
   type CreateUserFormData = z.infer<typeof createUserSchema>
 
   return (
     <>
+      {toast.dismiss()}
       <form className='w-full lg:w-1/3 flex items-end flex-col gap-4 p-8' onSubmit={handleSubmitUser(createUser)}>
-
         <Link href="/login" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-fit h-4"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
         </Link>
@@ -141,6 +150,7 @@ export default function CadastroCliente() {
               {...registerUser("nome")}
             />
             {errorsUser.nome ? <span className='text-red-300 text-bold text-xs'>{errorsUser.nome?.message}</span> : null}
+            {errorsUser.nome ? toast.error('Erro no campo NOME!') : null}
           </div>
           <div className='flex flex-col'>
             <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>CPF</label>
@@ -163,6 +173,7 @@ export default function CadastroCliente() {
               })}
             />
             {errorsUser.cpf ? <span className='text-red-300 text-bold text-xs'>{errorsUser.cpf?.message}</span> : null}
+            {errorsUser.cpf ? toast.error('CPF inválido!') : null}
           </div>
           <div className='flex flex-col'>
             <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>TELFONE</label>
@@ -187,6 +198,7 @@ export default function CadastroCliente() {
               })}
             />
             {errorsUser.telefone ? <span className='text-red-300 text-bold text-xs'>{errorsUser.telefone?.message}</span> : null}
+            {errorsUser.telefone ? toast.error('Telefone inválido!') : null}
           </div>
           <div className='flex flex-col'>
             <label htmlFor="nome" className='text-xs text-blue-700 font-bold'>DATA DE NASCIMENTO</label>
@@ -197,6 +209,7 @@ export default function CadastroCliente() {
               {...registerUser("data_nascimento")}
             />
             {errorsUser.data_nascimento ? <span className='text-red-300 text-bold text-xs'>{errorsUser.data_nascimento?.message}</span> : null}
+            {errorsUser.data_nascimento ? toast.error('Data de nascimento inválida!') : null}
           </div>
           <div className='flex flex-col'>
             <label htmlFor="genero" className='text-xs text-blue-700 font-bold'>GÊNERO</label>
