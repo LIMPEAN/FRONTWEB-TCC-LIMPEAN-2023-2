@@ -8,11 +8,13 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import InputMask from 'react-input-mask';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 
 
 export default function CadastroCliente() {
 
+  // const notify = () => toast("Verifique os dados inseridos")
   const router = useRouter();
 
   const createAdressSchema = z.object({
@@ -39,7 +41,7 @@ export default function CadastroCliente() {
   function createAdress(data: any) {
     alert('entrei')
     localStorage.setItem('endereco', JSON.stringify(data));
-    router.push('/cadastro/perfil')
+    router.push('/cadastro/cliente/perfil')
 
 
   }
@@ -56,6 +58,13 @@ export default function CadastroCliente() {
       setValue('cidade', addressData.localidade);
       setValue('bairro', addressData.bairro);
       setValue('logradouro', addressData.logradouro);
+      
+      if(response.data.erro == true){
+    
+
+      }
+      toast.success('Successfully toasted!')
+
 
       // You can add more fields as needed
     } catch (error) {
@@ -67,9 +76,8 @@ export default function CadastroCliente() {
 
   const handleCepBlur = (event: React.FocusEvent<HTMLInputElement>) => {
 
-    alert('entrei no blur')
+    
     const cepSemEspaco = event.target.value.trim();
-    alert(cepSemEspaco)
     const cep = cepSemEspaco.replace(/\D/g, ''); // Remove todos os não dígitos
 
     if (cep.length === 8) {

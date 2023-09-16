@@ -113,7 +113,7 @@ export default function CadastroCliente() {
   function createUser(data: any) {
 
     localStorage.setItem('meusDados', JSON.stringify(data));
-    router.push('/cadastro/casa')
+    router.push('/cadastro/cliente/casa')
 
   }
 
