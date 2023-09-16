@@ -111,10 +111,11 @@ export default function CadastroCliente() {
 
   async function createPerfil(data: any) {
     
-    console.log(data);
-    console.log(precoMedio.valueOf);
+    
     
     data.urlFoto = imageUrl;
+    data.precoMedio = precoMedio
+    console.log(data);
 
     localStorage.setItem('perfil', JSON.stringify(data));
     const jsonClienteStr = localStorage.getItem("meusDadosDiarista");
@@ -160,7 +161,7 @@ export default function CadastroCliente() {
 
     const jsonApi: CreateUserRequest = {
       typeUser: "diarist",
-      averagePrice: jsonPerfil.media,
+      averagePrice: `${jsonPerfil.precoMedio}`,
       email: `${jsonPerfil.email}`,
       password: `${senhaSHA256}`,
       nameUser: `${jsonCliente.nome}`,
@@ -263,7 +264,6 @@ export default function CadastroCliente() {
                 min={0}
                 max={1000}
                 value={precoMedio}
-                {...register("preco")}
                 onChange={handleSliderChange}
                 className='mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-blue-700 focus:ring-blue-700 block w-full rounded-md sm:text-sm focus:ring-1'
               />
