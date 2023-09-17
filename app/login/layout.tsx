@@ -1,6 +1,7 @@
 import '../globals.css'
 import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
+import { Toaster } from 'react-hot-toast'
 
 const mainFontFamily = Poppins({
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <>
       <html className={`${mainFontFamily.variable} scroll-smooth`}>
+      <Toaster />
         <body className=''>
             {children}
         </body>
