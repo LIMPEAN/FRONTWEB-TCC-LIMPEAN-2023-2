@@ -51,7 +51,7 @@ export default function Login() {
 
     try {
 
-      const response = await postApi(jsonApi, `http://localhost:8080/v1/limpean/${jsonApi.typeUser}/login`);
+      const response = await postApi(jsonApi, `http://localhost:8080/v1/limpean/login`);
 
       if (response?.status == 200) {
         toast.success("Login permitido!")
@@ -59,7 +59,7 @@ export default function Login() {
         console.log(response);
 
         setTimeout(() => {
-          router.push(`/dashboard/${response.token}`)
+          router.push(`/dashboard/home`)
         }, 3000)
       }
       else {

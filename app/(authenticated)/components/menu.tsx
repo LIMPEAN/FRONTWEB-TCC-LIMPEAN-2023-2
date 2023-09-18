@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function Sidebar() {
   
   return (
-    <div className={`bg-blue-700 text-white h-full w-64 lg:w-2/5`}>
+    <div className={`bg-blue-700 text-white h-full w-64 lg:w-1/5`}>
       <div className={`text-blue-700 p-6 flex flex-col border-r h-full border-slate-300 bg-slate-50 `}>
         <Link
           href="/dashboard/home"

@@ -29,11 +29,10 @@ export default function RootLayout({
         position="top-right"
         reverseOrder={false}
       />
-      <body className='overflow-y-hidden'>
+      <body className='overflow-y-hidden bg-zinc-50'>
         <Header />
-        <main className='grid grid-cols-2 h-screen w-screen'>
+        <main className='flex h-screen w-screen'>
           <Sidebar />
-
           {children}
 
         </main>

@@ -1,7 +1,48 @@
-export default function Aberta() {
+import { CardDiarista } from "./components/cardDiarista";
+import { getDiaristas } from "./fetchApi"
+
+interface IDiarista {
+  id_diarista: number;
+  nome_diarista: string;
+  cpf_diarista: string;
+  data_nascimento: string;
+  biografia: string;
+  foto_perfil: string;
+  email_diarista: string;
+  media_valor: string;
+  genero: string;
+  ddd: string;
+  numero_telefone: string;
+  endereco_logradouro: string;
+  endereco_bairro: string;
+  endereco_cep: string;
+  endereco_numero_residencia: string;
+  endereco_complemento: string;
+  cidade: string;
+  estado: string;
+  status_conta: string;
+  data_status_diarista: string;
+}
+
+export default async function Aberta() {
+
+  const diaristas = await getDiaristas("http://localhost:8080/v1/limpean/diarist")
+  console.log(diaristas);
+  
   return (
-    <>
-      <h1>Solicitação aberta</h1>
-    </>
+    <div className="flex flex-col w-screen bg-red-200 p-8">
+      <ul className="flex items-start gap-4">
+      {diaristas.diarists.map((diarist: IDiarista) => (
+        <li className="flex w-full" key={diarist.id_diarista}>
+          <CardDiarista 
+          urlImagem={diarist.foto_perfil} 
+          nome={diarist.nome_diarista}
+          biografia={diarist.biografia}
+          />
+        </li>
+      )
+      )}
+      </ul>
+    </div>
   )
 }
