@@ -9,7 +9,7 @@ interface CardDiaristaProps{
 
 export function CardDiarista({urlImagem, nome, biografia}: CardDiaristaProps){
     return(
-        <div className="flex flex-col items-center gap-4 p-4 h-fit w-64 bg-white drop-shadow-md bg-white rounded-md">
+        <div className="flex çflex-col items-center gap-4 p-4 h-fit w-64 bg-white drop-shadow-md bg-white rounded-md">
             <Image className="w-32 h-32 rounded-full" src={urlImagem} height={100} width={100} alt={nome}/>
             <h1>{nome}</h1>
             <span className="flex text-xs text-zinc-400 text-center">{biografia}</span>
@@ -19,4 +19,4 @@ export function CardDiarista({urlImagem, nome, biografia}: CardDiaristaProps){
             </div>
         </div>
     )
-}
+}//teste
