@@ -55,9 +55,11 @@ export default function Login() {
 
       if (response?.status == 200) {
         toast.success("Login permitido!")
+        localStorage.setItem("token", response.token)
+        console.log(response);
 
         setTimeout(() => {
-          router.push("/login")
+          router.push(`/dashboard/${response.token}`)
         }, 3000)
       }
       else {
