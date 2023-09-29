@@ -36,6 +36,20 @@ export default function Sidebar() {
             Solicitação aberta
           </span>
         </Link>
+        <Link
+          href="/dashboard/perfil"
+          className='flex gap-2'
+        >
+          <Image
+            src="/assets/dash/iconeDash.svg"
+            alt="Logo"
+            width={20}
+            height={20}
+          />
+          <span className='border-b hover:border-blue-00 border-transparent'>
+            Perfil
+          </span>
+        </Link>
       </div>
     </div>
   );

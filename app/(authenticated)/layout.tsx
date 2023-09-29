@@ -30,7 +30,7 @@ export default function RootLayout({
         reverseOrder={false}
       />
       <body className='overflow-y-hidden bg-zinc-50'>
-        <Header />
+        {/* <Header /> */}
         <main className='flex h-screen w-screen'>
           <Sidebar />
           {children}

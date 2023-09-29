@@ -124,7 +124,7 @@ export default function CadastroCliente() {
 
     const jsonEnderecoApi: Address = {
       typeHouse: Number(jsonEndereco.tipo_residencia),
-      state: stateId ? stateId : 1, //lembrar de converter
+      state: stateId ? stateId : 1, 
       city: jsonEndereco.cidade,
       cep: `${jsonEndereco.cep}`,
       publicPlace: `${jsonEndereco.logradouro}`,

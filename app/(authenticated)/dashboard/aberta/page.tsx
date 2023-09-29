@@ -1,5 +1,5 @@
 import { CardDiarista } from "./components/cardDiarista";
-import { getDiaristas } from "./fetchApi"
+import { getDiaristas } from "./service/fetchApi"
 
 interface IDiarista {
   id_diarista: number;
@@ -30,14 +30,15 @@ export default async function Aberta() {
   console.log(diaristas);
   
   return (
-    <div className="flex flex-col w-screen bg-red-200 p-8">
-      <ul className="flex items-start gap-4">
+    <div className="flex flex-col w-screen bg-red-200 p-8 h-full">
+      <ul className="grid grid-cols-6 gap-4 w-full">
       {diaristas.diarists.map((diarist: IDiarista) => (
         <li className="flex w-full" key={diarist.id_diarista}>
           <CardDiarista 
           urlImagem={diarist.foto_perfil} 
           nome={diarist.nome_diarista}
           biografia={diarist.biografia}
+          valor={diarist.media_valor}
           />
         </li>
       )
