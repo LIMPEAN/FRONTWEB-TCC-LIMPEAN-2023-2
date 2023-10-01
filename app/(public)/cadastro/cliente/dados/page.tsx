@@ -215,10 +215,9 @@ export default function CadastroCliente() {
             <label htmlFor="genero" className='text-xs text-blue-700 font-bold'>GÊNERO</label>
             <select id="genero" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
               {...registerUser('genero')}>
-              <option selected value="1">Feminino</option>
-              <option value="2">Masculino</option>
+              <option value="1">Masculino</option>
+              <option selected value="2">Feminino</option>
               <option value="3">Outros</option>
-              <option value="4">Não informar</option>
             </select>
           </div>
           <input className='flex items-center justify-center w-full font-extralight mt-8 py-2 gap-4 rounded-full text-white text-xs h-10 hover:bg-blue-800 bg-blue-700' type="submit" />

@@ -3,7 +3,6 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import Image from 'next/image'
 import { Toaster } from 'react-hot-toast'
-import Header from './components/header'
 import Sidebar from './components/menu'
 
 const mainFontFamily = Poppins({
@@ -29,12 +28,12 @@ export default function RootLayout({
         position="top-right"
         reverseOrder={false}
       />
-      <body className='overflow-y-hidden bg-zinc-50'>
+      <body className='overflow-hidden flex flex-col box-border p-0 m-0 dark:bg-slate-800 bg-zinc-50'>
         {/* <Header /> */}
-        <main className='flex h-screen w-screen'>
-          <Sidebar />
-          {children}
-
+        <main className='h-screen w-screen'>
+          <Sidebar>
+            {children}
+          </Sidebar>
         </main>
       </body>
     </html>
