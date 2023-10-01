@@ -26,7 +26,7 @@ interface IDiarista {
 
 export default async function Aberta() {
 
-  const diaristas = await getDiaristas("http://localhost:8080/v1/limpean/diarist")
+  const diaristas = await getDiaristas("http://192.168.0.15:8080/v1/limpean/diarist")
   console.log(diaristas);
 
   return (

@@ -40,7 +40,7 @@ export default function Perfil() {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = () => {
-    const apiUrl = `http://localhost:8080/v1/limpean/client/${token}`;
+    const apiUrl = `http://192.168.0.15:8080/v1/limpean/client/${token}`;
     const headers = {
       'x-api-key': token!!,
     };
