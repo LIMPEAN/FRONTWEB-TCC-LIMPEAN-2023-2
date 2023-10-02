@@ -8,10 +8,11 @@ interface CardDiaristaProps {
     biografia: string,
     valor?: string | "Valor não estimado"
     avaliacao?: string
-    idade: string
+    idade: string,
+    id_diarista?: number
 }
 
-export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, idade }: CardDiaristaProps) {
+export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, idade, id_diarista }: CardDiaristaProps) {
     return (
         <div className="w-full max-w-sm h-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
@@ -42,7 +43,7 @@ export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, ida
                 </div>
                 <div className="flex items-center justify-between">
                     <span className="text-3xl font-bold text-gray-900 dark:text-white">{"R$" + valor}</span>
-                    <Link href="#" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Agendar</Link>
+                    <Link href={"/dashboard/aberta/" + id_diarista} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Agendar</Link>
                 </div>
             </div>
         </div>

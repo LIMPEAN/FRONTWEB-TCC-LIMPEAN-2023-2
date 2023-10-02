@@ -4,6 +4,8 @@ export default function Loading() {
     <div className="flex flex-col w-full dark:bg-slate-800 bg-zinc-100 p-8 h-full">
       <ul className="overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  2xl:grid-cols-4 gap-2 w-full">
         {
+
+          //teste
           arr.map((_, index) => (
             <li key={index} className="flex w-fit justify-center items-center">
               <div role="status" className="max-w-sm p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700">

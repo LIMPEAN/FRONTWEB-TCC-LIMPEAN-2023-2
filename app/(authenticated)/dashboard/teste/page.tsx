@@ -1,36 +1,75 @@
+"use client"
+import { useState } from "react";
+
+
+
 export default function Loading() {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Função para abrir o modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Função para fechar o modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className=" flex flex-col w-full gap-4 dark:bg-slate-800 bg-zinc-100 p-8 h-screen overflow-y-auto">
-      <div className="flex flex-col  lg:flex-row w-full h-fit gap-4">
-        <div role="status" className="lg:w-1/4 p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700 flex items-center justify-center flex-col">
-          <div className="h-4 w-10 bg-gray-200 rounded-sm dark:bg-gray-700 mb-4"></div>
-          <div className="flex items-center justify-center h-24 w-24  mb-4 bg-gray-300 rounded-full dark:bg-gray-700">
-            <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-              <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
-              <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+    <>
+      <button onClick={openModal} className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        Toggle modal
+      </button>
+
+      {/* Main modal */}
+      <div
+        id="authentication-modal"
+        tabIndex={isModalOpen ? 1 : -1}
+        aria-hidden={!isModalOpen}
+        className={`fixed top-0 left-0 right-0 z-50 ${isModalOpen ? '' : 'hidden'} w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+      >
+
+        {/* <!-- Modal content --> */}
+        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <button onClick={() => {
+            closeModal()
+          }} type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
+            <svg className="w-4 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
             </svg>
+            <span className="sr-only">Close modal</span>
+          </button>
+          <div className="px-6 py-6 lg:px-8">
+            <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
+            <form className="space-y-6" action="#">
+              <div>
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
+              </div>
+              <div>
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+              </div>
+              <div className="flex justify-between">
+                <div className="flex items-start">
+                  <div className="flex items-center h-5">
+                    <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
+                  </div>
+                  <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+                </div>
+                <a href="#" className="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
+              </div>
+              <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
+              <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+                Not registered? <a href="#" className="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
+              </div>
+            </form>
           </div>
-          <div className="h-2.5 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-          <div className="h-2.5 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-          <div className="h-2.5 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-          <div className="h-2.5 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-          <span className="sr-only">Loading...</span>
-        </div>
-        <div className="w-full lg:w-3/4 p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700 flex items-center justify-start flex-col">
-          <div className="h-10 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-          <div className="h-full w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
         </div>
       </div>
-      <div>
-        <div className="w-full h-full p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700 flex items-center justify-start flex-col">
-        <div className="h-10 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-        <div className="h-4 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-        <div className="h-4 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-        <div className="h-4 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-        <div className="h-4 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-        <div className="h-4 w-full bg-gray-200 rounded-lg dark:bg-gray-700 mb-4"></div>
-        </div>
-      </div>
-    </div>
+
+    </>
   )
 }
