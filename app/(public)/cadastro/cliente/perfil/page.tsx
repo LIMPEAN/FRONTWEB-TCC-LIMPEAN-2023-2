@@ -161,9 +161,7 @@ export default function CadastroCliente() {
       if (response.status = 201) {
         toast.success("Usuário cadastrado com sucesso!")
         toast.loading("Aguarde enquanto redirecionamos você")
-        setTimeout(() => {
           router.push("/login")
-        }, 1000)
       } else {
         toast.error("Usuário não cadastrado, verifique as informações")
       }
