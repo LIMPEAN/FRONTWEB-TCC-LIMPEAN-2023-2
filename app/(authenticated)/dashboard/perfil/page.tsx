@@ -4,8 +4,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { TblEndereco } from "./components/tblEndereco";
 import { deleteAccount } from "./service/deleteAccount";
-import toast from "react-hot-toast";
-import { log } from "console";
 
 interface User {
   statusClient: string;
@@ -49,31 +47,6 @@ export default function Perfil() {
     password: null,
     photoUser: null,
   });
-
-  // const atualizarNome = (novoNome) => {
-  //   setUserData({ ...userData, name: novoNome });
-  // };
-
-  // // Função para atualizar a biografia
-  // const atualizarBiografia = (novaBiografia) => {
-  //   setUserData({ ...userData, biography: novaBiografia });
-  // };
-
-  // // Função para atualizar o gênero
-  // const atualizarGenero = (novoGenero) => {
-  //   setUserData({ ...userData, gender: novoGenero });
-  // };
-
-  // // Função para atualizar a senha
-  // const atualizarSenha = (novaSenha) => {
-  //   setUserData({ ...userData, password: novaSenha });
-  // };
-
-  // // Função para atualizar a foto do usuário
-  // const atualizarFotoUsuario = (novaFoto) => {
-  //   setUserData({ ...userData, photoUser: novaFoto });
-  // };
-
   const handleDelete = () => {
     // Chame a função deleteAccount passando o token
     deleteAccount(token!!)
@@ -86,7 +59,7 @@ export default function Perfil() {
           console.error('Erro ao excluir a conta.');
           // Exiba uma mensagem de erro ao usuário
           console.log(result);
-          
+
         }
       })
       .catch((error) => {
@@ -268,7 +241,7 @@ export default function Perfil() {
                   </div>
                 </div>
               </div>
-              <button onClick={()=>{
+              <button onClick={() => {
                 console.log(token);
                 handleDelete()
               }} type="button" className="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600">Excluir conta</button>
