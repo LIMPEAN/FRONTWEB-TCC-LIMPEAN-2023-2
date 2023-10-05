@@ -15,9 +15,7 @@ import { SHA256 } from 'crypto-js';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
-
 const app = initializeApp(firebaseConfig);
-
 
 interface Address {
   typeHouse: number;
@@ -48,7 +46,6 @@ export default function CadastroCliente() {
 
   const router = useRouter()
 
-
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +53,6 @@ export default function CadastroCliente() {
     const file = e.target.files?.[0];
     if (file) {
       try {
-        // Obtenha a referência ao armazenamento Firebase usando getStorage
         const storage = getStorage(app);
         const timestamp = new Date();
         const fileName = `${timestamp.getFullYear()}_${(timestamp.getMonth() + 1)}_${timestamp.getDate()}_${timestamp.getHours()}_${timestamp.getMinutes()}_${timestamp.getSeconds()}_${file.name}`;
@@ -64,7 +60,6 @@ export default function CadastroCliente() {
         const storageRef = ref(storage, `imagens/${fileName}`);
         await uploadBytes(storageRef, file);
 
-        // Obtenha a URL de download do arquivo
         const downloadURL = await getDownloadURL(storageRef);
 
         setImageUrl(downloadURL);
@@ -124,7 +119,7 @@ export default function CadastroCliente() {
 
     const jsonEnderecoApi: Address = {
       typeHouse: Number(jsonEndereco.tipo_residencia),
-      state: stateId ? stateId : 1, 
+      state: stateId ? stateId : 1,
       city: jsonEndereco.cidade,
       cep: `${jsonEndereco.cep}`,
       publicPlace: `${jsonEndereco.logradouro}`,
@@ -174,7 +169,6 @@ export default function CadastroCliente() {
   type CreatePerfilFormData = z.infer<typeof createPerfilSchema>;
   return (
     <>
-      {/* {toast.dismiss()} */}
       <form className='w-full lg:w-1/3 flex items-end flex-col gap-4 p-8' onSubmit={handleSubmit(createPerfil)}>
         <Link href="/login" className="p-2 text-white w-fit rounded-full bg-blue-700 hover:bg-blue-800 cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="w-fit h-4"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
@@ -224,7 +218,6 @@ export default function CadastroCliente() {
             />
             {errors.senha ? <span>{errors.senha?.message}</span> : null}
           </div>
-
           <input className='flex items-center justify-center w-full font-extralight mt-8 py-2 gap-4 rounded-full text-white text-xs h-10 hover:bg-blue-800 bg-blue-700' type="submit" />
         </div>
       </form>
