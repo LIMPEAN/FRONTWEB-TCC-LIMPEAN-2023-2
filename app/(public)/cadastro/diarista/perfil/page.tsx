@@ -213,7 +213,7 @@ export default function CadastroCliente() {
           <span className="text-gray-700">Cadastre os dados de exibição</span>
         </div>
         <div className='flex flex-col gap-4 w-full overflow-y-auto w-y-auto h-max-screen'>
-          <div className="flex flex-col items-center justify-center ">
+          <div className="flex flex-col items-center justify-center object-cover">
             <span className='text-xs text-blue-700 font-bold flex flex-col pb-4'>Escolha a foto de perfil</span>
             <Image
               src={imageUrl || "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e"}
@@ -221,7 +221,7 @@ export default function CadastroCliente() {
               width={100}
               height={100}
               id='urlFoto'
-              className="w-24 h-24 rounded-full flex items-center justify-center"
+              className="w-24 h-24 rounded-full flex items-center justify-center object-cover"
             />
             <input
               type="file"
