@@ -50,29 +50,29 @@ export default function Perfil() {
     photoUser: null,
   });
 
-  const atualizarNome = (novoNome) => {
-    setUserData({ ...userData, name: novoNome });
-  };
+  // const atualizarNome = (novoNome) => {
+  //   setUserData({ ...userData, name: novoNome });
+  // };
 
-  // Função para atualizar a biografia
-  const atualizarBiografia = (novaBiografia) => {
-    setUserData({ ...userData, biography: novaBiografia });
-  };
+  // // Função para atualizar a biografia
+  // const atualizarBiografia = (novaBiografia) => {
+  //   setUserData({ ...userData, biography: novaBiografia });
+  // };
 
-  // Função para atualizar o gênero
-  const atualizarGenero = (novoGenero) => {
-    setUserData({ ...userData, gender: novoGenero });
-  };
+  // // Função para atualizar o gênero
+  // const atualizarGenero = (novoGenero) => {
+  //   setUserData({ ...userData, gender: novoGenero });
+  // };
 
-  // Função para atualizar a senha
-  const atualizarSenha = (novaSenha) => {
-    setUserData({ ...userData, password: novaSenha });
-  };
+  // // Função para atualizar a senha
+  // const atualizarSenha = (novaSenha) => {
+  //   setUserData({ ...userData, password: novaSenha });
+  // };
 
-  // Função para atualizar a foto do usuário
-  const atualizarFotoUsuario = (novaFoto) => {
-    setUserData({ ...userData, photoUser: novaFoto });
-  };
+  // // Função para atualizar a foto do usuário
+  // const atualizarFotoUsuario = (novaFoto) => {
+  //   setUserData({ ...userData, photoUser: novaFoto });
+  // };
 
   const handleDelete = () => {
     // Chame a função deleteAccount passando o token
