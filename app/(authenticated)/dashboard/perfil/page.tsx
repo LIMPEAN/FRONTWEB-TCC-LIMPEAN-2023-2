@@ -1,5 +1,5 @@
 "use client"
-
+//use client
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { TblEndereco } from "./components/tblEndereco";
@@ -33,7 +33,7 @@ interface User {
 
 export default function Perfil() {
 
-  const token = localStorage.getItem("token")
+  const token: string | null = localStorage.getItem('token') ?? null;
   if (!token) {
     alert("Deslogar")
   }
@@ -66,9 +66,6 @@ export default function Perfil() {
         console.error('Erro ao excluir a conta:', error);
       });
   };
-
-
-
 
 
   // Função para abrir o modal
