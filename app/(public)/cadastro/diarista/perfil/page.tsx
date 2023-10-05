@@ -181,7 +181,7 @@ export default function CadastroCliente() {
     }
 
     try {
-      const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/cadastro");
+      const response = await postApi(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/cadastro`);
       console.log(response);
       
       if(response.status = 201) {

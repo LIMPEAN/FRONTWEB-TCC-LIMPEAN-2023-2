@@ -9,8 +9,17 @@ const nextConfig = {
       }
     ]
   },
-
-
 }
 
-module.exports = nextConfig
+
+  // module.exports = nextConfig
+    // env: {
+    //   HOST: process.env.HOST,
+    // },
+    
+    module.exports = {
+      ...nextConfig,
+      env: {
+        HOST: process.env.HOST,
+      },
+    };

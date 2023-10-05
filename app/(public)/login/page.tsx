@@ -50,7 +50,7 @@ export default function Login() {
     }
 
     try {
-      const response = await postApi(jsonApi, `http://localhost:8080/v1/limpean/login`);
+      const response = await postApi(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/login`);
       if (response?.status == 200) {
         toast.success("Login permitido!")
         localStorage.setItem("token", response.token)

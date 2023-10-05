@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { calcularIdade } from "./service/idade";
+import { log } from "console";
 
 interface CardDiaristaProps {
-    urlImagem?: string,
+    urlImagem?: string | "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA",
     nome: string,
     biografia: string,
     valor?: string | "Valor não estimado"
@@ -13,10 +14,16 @@ interface CardDiaristaProps {
 }
 
 export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, idade, id_diarista }: CardDiaristaProps) {
+    const valorRenderizado = valor === '0' ? 'À combinar' : `R$${valor}`;
+    
     return (
         <div className="w-full max-w-sm h-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
                 <Image className="p-8 w-full h-64 object-cover rounded-lg" src={urlImagem ? urlImagem : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."} alt={nome} width={300} height={300}/>
+                {/* <Image alt={nome} width={300} height={300} className="p-8 w-full h-64 object-cover rounded-lg"   src={urlImagem || "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."}
+/> */}
+
+            
             </a>
             <div className="px-5 pb-5">
                 <a href="#">
@@ -42,7 +49,7 @@ export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, ida
                     <span className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{avaliacao ? avaliacao : "Novo"}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                    <span className="text-3xl font-bold text-gray-900 dark:text-white">{"R$" + valor}</span>
+                    <span className="text-3xl font-bold text-gray-900 dark:text-white">{valorRenderizado}</span>
                     <Link href={"/dashboard/aberta/" + id_diarista} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Agendar</Link>
                 </div>
             </div>

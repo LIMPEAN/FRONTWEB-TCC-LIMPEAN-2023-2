@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { SHA256 } from 'crypto-js';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
+import { env } from 'process';
 
 const app = initializeApp(firebaseConfig);
 
@@ -152,7 +153,7 @@ export default function CadastroCliente() {
 
 
     try {
-      const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/cadastro");
+      const response = await postApi(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/cadastro`);
       if (response.status = 201) {
         toast.success("Usuário cadastrado com sucesso!")
         toast.loading("Aguarde enquanto redirecionamos você")
