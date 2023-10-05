@@ -33,10 +33,15 @@ interface User {
 
 export default function Perfil() {
 
-  const token: string | null = localStorage.getItem('token') ?? null;
-  if (!token) {
-    alert("Deslogar")
-  }
+
+  let token: string | null =  null;
+  useEffect(() => {
+    
+    if (typeof window !== 'undefined') {
+      token = localStorage.getItem("token")  
+    }
+  }, []);
+  
   const [data, setData] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
