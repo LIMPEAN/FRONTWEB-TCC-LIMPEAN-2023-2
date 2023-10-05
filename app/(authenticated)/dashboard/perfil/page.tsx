@@ -122,11 +122,6 @@ export default function Perfil() {
     // return () => clearInterval(interval);
   }, []);
 
-
-  if (isLoading) {
-    return <div>Carregando...</div>;
-  }
-
   let isEnter = "hidden"
 
   return (
@@ -157,7 +152,7 @@ export default function Perfil() {
               </div>
             </div>
             <div className="flex px-4 py-8 lg:w-3/4 flex-col text-gray-800 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700">
-              <div className="flex gap-4">
+              <div className="flex flex-col md:flex-row md:gap-4">
                 <input type="text" id="disabled-input" aria-label={data?.email} className="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  lg:w-3/4 h-12 p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value={data?.email} disabled />
                 <input type="text" id="disabled-input" aria-label={data?.email} className="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full lg:w-1/4 h-12 p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value={data?.cpf} disabled />
               </div>
