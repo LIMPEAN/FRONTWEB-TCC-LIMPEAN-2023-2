@@ -180,12 +180,10 @@ export default function CadastroCliente() {
       address: jsonEnderecoApi,
     }
 
-
-    console.log(jsonApi);
-    
-
     try {
       const response = await postApi(jsonApi, "http://localhost:8080/v1/limpean/cadastro");
+      console.log(response);
+      
       if(response.status = 201) {
         toast.success("Usuário cadastrado com sucesso!")
         toast.loading("Aguarde enquanto redirecionamos você")
