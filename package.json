@@ -27,6 +27,7 @@
     "react-hook-form": "^7.46.1",
     "react-hot-toast": "^2.4.1",
     "react-input-mask": "^2.0.4",
+    "react-stars": "^2.2.5",
     "swr": "^2.2.4",
     "tailwindcss": "^3.3.3",
     "typescript": "5.2.2",
