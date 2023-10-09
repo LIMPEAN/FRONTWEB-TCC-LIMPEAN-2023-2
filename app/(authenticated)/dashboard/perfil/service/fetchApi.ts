@@ -1,13 +1,16 @@
 import axios from "axios"
 
-export const getDiaristas = async (url: string) => {
-  
+export const putApi = async (jsonData: any, url: string, token: string) => {
+
   try {
-    const response = await axios.get(`${url}`);
-    
-  return response.data.diarists
-    
+    const response = await axios.put(`${url}`, jsonData, {
+      headers: {
+        "x-api-key": `${token}`,
+      },
+    });
+    console.log(response.data);
+    return response.data;
   } catch (error) {
-    console.error('Erro ao fazer a solicitação POST:', error);
+    return error
   }
 }

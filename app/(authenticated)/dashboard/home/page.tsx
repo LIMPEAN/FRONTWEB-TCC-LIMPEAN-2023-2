@@ -122,7 +122,7 @@ export default function HomeDash() {
 
 
   const fetchData = () => {
-    const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client/${token}`;
+    const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;
     const headers = {
       'x-api-key': token!!,
     };
@@ -257,7 +257,7 @@ export default function HomeDash() {
 
 
     try {
-      const response = await putApi(jsonUsuario, `http://${process.env.HOST}:8080/v1/limpean/client/${token}`, token!!);
+      const response = await putApi(jsonUsuario, `http://${process.env.HOST}:8080/v1/limpean/client/`, token!!);
       if (response.status = 201) {
         toast.success("Usuário atualizado com sucesso!")
         fetchData()
