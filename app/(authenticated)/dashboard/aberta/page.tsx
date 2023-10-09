@@ -1,8 +1,9 @@
-"use client"
+  "use client"
 import { useEffect, useState } from 'react';
 import { CardDiarista } from './components/cardDiarista';
 import { getDiaristas } from './service/fetchApi';
 import { debounce } from 'lodash';
+import { Breadcrumb } from 'flowbite-react';
 
 
 interface Diarista {
@@ -33,7 +34,19 @@ export default function Aberta() {
   const [diaristas, setDiaristas] = useState<Diarista[]>([]); // Estado para armazenar todos os diaristas
   const [filteredDiaristas, setFilteredDiaristas] = useState<Diarista[]>([]); // Estado para armazenar os 
 
-  const url = `http://${process.env.HOST}:8080/v1/limpean/diarist`;
+  let token: string | null = null;
+
+  // useEffect(() => {
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem("token")
+    console.log(token);
+
+  }
+  // }, [])
+
+
+
+  const url = `http://${process.env.HOST}:8080/v1/limpean/diarists`;
 
   const debouncedSearch = debounce((query: string) => {
     const filtered = diaristas.filter((diarist: Diarista) =>
@@ -42,12 +55,47 @@ export default function Aberta() {
     setFilteredDiaristas(filtered);
   }, 300);
 
+  const fetchData = () => {
+    const apiUrl = url;
+    const headers = {
+      'x-api-key': token!!,
+    };
+
+    fetch(apiUrl, { headers })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Erro na resposta da API');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data.diarists);
+        
+        setDiaristas(data.diarists);
+        setFilteredDiaristas(data.diarists);
+      })
+      .catch((error) => {
+        console.error('Erro ao buscar dados da API:', error);
+      });
+  };
+
   useEffect(() => {
-    getDiaristas(url).then((data) => {
-      setDiaristas(data);
-      setFilteredDiaristas(data);
-    });
-  }, [url]);
+
+    // Configurar intervalo de revalidação (a cada 5 segundos)
+    // const interval = setInterval(() => {
+    //   getDiaristas(url, token!!).then((data) => {
+    //     console.log("data" + data);
+        
+    //     setDiaristas(data);
+    //     setFilteredDiaristas(data);
+    //   });
+    // }, 5000); // Intervalo em milissegundos (5 segundos)
+
+    // // Limpar intervalo quando o componente for desmontado
+    // return () => clearInterval(interval);
+    fetchData()
+
+  },[]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -58,7 +106,22 @@ export default function Aberta() {
   };
 
   return (
-    <div className="flex flex-col w-full dark:bg-slate-800 bg-zinc-100 p-8 h-full">
+    <div className="flex flex-col w-full  p-2 h-full">
+      <Breadcrumb className='mb-4' aria-label="Default breadcrumb example">
+        <Breadcrumb.Item
+          href="#"
+        >
+          <p>
+            Home
+          </p>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="#">
+          Projects
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          Flowbite React
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <form className="flex items-center">
         <label htmlFor="simple-search" className="sr-only">
           Search
@@ -97,19 +160,24 @@ export default function Aberta() {
       </form>
 
       <ul className="mt-4 overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2 w-full">
-        {filteredDiaristas.map((diarist: Diarista) => (
-          <CardDiarista
-            key={diarist.id_diarista}
-            urlImagem={diarist.foto_perfil}
-            biografia={diarist.biografia}
-            idade={diarist.data_nascimento}
-            nome={diarist.nome_diarista}
-            avaliacao="4.0"
-            id_diarista={diarist.id_diarista}
-            valor={diarist.media_valor}
-          />
-        ))}
+        {
+          filteredDiaristas ? filteredDiaristas.map((diarist: Diarista) => (
+            <CardDiarista
+              key={diarist.id_diarista}
+              urlImagem={diarist.foto_perfil}
+              biografia={diarist.biografia}
+              idade={diarist.data_nascimento}
+              nome={diarist.nome_diarista}
+              avaliacao={5.0}
+              id_diarista={diarist.id_diarista}
+              valor={diarist.media_valor}
+            />
+          )) : null
+        }
       </ul>
     </div>
   );
 }
+
+
+
