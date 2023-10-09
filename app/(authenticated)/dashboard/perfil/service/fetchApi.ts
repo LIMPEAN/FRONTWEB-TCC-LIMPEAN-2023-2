@@ -1,18 +1,13 @@
-import axios from "axios";
+import axios from "axios"
 
-export const getClienteId = async (url: string, token: string) => {
-  console.log(url);
+export const getDiaristas = async (url: string) => {
   
   try {
-    const response = await axios.get(`${url}`, {
-      headers: {
-        "x-api-key": `${token}`, // Correção aqui
-      },
-    });
+    const response = await axios.get(`${url}`);
     
-    console.log(response.data);
-    return response.data.user[0];
+  return response.data.diarists
+    
   } catch (error) {
-    console.error('Erro ao fazer a solicitação GET:', error);
+    console.error('Erro ao fazer a solicitação POST:', error);
   }
-};
+}

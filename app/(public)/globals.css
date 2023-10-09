@@ -2,21 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* custom-scrollbar.css */
-
-/* Barra de rolagem */
 ::-webkit-scrollbar {
-  width: 6px; /* Largura da barra de rolagem */
+  width: 6px; 
 }
 
 /* Botão de rolagem */
 ::-webkit-scrollbar-thumb {
-  background: #dad7d7; /* Cor do botão de rolagem */
+  background: #f1f1f1; /* Cor do botão de rolagem */
   border-radius: 3px; /* Raio da borda do botão de rolagem */
-  height: 2px; /* Altura do botão de rolagem */
+  height: 20px; /* Altura do botão de rolagem (sem !important) */
 }
 
-/* Fundo da barra de rolagem */
+
 ::-webkit-scrollbar-track {
-  background: transparent; /* Cor de fundo da barra de rolagem */
+  background: transparent;
 }

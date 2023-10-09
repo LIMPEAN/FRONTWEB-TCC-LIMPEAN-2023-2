@@ -1,6 +1,8 @@
 "use client"
 import Link from 'next/link';
 import { ReactNode, useEffect, useRef, useState } from 'react';
+import { DarkThemeToggle, Flowbite } from 'flowbite-react';
+
 
 interface SideBarProps {
   children?: ReactNode
@@ -50,12 +52,11 @@ export default function Sidebar({ children }: SideBarProps) {
 
       <aside
         ref={sidebarRef}
-        className={`fixed top-0 left-0 z-1000 w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 z-99999999999 w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
           } sm:translate-x-0`}
         aria-label="Barra lateral"
       >
-
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 border-r dark:border-gray-700">
           <ul className="space-y-2 font-medium">
             <li>
               <Link href="/dashboard/home" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -155,11 +156,15 @@ export default function Sidebar({ children }: SideBarProps) {
               </Link>
             </li>
           </ul>
+          <Flowbite>
+            <DarkThemeToggle />
+          </Flowbite>
         </div>
       </aside>
-      <div className=" sm:ml-64 h-screen">
+      <div className="sm:ml-64 h-screen p-4 text-gray-900 dark:bg-gray-900 dark:text-white dark:border-gray-700">
         {children}
       </div>
+
     </>
   );
 }

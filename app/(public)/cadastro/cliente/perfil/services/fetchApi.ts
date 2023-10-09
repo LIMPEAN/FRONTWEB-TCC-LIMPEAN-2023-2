@@ -8,7 +8,7 @@ export const postApi = async (jsonData: any, url: string) => {
     
   } catch (error) {
     console.error('Erro ao fazer a solicitação POST:', error);
-
+    
   }
 
 

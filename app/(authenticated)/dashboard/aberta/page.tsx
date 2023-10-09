@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { CardDiarista } from './components/cardDiarista';
 import { getDiaristas } from './service/fetchApi';
 import { debounce } from 'lodash';
+import { Breadcrumb } from 'flowbite-react';
 
 
 interface Diarista {
@@ -58,7 +59,22 @@ export default function Aberta() {
   };
 
   return (
-    <div className="flex flex-col w-full dark:bg-slate-800 bg-zinc-100 p-8 h-full">
+    <div className="flex flex-col w-full  p-2 h-full">
+      <Breadcrumb className='mb-4' aria-label="Default breadcrumb example">
+        <Breadcrumb.Item
+          href="#"
+        >
+          <p>
+            Home
+          </p>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item href="#">
+          Projects
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          Flowbite React
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <form className="flex items-center">
         <label htmlFor="simple-search" className="sr-only">
           Search
@@ -104,7 +120,7 @@ export default function Aberta() {
             biografia={diarist.biografia}
             idade={diarist.data_nascimento}
             nome={diarist.nome_diarista}
-            avaliacao="4.0"
+            avaliacao={5.0}
             id_diarista={diarist.id_diarista}
             valor={diarist.media_valor}
           />
