@@ -1,5 +1,5 @@
 "use client"
-import { Breadcrumb } from 'flowbite-react';
+import { Breadcrumb, Table } from 'flowbite-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -11,7 +11,8 @@ import { Tabs } from 'flowbite-react';
 import { Label, TextInput, Select, Textarea } from 'flowbite-react';
 import InputMask from 'react-input-mask';
 import { SHA256 } from 'crypto-js';
-import { log } from 'console';
+import axios from 'axios';
+
 
 interface User {
   statusClient: string;
@@ -26,16 +27,20 @@ interface User {
     numero: string;
   }[];
   assessement: any[];
-  endereco: {
-    id_address: number;
-    state: string;
-    city: string;
-    typeHouse: string;
-    publicPlace: string;
-    complement: string;
-    district: string;
-    houseNumber: string;
-  }[];
+  endereco: [IEndereco]
+}
+
+interface IEndereco {
+  cep: string;
+  id_address: number;
+  state: string;
+  city: string;
+  typeHouse: string;
+  publicPlace: string;
+  complement: string;
+  district: string;
+  houseNumber: string;
+
 }
 
 interface UserUpdateData {
@@ -248,11 +253,12 @@ export default function HomeDash() {
         {
           "ddd": phones?.length == null ? null : phones[0].ddd,
           "phone": phones?.length == null ? null : phones[0].phone,
-          "newDDD": phones?.length == null ? null: phones[0].newDDD,
+          "newDDD": phones?.length == null ? null : phones[0].newDDD,
           "newPhone": phones?.length == null ? null : phones[0].newPhone
         }
       ]
     }
+
 
 
 
@@ -268,6 +274,51 @@ export default function HomeDash() {
       toast.error("Servidor indisponível para esse processo")
     }
   }
+
+  async function fetchAddressData(cep: string) {
+    try {
+      const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+      const addressData = response.data;
+
+      console.log(addressData);
+
+
+      if (response.data.erro == true) {
+        return false
+
+      }
+
+      return true
+
+      // You can add more fields as needed
+    } catch (error) {
+      return false
+
+    }
+  }
+
+
+  const handleCepBlur = async (event: React.FocusEvent<HTMLInputElement>) => {
+
+
+    const cepSemEspaco = event.target.value.trim();
+    const cep = cepSemEspaco.replace(/\D/g, ''); // Remove todos os não dígitos
+
+    if (cep.length === 8) {
+      // Call the function to fetch address data when CEP has 8 characters
+      const loadingToast = toast.loading("Verificando o CEP")
+      const cepVerificado = await fetchAddressData(cep)
+      if (cepVerificado) {
+        toast.dismiss(loadingToast);
+        toast.success("CEP encontrado com sucesso.")
+      } else {
+        toast.dismiss(loadingToast);
+        toast.error("CEP não encontrado.")
+      }
+
+    }
+  };
+
 
   return (
     <div className='flex flex-col h-full overflow-auto'>
@@ -296,10 +347,9 @@ export default function HomeDash() {
           title="Pessoal"
           color='color-red'
         >
-
           <span className='text-2xl'>Informações Pessoais</span>
-          <div className='flex flex-col gap-4'>
-            <div className='flex flex-col lg:flex-row gap-4  w-full mt-4  overflow-y-scroll'>
+          <div className='flex flex-col gap-4 h-fit '>
+            <div className='flex flex-col lg:flex-row gap-4 pb-4 w-full mt-4 overflow-y-auto'>
               <div className="flex flex-col 2xl:flex-row px-4  py-8 gap-4 items-center lg:w-3/5 text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700 ">
                 <Image className='w-32 h-32 object-cover rounded-md' src={data?.photoUser ? data?.photoUser : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."} alt={"foto de perfil de " + data?.name} width={300} height={300} />
                 <div className='flex flex-col justify-between h-32 w-full items-center'>
@@ -413,19 +463,138 @@ export default function HomeDash() {
                 Enviar
               </button>
             </form>
+            <div className='w-full flex justify-end'>
+              <button
+                type='submit'
+                className='h-12 w-full lg:w-1/4 bg-red-500 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'
+                onClick={()=>{
+                  toast.error("Não quero excluir")
+                }}
+              >
+                Excluir conta
+              </button>
+            </div>
+
           </div>
         </Tabs.Item>
         <Tabs.Item
           active
           title="Endereço"
         >
-          <p>
-            This is
-            Profile tab's associated content
-            .
-            Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-            control the content visibility and styling.
-          </p>
+          <span className='text-2xl'>Endereço</span>
+          {data?.endereco.map((adress: IEndereco) => {
+            return (
+              <form onSubmit={handleSubmit} className='flex flex-col p-4 gap-4 items-start w-full text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700'>
+                <div className='grid lg:grid-cols-2 2xl:grid-cols-3 w-full gap-4'>
+                  <div>
+                    <label htmlFor="cep">CEP</label>
+                    <InputMask
+                      mask="99999-999"
+                      id="cep"
+                      className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                      onBlur={handleCepBlur} // Verifique se essa linha está correta
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="estado">Estado</label>
+                    <TextInput
+                      type="text"
+                      className='w-full'
+                      id="estado"
+                      name="estado"
+                      placeholder={adress.state}
+                      value={nome}
+                      disabled
+                    // onChange={(e) => setNome(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="cidade">Cidade</label>
+                    <TextInput
+                      type="text"
+                      className='w-full'
+                      id="cidade"
+                      name="cidade"
+                      placeholder={adress.city}
+                      value={nome}
+                      disabled
+                    // onChange={(e) => setNome(e.target.value)}
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="logradouro">Logradouro</label>
+                    <TextInput
+                      type="text"
+                      className='w-full'
+                      id="logradouro"
+                      name="logradouro"
+                      placeholder={adress.publicPlace}
+                      value={nome}
+                      disabled
+                    // onChange={(e) => setNome(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="bairro">Bairro</label>
+                    <TextInput
+                      type="text"
+                      className='w-full'
+                      id="bairro"
+                      name="bairro"
+                      placeholder={adress.district}
+                      value={nome}
+                      disabled
+                    // onChange={(e) => setNome(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="complemento">Complemento</label>
+                    <TextInput
+                      type="text"
+                      className='w-full'
+                      id="complemento"
+                      name="complemento"
+                      placeholder={adress.complement}
+                      value={nome}
+
+                    // onChange={(e) => setNome(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="tipo__casa">Tipo de residência</label>
+                    <Select
+                      id="countries"
+                      required
+                    >
+                      <option selected value="1">Casa</option>
+                      <option value="2">Apartamento</option>
+                      <option value="3">Sobrado</option>
+                      <option value="4">Condomínio</option>
+                      <option value="5">Chacara</option>
+                      <option value="6">Kitnet</option>
+
+                    </Select>
+                  </div>
+                  <div>
+                    <label htmlFor="numero">Número</label>
+                    <TextInput
+                      type="text"
+                      className='w-full'
+                      id="numero"
+                      name="numero"
+                      placeholder={adress.houseNumber}
+                      value={nome}
+
+                    // onChange={(e) => setNome(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </form>
+
+            )
+          })}
+
         </Tabs.Item>
       </Tabs.Group>
     </div >

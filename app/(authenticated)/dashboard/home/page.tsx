@@ -24,6 +24,8 @@ export type Person = {
   address: string;
 };
 
+
+
 const getData = () => {
   return {
     profile: {
@@ -46,13 +48,7 @@ const getData = () => {
 };
 
 export default function Home() {
-  let token: string | null = null;
-  useEffect(() => {
-    // // if (typeof window !== "undefined") {
-    // //   token = localStorage.getItem("token");
-    // }
-  }, []);
-
+  
   const { profile, person, diarist } = getData();
 
   const assentments = getAssentments();
@@ -79,7 +75,7 @@ export default function Home() {
           title="Biografia"
           text={profile.biography}
         ></CardDescription>
-        <Assentments assentments={assentments}/>
+        <Assentments assentments={assentments} />
         <Card>
           <Button size="xl" color="blue">
             Agendar
