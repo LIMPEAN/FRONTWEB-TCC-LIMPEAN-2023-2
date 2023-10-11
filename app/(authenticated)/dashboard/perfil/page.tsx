@@ -484,7 +484,7 @@ export default function HomeDash() {
           <span className='text-2xl'>Endereço</span>
           {data?.endereco.map((adress: IEndereco) => {
             return (
-              <form onSubmit={handleSubmit} className='flex flex-col p-4 gap-4 items-start w-full text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700'>
+              <form key={data?.name} onSubmit={handleSubmit} className='flex flex-col p-4 gap-4 items-start w-full text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700'>
                 <div className='grid lg:grid-cols-2 2xl:grid-cols-3 w-full gap-4'>
                   <div>
                     <label htmlFor="cep">CEP</label>
