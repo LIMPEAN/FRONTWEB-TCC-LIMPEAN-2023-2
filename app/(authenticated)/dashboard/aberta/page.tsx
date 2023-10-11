@@ -1,4 +1,4 @@
-  "use client"
+"use client"
 import { useEffect, useState } from 'react';
 import { CardDiarista } from './components/cardDiarista';
 import { getDiaristas } from './service/fetchApi';
@@ -6,9 +6,9 @@ import { debounce } from 'lodash';
 import { Breadcrumb } from 'flowbite-react';
 
 
-interface Diarista {
-  id_diarista: number;
-  nome_diarista: string;
+interface user {
+  id_diarist: number;
+  nome: string;
   cpf_diarista: string;
   data_nascimento: string;
   biografia: string;
@@ -27,6 +27,10 @@ interface Diarista {
   estado: string;
   status_conta: string | null;
   data_status_diarista: string;
+}
+
+interface Diarista {
+  user: user
 }
 
 export default function Aberta() {
@@ -50,7 +54,7 @@ export default function Aberta() {
 
   const debouncedSearch = debounce((query: string) => {
     const filtered = diaristas.filter((diarist: Diarista) =>
-      diarist.nome_diarista.toLowerCase().includes(query.toLowerCase())
+      diarist.user.nome.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredDiaristas(filtered);
   }, 300);
@@ -70,7 +74,7 @@ export default function Aberta() {
       })
       .then((data) => {
         console.log(data.diarists);
-        
+
         setDiaristas(data.diarists);
         setFilteredDiaristas(data.diarists);
       })
@@ -85,7 +89,7 @@ export default function Aberta() {
     // const interval = setInterval(() => {
     //   getDiaristas(url, token!!).then((data) => {
     //     console.log("data" + data);
-        
+
     //     setDiaristas(data);
     //     setFilteredDiaristas(data);
     //   });
@@ -95,7 +99,7 @@ export default function Aberta() {
     // return () => clearInterval(interval);
     fetchData()
 
-  },[]);
+  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
@@ -106,23 +110,17 @@ export default function Aberta() {
   };
 
   return (
-    <div className="flex flex-col w-full  p-2 h-full">
-      <Breadcrumb className='mb-4' aria-label="Default breadcrumb example">
+    <div className="flex flex-col w-full p-2 h-full">
+      <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item
-          href="#"
+          href="/dashboard/aberta"
         >
           <p>
-            Home
+            Serviço Aberto
           </p>
         </Breadcrumb.Item>
-        <Breadcrumb.Item href="#">
-          Projects
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>
-          Flowbite React
-        </Breadcrumb.Item>
       </Breadcrumb>
-      <form className="flex items-center">
+      <form className="flex items-center pt-2">
         <label htmlFor="simple-search" className="sr-only">
           Search
         </label>
@@ -163,14 +161,14 @@ export default function Aberta() {
         {
           filteredDiaristas ? filteredDiaristas.map((diarist: Diarista) => (
             <CardDiarista
-              key={diarist.id_diarista}
-              urlImagem={diarist.foto_perfil}
-              biografia={diarist.biografia}
-              idade={diarist.data_nascimento}
-              nome={diarist.nome_diarista}
+              key={diarist.user.id_diarist}
+              urlImagem={diarist.user.foto_perfil}
+              biografia={diarist.user.biografia}
+              idade={diarist.user.data_nascimento}
+              nome={diarist.user.nome}
               avaliacao={5.0}
-              id_diarista={diarist.id_diarista}
-              valor={diarist.media_valor}
+              id_diarista={diarist.user.id_diarist}
+              valor={diarist.user.media_valor}
             />
           )) : null
         }

@@ -24,9 +24,9 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className={`${mainFontFamily.variable} scroll-smooth`}>
       <Toaster position="top-right" reverseOrder={false} />
-      <body className="overflow-hidden flex flex-col box-border p-0 m-0 dark:bg-slate-800 bg-zinc-50">
+      <body className="overflow-hidden flex flex-col box-border p-0 m-0 dark:bg-slate-900 bg-zinc-50">
         {/* <Header /> */}
-        <main className="h-screen w-screen overflow-auto ">
+        <main className="h-screen w-screen overflow-auto bg-inherit">
           <Sidebar>{children}</Sidebar>
         </main>
       </body>

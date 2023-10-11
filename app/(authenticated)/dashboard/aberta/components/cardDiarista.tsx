@@ -23,7 +23,7 @@ export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, ida
             </Link>
             <div className="p-2">
                 <a href="#">
-                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{nome.toLocaleUpperCase()}, <span className="font-extralight">{calcularIdade(idade)} anos</span></h5>
+                    <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{nome?.toUpperCase()}, <span className="font-extralight">{calcularIdade(idade)} anos</span></h5>
                 </a>
                 <Rating>
                     <Rating.Star filled={avaliacao >= 1.0}/>
