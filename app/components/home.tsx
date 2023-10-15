@@ -18,10 +18,8 @@ export function HomeComponent() {
           height={500} />
         <div className="flex mt-12 lg:hidden w-full justify-between md:justify-start md:gap-4 gap-2">
           <Link className="w-1/2 grid place-items-center bg-transparent hover:bg-blue-500 text-white font-semibold hover:text-white py-2 px-4 border border-white hover:border-transparent rounded" href="login">Sou diarista</Link>
-        
           <Link className="grid place-items-center gap-2 bg-white text-blue-700 font-medium w-1/2 p-4 rounded-md hover:bg-white/90" href="login">Sou cliente</Link>
         </div>
-
       </div>
     </>
   )

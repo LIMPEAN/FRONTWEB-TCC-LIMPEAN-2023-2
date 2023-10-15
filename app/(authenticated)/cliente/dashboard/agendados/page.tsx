@@ -71,34 +71,32 @@ export default function Agendado() {
     setFilteredServices(filtered);
   }, 300);
 
-  const url = `http://${process.env.HOST}:8080/v1/limpean/client/service`;
+  useEffect(() => {
+    const fetchData = () => {
+      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client/service`;
+      const headers = {
+        'x-api-key': token!!,
+      };
 
-  const fetchData = () => {
-    const apiUrl = url;
-    const headers = {
-      'x-api-key': token!!,
+      fetch(apiUrl, { headers })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na resposta da API');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data.data);
+          setServices(data.data.map((item: Data) => item.service)); // assuming data is an array of Data
+          setFilteredServices(data.data.map((item: Data) => item.service)); // assuming data is an array of Data
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar dados da API:', error);
+        });
     };
 
-    fetch(apiUrl, { headers })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro na resposta da API');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data.data);
-        setServices(data.data.map((item: Data) => item.service)); // assuming data is an array of Data
-        setFilteredServices(data.data.map((item: Data) => item.service)); // assuming data is an array of Data
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar dados da API:', error);
-      });
-  };
-
-  useEffect(() => {
     fetchData()
-  }, []);
+  }, [token]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;

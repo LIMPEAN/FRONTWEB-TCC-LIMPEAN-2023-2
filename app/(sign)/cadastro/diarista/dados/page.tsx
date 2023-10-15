@@ -11,8 +11,6 @@ import toast from 'react-hot-toast';
 
 export default function CadastroCliente() {
 
-  // localStorage.clear()
-
   const router = useRouter();
 
   const createUserSchema = z.object({
@@ -24,17 +22,14 @@ export default function CadastroCliente() {
       .refine((cpf) => {
         const numericCPF = cpf.replace(/\D/g, '');
 
-        // Check if CPF is not a repetitive sequence (e.g., "111.111.111-11")
         if (/^(\d)\1+$/.test(numericCPF)) {
           return false;
         }
 
-        // Check if CPF length is 11 digits
         if (numericCPF.length !== 11) {
           return false;
         }
 
-        // Calculate CPF digits
         let sum = 0;
         let remainder;
 

@@ -70,55 +70,41 @@ export default function ModalDiarist({
 
   let token: string | null = null;
 
-  // useEffect(() => {
   if (typeof window !== 'undefined') {
     token = localStorage.getItem("token")
   }
-  // }, [])
 
-
-  const fetchData = () => {
-    const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarists`;
-    const headers = {
-      'x-api-key': token!!,
-    };
-
-    fetch(apiUrl, { headers })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro na resposta da API');
-        }
-        return response.json();
-      })
-      .then((result) => {
-        console.log(result.diarists);
-        result.diarists.map((diarist: Diarista) => {
-          if (diarist.user.id_diarist === Number(params.userId)) {
-            setData(diarist);
-          }
-        })
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar dados da API:', error);
-
-      });
-  };
 
   useEffect(() => {
-    // Realize a primeira solicitação quando o componente for montado
+    const fetchData = () => {
+      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarists`;
+      const headers = {
+        'x-api-key': token!!,
+      };
+
+      fetch(apiUrl, { headers })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na resposta da API');
+          }
+          return response.json();
+        })
+        .then((result) => {
+          console.log(result.diarists);
+          result.diarists.map((diarist: Diarista) => {
+            if (diarist.user.id_diarist === Number(params.userId)) {
+              setData(diarist);
+            }
+          })
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar dados da API:', error);
+        });
+    };
     fetchData();
+  }, [params.userId, token]);
 
-
-    // Configurar intervalo de revalidação (a cada 5 segundos)
-    // const interval = setInterval(() => {
-    //   fetchData();
-    // }, 60000); // Intervalo em milissegundos (5 segundos)
-
-    // // Limpar intervalo quando o componente for desmontado
-    // return () => clearInterval(interval);
-  }, []);
-
-const routeNext = `${params.userId}/solicitacao`
+  const routeNext = `${params.userId}/solicitacao`
 
   return (
     <div className="h-full flex flex-col p-2 bg-inherit">
@@ -163,13 +149,6 @@ const routeNext = `${params.userId}/solicitacao`
                 </p>
               </a>
             </Rating>
-            {/* <Rating>
-            <Rating.Star />
-            <Rating.Star />
-            <Rating.Star />
-            <Rating.Star />
-            <Rating.Star filled={false} />
-          </Rating> */}
             <div className="flex items-end">
               <span className="text-2xl font-bold text-gray-900 dark:text-white pr-1">R$</span>
               <span className="text-5xl font-bold text-gray-900 dark:text-white">{data?.user.media_valor}</span>

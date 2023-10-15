@@ -1,7 +1,7 @@
 "use client"
 import { Breadcrumb, Table } from 'flowbite-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { initializeApp } from 'firebase/app';
@@ -126,7 +126,7 @@ export default function HomeDash() {
   }
 
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;
     const headers = {
       'x-api-key': token!!,
@@ -148,21 +148,11 @@ export default function HomeDash() {
         console.error('Erro ao buscar dados da API:', error);
         setIsLoading(false);
       });
-  };
+    }, [token]);
 
   useEffect(() => {
-    // Realize a primeira solicitação quando o componente for montado
     fetchData();
-
-
-    // Configurar intervalo de revalidação (a cada 5 segundos)
-    // const interval = setInterval(() => {
-    //   fetchData();
-    // }, 60000); // Intervalo em milissegundos (5 segundos)
-
-    // // Limpar intervalo quando o componente for desmontado
-    // return () => clearInterval(interval);
-  }, []);
+  }, [fetchData]);
 
 
   const handleSubmit = (event: any) => {

@@ -15,25 +15,25 @@ const containerStyle = {
 const MapComponent: React.FC<MapComponentProps> = ({ destinationCep }) => {
   const [destinationCoords, setDestinationCoords] = useState<any>(null);
 
-  const fetchCoordinates = async () => {
-    try {
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(`Brazil, ${destinationCep}`)}&key=${apiKey}`);
-      const { results } = response.data;
-      if (results && results.length > 0) {
-        const { geometry } = results[0];
-        if (geometry) {
-          setDestinationCoords(geometry.location);
-        }
-      }
-    } catch (error) {
-      console.error('Erro ao buscar dados da API do Google Maps', error);
-    }
-  };
 
   useEffect(() => {
+    const fetchCoordinates = async () => {
+      try {
+        const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(`Brazil, ${destinationCep}`)}&key=${apiKey}`);
+        const { results } = response.data;
+        if (results && results.length > 0) {
+          const { geometry } = results[0];
+          if (geometry) {
+            setDestinationCoords(geometry.location);
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao buscar dados da API do Google Maps', error);
+      }
+    };
     fetchCoordinates();
-  }, []);
+  }, [destinationCep]);
 
   return (
     <div style={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

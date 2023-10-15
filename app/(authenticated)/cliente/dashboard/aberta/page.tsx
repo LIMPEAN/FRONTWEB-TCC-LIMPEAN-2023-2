@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CardDiarista } from './components/cardDiarista';
 import { getDiaristas } from './service/fetchApi';
 import { debounce } from 'lodash';
@@ -40,26 +40,24 @@ export default function Aberta() {
 
   let token: string | null = null;
 
-  // useEffect(() => {
   if (typeof window !== 'undefined') {
     token = localStorage.getItem("token")
     console.log(token);
 
   }
-  // }, [])
-
-
 
   const url = `http://${process.env.HOST}:8080/v1/limpean/diarists`;
 
-  const debouncedSearch = debounce((query: string) => {
-    const filtered = diaristas.filter((diarist: Diarista) =>
-      diarist.user.nome.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredDiaristas(filtered);
-  }, 300);
+  const debouncedSearch = useRef(
+    debounce((query: string) => {
+      const filtered = diaristas.filter((diarist: Diarista) =>
+        diarist.user.nome.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredDiaristas(filtered);
+    }, 300)
+  ).current; 
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     const apiUrl = url;
     const headers = {
       'x-api-key': token!!,
@@ -81,31 +79,19 @@ export default function Aberta() {
       .catch((error) => {
         console.error('Erro ao buscar dados da API:', error);
       });
-  };
+  }, [token, url]);
 
   useEffect(() => {
+    fetchData();
+    return () => {
+      if (debouncedSearch) debouncedSearch.cancel(); // Cancelar o debounce se debouncedSearch existir
+    };
+  }, [fetchData, debouncedSearch]);
 
-    // Configurar intervalo de revalidação (a cada 5 segundos)
-    // const interval = setInterval(() => {
-    //   getDiaristas(url, token!!).then((data) => {
-    //     console.log("data" + data);
-
-    //     setDiaristas(data);
-    //     setFilteredDiaristas(data);
-    //   });
-    // }, 5000); // Intervalo em milissegundos (5 segundos)
-
-    // // Limpar intervalo quando o componente for desmontado
-    // return () => clearInterval(interval);
-    fetchData()
-
-  }, []);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
-
-    // Use a função debouncedSearch para atualizar os resultados
     debouncedSearch(query);
   };
 
@@ -157,7 +143,7 @@ export default function Aberta() {
         </button>
       </form>
       <ul className="mt-4 overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-center w-full">
-        
+
         {
           filteredDiaristas ? filteredDiaristas.map((diarist: Diarista) => (
             <CardDiarista
@@ -171,7 +157,7 @@ export default function Aberta() {
               valor={diarist.user.media_valor}
             />
           )) : null
-        } 
+        }
       </ul>
     </div>
   );

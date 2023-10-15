@@ -89,7 +89,6 @@ export default function CadastroCliente() {
         toast.dismiss()
         toast.success("Upload realizado com sucesso")
       } catch (error) {
-        console.error('Erro no upload:', error);
         toast.error("Erro ao realizar upload, tente novamente")
       }
     }
@@ -116,11 +115,9 @@ export default function CadastroCliente() {
     
     data.urlFoto = imageUrl;
     data.precoMedio = precoMedio
-    console.log(data);
 
     localStorage.setItem('perfil', JSON.stringify(data));
     const jsonClienteStr = localStorage.getItem("meusDadosDiarista");
-    console.log("teste" + jsonClienteStr);
     
     const jsonCliente = jsonClienteStr ? JSON.parse(jsonClienteStr) : null;
     const jsonEnderecoStr = localStorage.getItem("enderecoDiarista");
@@ -182,7 +179,6 @@ export default function CadastroCliente() {
 
     try {
       const response = await postApi(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/cadastro`);
-      console.log(response);
       
       if(response.status = 201) {
         toast.success("Usuário cadastrado com sucesso!")

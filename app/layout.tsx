@@ -22,12 +22,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br" className={`${mainFontFamily.variable} scroll-smooth`}>
-
-      <Toaster
-        position="top-right"
-        reverseOrder={false}
-      />
-      <body className='bg-slate-100'>{children}</body>
+      <body className='bg-slate-100'>
+        <Toaster
+          position="top-right"
+          reverseOrder={false}
+        />
+        {children}</body>
     </html>
   )
 }

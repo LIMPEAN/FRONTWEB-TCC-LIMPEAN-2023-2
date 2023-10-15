@@ -58,7 +58,7 @@ export default function ModalDiarist({
 
   let handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     console.log(event.target.value);
-    
+
     setSelectedOption(event.target.value);
   };
 
@@ -86,43 +86,34 @@ export default function ModalDiarist({
   }
   // }, [])
 
-  let fetchData = () => {
-    let apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;
-    let headers = {
-      'x-api-key': token!!,
+  useEffect(() => {
+
+    const fetchData = () => {
+      let apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;
+      let headers = {
+        'x-api-key': token!!,
+      };
+
+      fetch(apiUrl, { headers })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na resposta da API');
+          }
+          return response.json();
+        })
+        .then((result) => {
+          setData(result.data);
+          setSelectedOption(result.data.endereco[0].id_address)
+
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar dados da API:', error);
+        });
+
     };
 
-    fetch(apiUrl, { headers })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro na resposta da API');
-        }
-        return response.json();
-      })
-      .then((result) => {
-
-        setData(result.data);
-        setSelectedOption(result.data.endereco[0].id_address)
-        
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar dados da API:', error);
-      });
-  };
-
-  useEffect(() => {
-    // Realize a primeira solicitação quando o componente for montado
     fetchData();
-
-
-    // Configurar intervalo de revalidação (a cada 5 segundos)
-    // let interval = setInterval(() => {
-    //   fetchData();
-    // }, 60000); // Intervalo em milissegundos (5 segundos)
-
-    // // Limpar intervalo quando o componente for desmontado
-    // return () => clearInterval(interval);
-  }, []);
+  }, [token]);
 
   let json: comodos = {
     addressId: selectedOption,
@@ -183,7 +174,7 @@ export default function ModalDiarist({
             >
 
               {data?.endereco.map((adress: IEndereco) =>
-              (<option value={adress.id_address}
+              (<option key={adress.id_address} value={adress.id_address}
               >
                 {adress.typeHouse} - {adress.publicPlace} - Nº {adress.houseNumber} - {adress.district} - {adress.city} - {adress.state}
               </option>))

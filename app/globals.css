@@ -5,21 +5,28 @@
 /* body {
   font-family: 'Poppins', sans-serif;
   /* font-weight: inherit; */
-  /* font-weight: 800; */
+/* font-weight: 800; */
 /* } */
 
 ::-webkit-scrollbar {
-  width: 6px; 
+  width: 6px;
 }
 
 /* Botão de rolagem */
 ::-webkit-scrollbar-thumb {
-  background: transparent; /* Cor do botão de rolagem */
-  border-radius: 3px; /* Raio da borda do botão de rolagem */
-  height: 20px; /* Altura do botão de rolagem (sem !important) */
+  background: transparent;
+  /* Cor do botão de rolagem */
+  border-radius: 3px;
+  /* Raio da borda do botão de rolagem */
+  height: 20px;
+  /* Altura do botão de rolagem (sem !important) */
 }
 
 
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
 }

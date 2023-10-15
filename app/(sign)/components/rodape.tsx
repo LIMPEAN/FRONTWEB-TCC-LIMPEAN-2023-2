@@ -6,16 +6,6 @@ import Link from "next/link";
 
 export function Rodape() {
 
-  // const [menuOpen, setMenuOpen] = useState(false);
-
-  // const toggleMenu = () => {
-  //   setMenuOpen(!menuOpen);
-  // };
-
-  // const closeMenu = () => {
-  //   setMenuOpen(false);
-  // };
-
   return (
     <>
       <footer className=" p-6 bg-white">
