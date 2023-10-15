@@ -3,7 +3,7 @@
 import { Breadcrumb, Rating, Select, Table } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 interface User {
   statusClient: string;
@@ -34,7 +34,7 @@ interface IEndereco {
 
 }
 interface comodos {
-  addressId: number;
+  addressId: string;
   bedroom: number;
   livingRoom: number;
   kitchen: number;
@@ -54,8 +54,16 @@ export default function ModalDiarist({
   params: { userId: string }
 }) {
 
-  const [state, setState] = useState<comodos>({
-    addressId: 1,
+  let [selectedOption, setSelectedOption] = useState<string>('');
+
+  let handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
+    
+    setSelectedOption(event.target.value);
+  };
+
+  let [state, setState] = useState<comodos>({
+    addressId: selectedOption,
     bedroom: 0,
     livingRoom: 0,
     kitchen: 0,
@@ -68,7 +76,7 @@ export default function ModalDiarist({
   });
 
 
-  const [data, setData] = useState<User | null>(null);
+  let [data, setData] = useState<User | null>(null);
 
   let token: string | null = null;
 
@@ -78,9 +86,9 @@ export default function ModalDiarist({
   }
   // }, [])
 
-  const fetchData = () => {
-    const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;
-    const headers = {
+  let fetchData = () => {
+    let apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;
+    let headers = {
       'x-api-key': token!!,
     };
 
@@ -92,11 +100,13 @@ export default function ModalDiarist({
         return response.json();
       })
       .then((result) => {
+
         setData(result.data);
+        setSelectedOption(result.data.endereco[0].id_address)
+        
       })
       .catch((error) => {
         console.error('Erro ao buscar dados da API:', error);
-
       });
   };
 
@@ -106,7 +116,7 @@ export default function ModalDiarist({
 
 
     // Configurar intervalo de revalidação (a cada 5 segundos)
-    // const interval = setInterval(() => {
+    // let interval = setInterval(() => {
     //   fetchData();
     // }, 60000); // Intervalo em milissegundos (5 segundos)
 
@@ -114,21 +124,23 @@ export default function ModalDiarist({
     // return () => clearInterval(interval);
   }, []);
 
-    const json: comodos = {
-      addressId: state.addressId,
-      bedroom: state.bedroom,
-      livingRoom: state.livingRoom,
-      kitchen: state.kitchen,
-      bathroom: state.bathroom,
-      office: state.office,
-      laundry: state.laundry,
-      garage: state.garage,
-      yard: state.yard,
-      recreationArea: state.recreationArea,
-      diaristId: params.userId
-     
-    }
-    
+  let json: comodos = {
+    addressId: selectedOption,
+    bedroom: state.bedroom,
+    livingRoom: state.livingRoom,
+    kitchen: state.kitchen,
+    bathroom: state.bathroom,
+    office: state.office,
+    laundry: state.laundry,
+    garage: state.garage,
+    yard: state.yard,
+    recreationArea: state.recreationArea,
+    diaristId: params.userId
+
+  }
+  let construirJson = () => {
+    console.log(json);
+  }
 
 
   // let routeNext = `/cliente/dashboard/aberta/${params.userId}/solicitacao/perguntas`
@@ -166,6 +178,8 @@ export default function ModalDiarist({
               id="enderecos"
               required
               className="max-h-48 overflow-y-auto"
+              value={selectedOption}
+              onChange={handleSelectChange}
             >
 
               {data?.endereco.map((adress: IEndereco) =>
@@ -398,10 +412,10 @@ export default function ModalDiarist({
                             <input type="number" id="first_product" className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={state.kitchen} required disabled />
                           </div>
                           <button className="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button"
-                          onClick={()=>{
-                            let quantidade = state.kitchen + 1
-                            setState((prevState) => ({...prevState, kitchen: quantidade}))
-                          }}
+                            onClick={() => {
+                              let quantidade = state.kitchen + 1
+                              setState((prevState) => ({ ...prevState, kitchen: quantidade }))
+                            }}
                           >
                             <span className="sr-only">Quantity button</span>
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -420,10 +434,10 @@ export default function ModalDiarist({
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
                           <button className="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button"
-                          onClick={()=>{
-                            let quantidade = state.garage > 0 ? state.garage - 1 : 0
-                            setState((prevState) => ({...prevState, garage: quantidade}))
-                          }}
+                            onClick={() => {
+                              let quantidade = state.garage > 0 ? state.garage - 1 : 0
+                              setState((prevState) => ({ ...prevState, garage: quantidade }))
+                            }}
                           >
                             <span className="sr-only">Quantity button</span>
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -431,13 +445,13 @@ export default function ModalDiarist({
                             </svg>
                           </button>
                           <div>
-                            <input type="number" id="first_product" className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={state.garage} required disabled/>
+                            <input type="number" id="first_product" className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={state.garage} required disabled />
                           </div>
                           <button className="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button"
-                          onClick={()=>{
-                            let quantidade = state.garage + 1
-                            setState((prevState) => ({...prevState, garage: quantidade}))
-                          }}
+                            onClick={() => {
+                              let quantidade = state.garage + 1
+                              setState((prevState) => ({ ...prevState, garage: quantidade }))
+                            }}
                           >
                             <span className="sr-only">Quantity button</span>
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -456,10 +470,10 @@ export default function ModalDiarist({
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
                           <button className="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button"
-                          onClick={()=>{
-                            let quantidade = state.yard > 0 ? state.yard - 1 : 0
-                            setState((prevState) => ({...prevState, yard: quantidade}))
-                          }}
+                            onClick={() => {
+                              let quantidade = state.yard > 0 ? state.yard - 1 : 0
+                              setState((prevState) => ({ ...prevState, yard: quantidade }))
+                            }}
                           >
                             <span className="sr-only">Quantity button</span>
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -467,13 +481,13 @@ export default function ModalDiarist({
                             </svg>
                           </button>
                           <div>
-                            <input type="number" id="first_product" className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={state.yard} required disabled/>
+                            <input type="number" id="first_product" className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={state.yard} required disabled />
                           </div>
                           <button className="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button"
-                          onClick={()=>{
-                            let quantidade = state.yard + 1
-                            setState((prevState) => ({...prevState, yard: quantidade}))
-                          }}
+                            onClick={() => {
+                              let quantidade = state.yard + 1
+                              setState((prevState) => ({ ...prevState, yard: quantidade }))
+                            }}
                           >
                             <span className="sr-only">Quantity button</span>
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -492,10 +506,10 @@ export default function ModalDiarist({
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-3">
                           <button className="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button"
-                          onClick={()=>{
-                            let quantidade = state.recreationArea > 0 ? state.recreationArea - 1 : 0
-                            setState((prevState) => ({...prevState, recreationArea: quantidade}))
-                          }}
+                            onClick={() => {
+                              let quantidade = state.recreationArea > 0 ? state.recreationArea - 1 : 0
+                              setState((prevState) => ({ ...prevState, recreationArea: quantidade }))
+                            }}
                           >
                             <span className="sr-only">Quantity button</span>
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
@@ -503,13 +517,13 @@ export default function ModalDiarist({
                             </svg>
                           </button>
                           <div>
-                            <input type="number" id="first_product" className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={state.recreationArea} required disabled/>
+                            <input type="number" id="first_product" className="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value={state.recreationArea} required disabled />
                           </div>
                           <button className="inline-flex items-center justify-center h-6 w-6 p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button"
-                          onClick={()=>{
-                            let quantidade = state.recreationArea + 1
-                            setState((prevState) => ({...prevState, recreationArea: quantidade}))
-                          }}
+                            onClick={() => {
+                              let quantidade = state.recreationArea + 1
+                              setState((prevState) => ({ ...prevState, recreationArea: quantidade }))
+                            }}
                           >
                             <span className="sr-only">Quantity button</span>
                             <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
@@ -528,13 +542,13 @@ export default function ModalDiarist({
           </div>
           <div className="flex w-full gap-4 h-fit">
             <Link href="../" className="text-red-700 hover:text-white border border-red-700 hover:bg-red-700/80 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-4 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 w-1/2">Cancelar</Link>
-            <Link  className="grid place-items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-1/2"
-            href={{
-              pathname: './solicitacao/perguntas',
-              query:{
-                meuJson: JSON.stringify(json)
-              }
-            }}
+            <Link className="grid place-items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-1/2"
+              href={{
+                pathname: './solicitacao/perguntas',
+                query: {
+                  meuJson: JSON.stringify(json)
+                }
+              }}
             >Agendar</Link>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import "../(public)/globals.css";
+// import "../(public)/globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Image from "next/image";

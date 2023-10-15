@@ -14,24 +14,17 @@ interface CardDiaristaProps {
     id_diarista?: number
 }
 
-{/* <button data-tooltip-target="tooltip-animation" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Animated tooltip</button>
-<div id="tooltip-animation" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-    Tooltip content
-    <div class="tooltip-arrow" data-popper-arrow></div>
-</div> */}
-
-
 export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, idade, id_diarista }: CardDiaristaProps) {
 
     const valorRenderizado = valor === '0' ? 'À combinar' : `R$${valor}`;
     const urlNext = `/cliente/dashboard/aberta/${id_diarista}`
     return (
 
-        <Link href={urlNext} className="w-full h-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <Link href={urlNext} className="w-full flex flex-col gap-2 h-fit p-4 bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700">
             <Link href={urlNext}>
-                <Image className="p-2 w-full h-64 object-cover rounded-2xl" src={urlImagem ? urlImagem : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."} alt={nome} width={300} height={300} />
+                <Image className="w-full h-64 object-cover rounded-2xl" src={urlImagem ? urlImagem : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."} alt={nome} width={300} height={300} />
             </Link>
-            <div className="p-2">
+            <div className="">
                 <div>
                     <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{nome?.toUpperCase()}, <span className="font-extralight">{calcularIdade(idade)} anos</span></h5>
                 </div>
