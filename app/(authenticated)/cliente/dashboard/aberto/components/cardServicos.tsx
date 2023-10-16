@@ -35,14 +35,12 @@ export function CardServicos({ service_id, type_clean, value, date, nome, valor,
 
     const datetime = date;
     const dateObject = new Date(datetime);
-
     const year = dateObject.getFullYear();
-    const month = dateObject.getMonth() + 1; // Os meses em JavaScript são baseados em zero
+    const month = dateObject.getMonth() + 1;
     const day = dateObject.getDate();
+    const hours = dateObject.getUTCHours();
+    const minutes = dateObject.getUTCMinutes();
 
-    const hours = dateObject.getHours();
-    const minutes = dateObject.getMinutes();
-    const seconds = dateObject.getSeconds();
 
 
     return (
@@ -50,7 +48,6 @@ export function CardServicos({ service_id, type_clean, value, date, nome, valor,
             <div>
                 <div className=" pb-2 w-full text-center">
                     <span className="font-medium text-gray-500 lowercase  ">
-
                         {status}
                     </span>
                 </div>
@@ -70,16 +67,18 @@ export function CardServicos({ service_id, type_clean, value, date, nome, valor,
                         <path d="M12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C21.9971 9.34873 20.9426 6.80688 19.0679 4.93215C17.1931 3.05742 14.6513 2.00291 12 2ZM15.982 15.982C15.7945 16.1695 15.5402 16.2748 15.275 16.2748C15.0098 16.2748 14.7555 16.1695 14.568 15.982L11.294 12.708C11.1069 12.5197 11.0014 12.2654 11 12V8C11 7.73478 11.1054 7.48043 11.2929 7.29289C11.4804 7.10536 11.7348 7 12 7C12.2652 7 12.5196 7.10536 12.7071 7.29289C12.8946 7.48043 13 7.73478 13 8V11.586L15.982 14.568C16.1695 14.7555 16.2748 15.0098 16.2748 15.275C16.2748 15.5402 16.1695 15.7945 15.982 15.982Z" fill="currentColor" />
                     </svg>
                     <h5 className="text-base font-base tracking-tight text-gray-900 dark:text-white">
-                        {day.toString().length <= 1 ? '0' + day : day}/{month.toString().length <= 1 ? '0' + month : month}/{year} às {hours}h{minutes}
+                        {day.toString().length <= 1 ? '0' + day : day}/{month.toString().length <= 1 ? '0' + month : month}/{year} às {hours.toString().length <= 1 ? '0' + hours : hours}h{minutes.toString().length <= 1 ? '0' + minutes : minutes}
                     </h5>
                 </div>
                 <div className="flex items-center gap-2 pb-2">
                     <svg className="dark:fill-white h-fit w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 12C14.4853 12 16.5 9.98528 16.5 7.5C16.5 5.01472 14.4853 3 12 3C9.51472 3 7.5 5.01472 7.5 7.5C7.5 9.98528 9.51472 12 12 12Z" fill="currentColor" />
-                        <path d="M14 13H10C8.67441 13.0016 7.40356 13.5289 6.46622 14.4662C5.52888 15.4036 5.00159 16.6744 5 18V20C5 20.2652 5.10536 20.5196 5.29289 20.7071C5.48043 20.8946 5.73478 21 6 21H18C18.2652 21 18.5196 20.8946 18.7071 20.7071C18.8946 20.5196 19 20.2652 19 20V18C18.9984 16.6744 18.4711 15.4036 17.5338 14.4662C16.5964 13.5289 15.3256 13.0016 14 13Z" fill="currentColor" />
+                        <path d="M13.074 6L10.442 2.408C10.3644 2.29605 10.2636 2.20211 10.1465 2.13254C10.0293 2.06297 9.89862 2.01941 9.76318 2.0048C9.62774 1.99019 9.49074 2.00489 9.36147 2.04788C9.23221 2.09088 9.11371 2.16117 9.014 2.254L4.926 6H13.074Z" fill="currentColor" />
+                        <path d="M11 15V14C11 12.9391 11.4214 11.9217 12.1716 11.1716C12.9217 10.4214 13.9391 10 15 10H21V8C21 7.73478 20.8946 7.48043 20.7071 7.29289C20.5196 7.10535 20.2652 7 20 7H3C2.73478 7 2.48043 7.10535 2.29289 7.29289C2.10536 7.48043 2 7.73478 2 8V21C2 21.2652 2.10536 21.5196 2.29289 21.7071C2.48043 21.8946 2.73478 22 3 22H20C20.2652 22 20.5196 21.8946 20.7071 21.7071C20.8946 21.5196 21 21.2652 21 21V19H15C13.9391 19 12.9217 18.5786 12.1716 17.8284C11.4214 17.0783 11 16.0609 11 15Z" fill="currentColor" />
+                        <path d="M21 12H15C14.4696 12 13.9609 12.2107 13.5858 12.5858C13.2107 12.9609 13 13.4696 13 14V15C13 15.5304 13.2107 16.0391 13.5858 16.4142C13.9609 16.7893 14.4696 17 15 17H21C21.2652 17 21.5196 16.8946 21.7071 16.7071C21.8946 16.5196 22 16.2652 22 16V13C22 12.7348 21.8946 12.4804 21.7071 12.2929C21.5196 12.1054 21.2652 12 21 12ZM16.5 15.5C16.3022 15.5 16.1089 15.4413 15.9444 15.3315C15.78 15.2216 15.6518 15.0654 15.5761 14.8827C15.5004 14.7 15.4806 14.4989 15.5192 14.3049C15.5578 14.1109 15.653 13.9327 15.7929 13.7929C15.9327 13.653 16.1109 13.5578 16.3049 13.5192C16.4989 13.4806 16.7 13.5004 16.8827 13.5761C17.0654 13.6518 17.2216 13.78 17.3315 13.9444C17.4414 14.1089 17.5 14.3022 17.5 14.5C17.5 14.7652 17.3946 15.0196 17.2071 15.2071C17.0196 15.3946 16.7652 15.5 16.5 15.5Z" fill="currentColor" />
+                        <path d="M14.62 6H17.4L14.539 2.409C14.3596 2.18356 14.098 2.03864 13.8117 2.0061C13.5254 1.97356 13.2379 2.05608 13.0125 2.2355C12.7871 2.41492 12.6421 2.67654 12.6096 2.96281C12.5771 3.24909 12.6596 3.53656 12.839 3.762L14.62 6Z" fill="currentColor" />
                     </svg>
                     <h5 className="text-base font-base tracking-tight text-gray-900 dark:text-white capitalize">
-                        {nome.toLowerCase()}
+                    {valor?.length ? valor : '0.00'}
                     </h5>
                 </div>
                 <div className="flex items-center gap-2 pb-2">

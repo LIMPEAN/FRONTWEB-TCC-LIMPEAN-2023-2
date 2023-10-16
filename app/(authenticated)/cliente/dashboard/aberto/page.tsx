@@ -1,9 +1,10 @@
 "use client"
 
-import { Breadcrumb } from 'flowbite-react';
+import { Breadcrumb, Button } from 'flowbite-react';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { CardServicos } from './components/cardServicos';
+import Link from 'next/link';
 
 interface StatusService {
   status: string;
@@ -107,13 +108,21 @@ export default function Agendado() {
   };
 
   return (
-    <div className="flex flex-col w-full  h-full">
+    <div className="flex flex-col w-full h-full">
+      <div data-dial-init className="fixed bottom-3 right-3 group">
+      <Link href="./aberto/solicitacao" data-dial-toggle="speed-dial-menu-text-outside-button-square" aria-controls="speed-dial-menu-text-outside-button-square" aria-expanded="false" className="flex items-center no-underline justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+        <svg className="w-5 h-5 transition-transform " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+        </svg>
+      </Link>
+      </div>
+
       <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item
           href="#"
         >
           <p>
-            Agendados
+            Meus serviços
           </p>
         </Breadcrumb.Item>
       </Breadcrumb>

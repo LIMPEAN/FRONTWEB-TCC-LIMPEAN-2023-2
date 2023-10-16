@@ -48,11 +48,7 @@ interface comodos {
 }
 
 
-export default function ModalDiarist({
-  params,
-}: {
-  params: { userId: string }
-}) {
+export default function ModalDiarist() {
 
   let [selectedOption, setSelectedOption] = useState<string>('');
 
@@ -126,8 +122,6 @@ export default function ModalDiarist({
     garage: state.garage,
     yard: state.yard,
     recreationArea: state.recreationArea,
-    diaristId: params.userId
-
   }
   let construirJson = () => {
     console.log(json);
@@ -140,17 +134,14 @@ export default function ModalDiarist({
     <div className=" flex flex-col p-2 bg-inherit ">
       <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item
-          href="../../"
+          href="#"
         >
           <p>
-            Serviço Aberto
+            Meus serviços
           </p>
         </Breadcrumb.Item>
-        <Breadcrumb.Item href="../">
-          Diarista
-        </Breadcrumb.Item>
-        <Breadcrumb.Item href="#">
-          Solicitação
+        <Breadcrumb.Item href="./">
+        Solicitação
         </Breadcrumb.Item>
       </Breadcrumb>
       <div className="mt-2 p-8 mb-20 sm:mb-0 overflow-y-hidden flex flex-col lg:flex-row  gap-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

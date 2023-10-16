@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation"
 import { ChangeEvent, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { postServico } from "./service/fetchApi";
+import { useRouter } from "next/navigation";
 
 
 interface comodos {
@@ -26,7 +27,7 @@ interface comodos {
 
 interface CleaningRequest {
   addressId: number;
-  diaristId: number | string;
+  diaristId?: number | string | null;
   bedroom: number;
   livingRoom: number;
   kitchen: number;
@@ -50,17 +51,22 @@ interface CleaningRequest {
 
 export default function Perguntas() {
   const [dateValue, setDateValue] = useState<string>('');
+  const [coinValue, setCoinValue] = useState<string>('');
   const [timeValue, setTimeValue] = useState<string>('');
   const [criancasValue, setCriancasValue] = useState<string>('');
   const [animaisValue, setAnimaisValue] = useState<string>('');
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
     setSelectedOption(event.target.value);
   };
 
   const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDateValue(event.target.value);
+  };
+  const handleCoinChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setCoinValue(event.target.value);
   };
 
   const handleCriancasChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +105,7 @@ export default function Perguntas() {
 
     const CleaningRequestJson: CleaningRequest = {
       addressId: Number(results.addressId),
-      diaristId: Number(results.diaristId),
+      diaristId: null,
       bedroom: results.bedroom,
       livingRoom: results.livingRoom,
       kitchen: results.kitchen,
@@ -109,20 +115,21 @@ export default function Perguntas() {
       garage: results.garage,
       yard: results.yard,
       recreationArea: results.recreationArea,
-      typeCleaningId: 1,
+      typeCleaningId: Number(selectedOption) == 0 ? 1 : Number(selectedOption),
       hasChildren: criancasValue ?? 'false' ? false : true,
       hasPet: animaisValue ?? 'false' ? false : true,
       observation: "",
       additionalTasks: "",
       date: dateValue,
       startHour: timeValue,
-      value: null
+      value: coinValue + '.00'
     }
     console.log(CleaningRequestJson)
 
     const response = await postService(CleaningRequestJson)
 
   }
+  const router = useRouter()
 
 
 
@@ -131,6 +138,8 @@ export default function Perguntas() {
       const response = await postServico(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/client/cadastro/servico`, token!!);
       if (response.status == 201) {
         toast.success("Solicitação de serviço realizada")
+        router.push("/cliente/dashboard/aberto")
+        return true
       } else {
         toast.error("Dados não atualizados, verifique as informações" + response)
       }
@@ -146,14 +155,11 @@ export default function Perguntas() {
     <div className=" flex flex-col p-2 bg-inherit ">
       <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item
-          href="../../"
+          href="../"
         >
           <p>
-            Serviço Aberto
+            Serviço Fechado
           </p>
-        </Breadcrumb.Item>
-        <Breadcrumb.Item href="../">
-          Diarista
         </Breadcrumb.Item>
         <Breadcrumb.Item href="./">
           Solicitação
@@ -169,7 +175,7 @@ export default function Perguntas() {
           <span>Passo 2 de 2</span>
           <div className="flex flex-col">
             <span className="text-2xl font-medium">Informe os dados da solicitação</span>
-            <Image loading="lazy" className="w-full lg:hidden" src="/assets/solicitacao/solicitacao1.svg" alt="vetor" width={500}
+            <Image loading="lazy" className="w-full lg:hidden" src="/assets/solicitacao/solicitacao2.svg" alt="vetor" width={500}
               height={500} />
           </div>
 
@@ -181,6 +187,7 @@ export default function Perguntas() {
               className="max-h-48 overflow-y-auto"
               value={selectedOption} onChange={handleSelectChange}
             >
+              {selectedOption}
               <option value="1">Comercial</option>
               <option value="2">Padrão</option>
               <option value="3">Pré obra</option>
@@ -258,6 +265,16 @@ export default function Perguntas() {
               className="bg-gray-50 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-700"
               value={timeValue}
               onChange={handleTimeChange}
+            />
+            <label htmlFor="valor" className="text-base font-medium">Informe o valor do serviço</label>
+            <input
+              type="number"
+              id="valor"
+              className="bg-gray-50 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-700"
+              value={coinValue}
+              onChange={handleCoinChange}
+              placeholder="ex: R$ 100,00"
+              required
             />
           </div>
           <div className="flex w-full gap-4 h-fit">

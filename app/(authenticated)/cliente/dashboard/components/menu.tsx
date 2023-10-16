@@ -67,8 +67,8 @@ export default function Sidebar({ children }: SideBarProps) {
           } sm:translate-x-0`}
         aria-label="Barra lateral"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 border-r dark:border-gray-700">
-          <ul className="space-y-2 font-medium">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800 border-r dark:border-gray-700 ">
+          <ul className="space-y-2 font-medium ">
             <li>
               <Link
                 href="/cliente/dashboard/home"
@@ -89,17 +89,15 @@ export default function Sidebar({ children }: SideBarProps) {
             </li>
             <li>
               <Link
-                href="/cliente/dashboard/aberta"
+                href="/cliente/dashboard/fechado"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  className="flex-shrink-0 w-5 h-fit text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 18 18"
-                >
-                  <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 12C14.4853 12 16.5 9.98528 16.5 7.5C16.5 5.01472 14.4853 3 12 3C9.51472 3 7.5 5.01472 7.5 7.5C7.5 9.98528 9.51472 12 12 12Z" fill="currentColor" />
+                  <path d="M14 13H10C8.67441 13.0016 7.40356 13.5289 6.46622 14.4662C5.52888 15.4036 5.00159 16.6744 5 18V20C5 20.2652 5.10536 20.5196 5.29289 20.7071C5.48043 20.8946 5.73478 21 6 21H18C18.2652 21 18.5196 20.8946 18.7071 20.7071C18.8946 20.5196 19 20.2652 19 20V18C18.9984 16.6744 18.4711 15.4036 17.5338 14.4662C16.5964 13.5289 15.3256 13.0016 14 13Z" fill="currentColor" />
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">
                   Serviço Fechado
@@ -110,24 +108,27 @@ export default function Sidebar({ children }: SideBarProps) {
               </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/cliente/dashboard/aberto"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
                   className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                   aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
+                  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M16.5 2C15.7815 2.0022 15.077 2.1985 14.4609 2.56816C13.8448 2.93781 13.34 3.46708 13 4.1C14.2939 4.35983 15.4316 5.12292 16.163 6.22146C16.8943 7.31999 17.1594 8.66403 16.9 9.958C17.9183 9.85564 18.8584 9.36579 19.5256 8.58976C20.1929 7.81374 20.5364 6.81092 20.485 5.78875C20.4336 4.76658 19.9913 3.80326 19.2496 3.09806C18.5079 2.39286 17.5235 1.99973 16.5 2Z" fill="currentColor" />
+                  <path d="M11 15H13C14.0609 15 15.0783 15.4214 15.8284 16.1716C16.5786 16.9217 17 17.9391 17 19V21H7V19C7 17.9391 7.42143 16.9217 8.17157 16.1716C8.92172 15.4214 9.93913 15 11 15Z" fill="currentColor" />
+                  <path d="M7 21H17V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H11C9.93913 15 8.92172 15.4214 8.17157 16.1716C7.42143 16.9217 7 17.9391 7 19V21Z" fill="currentColor" />
+                  <path d="M7 9C7.00127 7.84775 7.39983 6.73117 8.12849 5.83857C8.85715 4.94596 9.87133 4.33192 11 4.1C10.6737 3.49363 10.1959 2.98209 9.61315 2.61518C9.03043 2.24828 8.36263 2.03851 7.67478 2.00631C6.98692 1.97411 6.30245 2.12056 5.688 2.43141C5.07354 2.74227 4.55005 3.20693 4.16849 3.78016C3.78692 4.35338 3.56028 5.01565 3.51065 5.70246C3.46101 6.38928 3.59005 7.07725 3.88522 7.69939C4.18039 8.32153 4.63163 8.85664 5.19499 9.25262C5.75836 9.6486 6.41466 9.89196 7.1 9.959C7.03569 9.64333 7.0022 9.32215 7 9Z" fill="currentColor" />
+                  <path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" fill="currentColor" />
+                  <path d="M17 11H16.576C16.1678 11.9223 15.491 12.7002 14.634 13.232C15.8896 13.5886 16.9949 14.3444 17.7826 15.3851C18.5704 16.4258 18.9977 17.6948 19 19H21C21.2652 19 21.5196 18.8946 21.7071 18.7071C21.8946 18.5196 22 18.2652 22 18V16C21.9984 14.6744 21.4711 13.4036 20.5338 12.4662C19.5964 11.5289 18.3256 11.0016 17 11Z" fill="currentColor" />
+                  <path d="M7.424 11H7C5.67441 11.0016 4.40356 11.5289 3.46622 12.4662C2.52888 13.4036 2.00159 14.6744 2 16V18C2 18.2652 2.10536 18.5196 2.29289 18.7071C2.48043 18.8946 2.73478 19 3 19H5C5.00228 17.6948 5.42963 16.4258 6.21738 15.3851C7.00513 14.3444 8.11042 13.5886 9.366 13.232C8.50898 12.7002 7.8322 11.9223 7.424 11Z" fill="currentColor" />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Vazio</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">Serviço Aberto</span>
                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
                   3
                 </span>
-              </a>
+              </Link>
             </li>
             <li>
               <a
