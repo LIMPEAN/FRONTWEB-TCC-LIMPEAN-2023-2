@@ -5,6 +5,7 @@ import { Beneficios } from "./components/beneficios";
 import { Mercado } from "./components/mercado";
 import { Valores } from "./components/valores";
 import { Rodape } from "./components/rodape";
+import { Planos } from "./components/tabela";
 
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         </div>
         <Beneficios />
         <Mercado />
+        <Planos />
         <Valores />
         <Rodape />
       </main>

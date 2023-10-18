@@ -74,7 +74,7 @@ export default function Agendado() {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client/service-open`;
+      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client/service?idService=2`;
       const headers = {
         'x-api-key': token!!,
       };

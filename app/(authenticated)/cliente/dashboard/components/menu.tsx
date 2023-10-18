@@ -131,8 +131,8 @@ export default function Sidebar({ children }: SideBarProps) {
               </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/cliente/dashboard/todos-servicos"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -142,10 +142,11 @@ export default function Sidebar({ children }: SideBarProps) {
                   fill="currentColor"
                   viewBox="0 0 20 18"
                 >
-                  <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                  <path d="M18 0H6a2 2 0 0 0-2 2h14v12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Z" />
+                  <path d="M14 4H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM2 16v-6h12v6H2Z" />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Vazio</span>
-              </a>
+                <span className="flex-1 ml-3 whitespace-nowrap">Todos serviços</span>
+              </Link>
             </li>
             <li>
               <a

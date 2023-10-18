@@ -170,7 +170,7 @@ export default function HomeDash() {
   const handleUpdateClick = async (json: IUpdateAddres, id: number) => {
 
     try {
-      const response = await putApi(json, `http://${process.env.HOST}:8080/v1/limpean/client/${id}`, token!!);
+      const response = await putApi(json, `http://${process.env.HOST}:8080/v1/limpean/client/update/register/address?id=${id}`, token!!);
       if (response.status == undefined) {
         toast.error("Dados não atualizados, verifique as informações")
         toast.error("Informação do servidor: " + response)

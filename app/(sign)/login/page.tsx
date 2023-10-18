@@ -56,7 +56,12 @@ export default function Login() {
       if (response?.status == 200) {
         toast.success("Login permitido!")
         localStorage.setItem("token", response.token)
-        router.push(`/cliente/dashboard/home`)
+        if(data.tipo_usuario =="client")
+        {
+          router.push(`/cliente/dashboard/`)
+        }else{
+          router.push(`/funcionario/dashboard/home`)
+        }
       }
       else {
         toast.error("Um ou mais dados foram digítados incorretamente")

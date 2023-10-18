@@ -1,6 +1,11 @@
 "use client"
 
+import { Alert } from "flowbite-react";
+import {  useState } from "react";
+
 export default function Loading() {
+
+  const [isOpen, setIsOpen] = useState(true)
 
   function createGoogleMapsLink(startAddress: string, destinationAddress: string, destination: string) {
     const baseUrl = 'https://www.google.com/maps/embed/v1/directions';
@@ -17,16 +22,25 @@ export default function Loading() {
   const destinationAddress = "06655-300";
   const googleMapsLink = createGoogleMapsLink(startAddress, destinationAddress, "");
 
+  setTimeout(() => {
+    setIsOpen(false);
+  },5000)
+
   return (
     <>
-      <iframe
-        width="600"
-        height="450"
-        className="border-0 rounded-lg w-96 h-48 brightness-90"
-        loading="lazy"
-        allowFullScreen
-        src={googleMapsLink}
-      ></iframe>
+
+      {isOpen ? <Alert color="info">
+        <span>
+          <p>
+            <span className="font-medium">
+              Info alert!
+            </span>
+            Change a few things up and try submitting again.
+          </p>
+        </span>
+      </Alert>: null
+}
+
     </>
   )
 }

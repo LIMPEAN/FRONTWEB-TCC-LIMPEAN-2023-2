@@ -1,33 +1,76 @@
 "use client"
-import MapComponent from './components/mapa';
+import { useEffect, useState } from 'react';
 
-const Home: React.FC = () => {
-
-  function formatAddress(address: string) {
-    return encodeURIComponent(address.replace(/\s/g, '+'));
+declare global {
+  interface Window {
+    gapi: any;
   }
+}
 
-  // Exemplo de uso da função com um endereço
-  // const myAddress = "Rua+Exemplo, 123, Cidade, Estado";
-  const myAddress = "Rua Marialva, 51, Itapevi, SP";
-  // const formattedAddress = formatAddress(myAddress);
+const GoogleOAuthComponent: React.FC = () => {
+  const [accessToken, setAccessToken] = useState<string>('');
 
+  useEffect(() => {
+    const handleSignIn = async () => {
+      const CLIENT_ID = '779561139790-utu1eg2kcuv97c94tu6teb6tm6bsamc1.apps.googleusercontent.com';
+      const SCOPES = 'https://www.googleapis.com/auth/drive.readonly'; // Defina os escopos apropriados
 
-  const address = formatAddress(myAddress)
+      const handleAuthResult = (authResult: any) => {
+        if (authResult && !authResult.error) {
+          setAccessToken(authResult.access_token);
+        } else {
+          console.error('Erro na autenticação');
+        }
+      };
+
+      const initClient = () => {
+        window.gapi.load('auth2', () => {
+          const auth2 = window.gapi.auth2.getAuthInstance();
+          if (!auth2) {
+            window.gapi.auth2.init({
+              client_id: CLIENT_ID,
+              scope: SCOPES,
+            }).then(() => {
+              const authInstance = window.gapi.auth2.getAuthInstance();
+              if (!authInstance.isSignedIn.get()) {
+                authInstance.signIn().then(handleAuthResult);
+              }
+            });
+          } else {
+            const authInstance = window.gapi.auth2.getAuthInstance();
+            if (!authInstance.isSignedIn.get()) {
+              authInstance.signIn().then(handleAuthResult);
+            }
+          }
+        });
+      };
+
+      if (window.gapi) {
+        initClient();
+      } else {
+        console.error('Erro ao carregar o GAPI');
+      }
+    };
+
+    const loadGapiScript = () => {
+      const script = document.createElement('script');
+      script.src = 'https://apis.google.com/js/api.js';
+      script.onload = handleSignIn;
+      document.body.appendChild(script);
+    };
+
+    loadGapiScript();
+  }, []);
+
   return (
-    <div style={{ backgroundColor: '#f3f4f6', minHeight: '100vh', padding: '20px' }}>
-      <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}>Mapa do Next.js com Google Maps e Tailwind CSS</h1>
-      <iframe
-        width="600"
-        height="450"
-        className='border-0'
-        loading="lazy"
-        allowFullScreen
-        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDuuWnEdVdrg62befHzKSm5uk-hSEjfock&q=${address}`}
-      ></iframe>
-
+    <div>
+      {accessToken ? (
+        <p>Token de acesso: {accessToken}</p>
+      ) : (
+        <p>Autenticando...</p>
+      )}
     </div>
   );
 };
 
-export default Home;
+export default GoogleOAuthComponent;
