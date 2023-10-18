@@ -261,7 +261,7 @@ export default function Sidebar({ children }: SideBarProps) {
             </li>
             <li>
               <Link
-                href="/dashboard/perfil"
+                href="/profissional/dashboard/perfil"
                 className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
               >
                 <svg

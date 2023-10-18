@@ -60,7 +60,7 @@ export default function Login() {
         {
           router.push(`/cliente/dashboard/`)
         }else{
-          router.push(`/funcionario/dashboard/home`)
+          router.push(`/profissional/dashboard/home`)
         }
       }
       else {
