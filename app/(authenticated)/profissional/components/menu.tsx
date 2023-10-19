@@ -7,9 +7,125 @@ interface SideBarProps {
   children?: ReactNode;
 }
 
+interface Room {
+  name: string,
+  quantity: number
+}
+
+interface CardDiaristaProps {
+  service_id: string;
+  type_clean: string;
+  date: string;
+  nome: string;
+  status: string;
+  room: Array<Room>
+  cepEnd: IEndereco
+}
+
+interface IEndereco {
+  cep: string;
+  id_address: number;
+  state: string;
+  city: string;
+  publicPlace: string;
+  complement: string;
+  district: string;
+  houseNumber: string;
+}
+
+interface ApiResponse {
+  status: number;
+  data: ClientData[];
+}
+
+interface ClientData {
+  client: {
+    serviceId: number;
+    status_service: StatusService[];
+    name: string;
+    photo: string;
+    biography: string;
+    type_clean: string;
+    date_hour: string;
+    obeservation: string;
+    tasks: string;
+    value: number | null;
+    question: Question[];
+    room: Room[];
+    address: IEndereco;
+  };
+}
+
+interface IEndereco {
+  cep: string;
+  id_address: number;
+  state: string;
+  city: string;
+  typeHouse: string;
+  publicPlace: string;
+  complement: string;
+  district: string;
+  houseNumber: string;
+}
+
+interface StatusService {
+  status: string;
+  data_hora: string;
+}
+
+interface Question {
+  asks: string;
+  answer: boolean;
+}
+
+interface Room {
+  name: string;
+  quantity: number;
+}
+
+interface Address {
+  state: string;
+  city: string;
+  cep: string;
+}
+
 export default function Sidebar({ children }: SideBarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [responseData, setResponseData] = useState<ApiResponse | null>(null);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
+
+  let token: string | null = null;
+
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem("token")
+  }
+
+  useEffect(() => {
+    const fetchData = () => {
+      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist/service`;
+      const headers = {
+        'x-api-key': token!!,
+      };
+
+      fetch(apiUrl, { headers })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na resposta da API');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data.data);
+          setResponseData(data);
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar dados da API:', error);
+        });
+    };
+
+    fetchData()
+
+  }, []);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -125,7 +241,7 @@ export default function Sidebar({ children }: SideBarProps) {
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">Convites</span>
                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                  3
+                  {responseData?.data.length}
                 </span>
               </Link>
             </li>

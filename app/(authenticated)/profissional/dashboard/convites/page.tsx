@@ -1,5 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
+import Loading from './components/loading';
+import { CardServicos } from './components/cardServicos';
 
 interface ApiResponse {
   status: number;
@@ -20,8 +22,20 @@ interface ClientData {
     value: number | null;
     question: Question[];
     room: Room[];
-    address: Address;
+    address: IEndereco;
   };
+}
+
+interface IEndereco {
+  cep: string;
+  id_address: number;
+  state: string;
+  city: string;
+  typeHouse: string;
+  publicPlace: string;
+  complement: string;
+  district: string;
+  houseNumber: string;
 }
 
 interface StatusService {
@@ -83,12 +97,11 @@ export default function Convites() {
 
   }, []);
 
-  return (
-    <div>
-      {responseData ? (
-        responseData.data.map((item, index) => (
-          <>
-            <div key={index}>
+
+  const teste = new Date()
+
+
+            {/* <div key={index}>
               <h2>{item.client.name}</h2>
               <img src={item.client.photo} alt="Client" />
               <p>{item.client.biography}</p>
@@ -96,15 +109,26 @@ export default function Convites() {
               <p>Date and Time: {item.client.date_hour}</p>
               <p>State: {item.client.address.state}</p>
               <p>City: {item.client.address.city}</p>
-              <p>CEP: {item.client.address.cep}</p>
-              {/* Renderização de outras informações conforme necessário */}
-              
-            </div>
-          </>
+              <p>CEP: {item.client.address.cep}</p> */}
+
+  return (
+    <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
+    {responseData ? (
+        responseData.data.map((item) => (
+              <CardServicos
+               service_id={item.client.serviceId.toString()}
+                type_clean={item.client.type_clean}
+                date={item.client.date_hour}
+                nome={item.client.name}
+                status={item.client.status_service[0].status}
+                key={item.client.serviceId} 
+                room={item.client.room}
+                cepEnd={item.client.address}
+              />
         ))
       ) : (
-        <p>Loading...</p>
+        <Loading />
       )}
-    </div>
+    </ul>
   );
 }
