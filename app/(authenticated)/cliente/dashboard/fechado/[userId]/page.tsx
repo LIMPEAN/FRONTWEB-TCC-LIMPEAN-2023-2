@@ -161,7 +161,7 @@ export default function ModalDiarist({
             </Link>
 
           </div>
-          <div className="flex flex-col px-4 h-fit py-8 gap-4 items-center text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700">
+          <div className="flex flex-col px-4 h-fit py-8 2xl:h-full 2xl:mb-4 gap-4 items-center text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700">
             <span className="text-lg font-bold text-gray-800 dark:bg-gray-800 dark:text-white">Biografia</span>
             {data?.user.biografia}
           </div>

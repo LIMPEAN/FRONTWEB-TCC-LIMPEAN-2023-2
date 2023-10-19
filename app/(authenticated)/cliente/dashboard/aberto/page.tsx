@@ -5,6 +5,7 @@ import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { CardServicos } from './components/cardServicos';
 import Link from 'next/link';
+import Loading from './components/loading';
 
 interface StatusService {
   status: string;
@@ -102,21 +103,18 @@ export default function Agendado() {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
-
-    // Use a função debouncedSearch para atualizar os resultados
     debouncedSearch(query);
   };
 
   return (
     <div className="flex flex-col w-full h-full">
-      <div data-dial-init className="fixed bottom-3 right-3 group">
-      <Link href="./aberto/solicitacao" data-dial-toggle="speed-dial-menu-text-outside-button-square" aria-controls="speed-dial-menu-text-outside-button-square" aria-expanded="false" className="flex items-center no-underline justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
-        <svg className="w-5 h-5 transition-transform " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-        </svg>
-      </Link>
+      <div data-dial-init className="fixed bottom-3 right-3 group z-10">
+        <Link href="./aberto/solicitacao" data-dial-toggle="speed-dial-menu-text-outside-button-square" aria-controls="speed-dial-menu-text-outside-button-square" aria-expanded="false" className="flex  items-center no-underline justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+          <svg className="w-5 h-5 transition-transform " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+          </svg>
+        </Link>
       </div>
-
       <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item
           href="#"
@@ -164,27 +162,28 @@ export default function Agendado() {
       </form>
       <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
         {
-
-          filteredServices.map((service: Service) => {
-            let ultimoIndice = service.status_service.length - 1
-
-            return (
+          services.length > 0 ?
+            (filteredServices.map((service: Service) => (
               <CardServicos
-                service_id={service.serviceId.toString()} // Assuming serviceId is a number, convert it to string
+                service_id={service.serviceId.toString()}
                 type_clean={service.type_clean}
                 value={service.value}
                 date={service.date_hour}
                 nome={service.name}
-                status={service.status_service[ultimoIndice].status}
-                valor={service.value} // Assuming this is the value you want to pass to valor prop
+                status={service.status_service[service.status_service.length - 1].status}
+                valor={service.value}
                 id_diarista={service.serviceId}
                 cepStart={service.address.cep}
                 cepEnd={service.address.cep}
-                key={service.serviceId.toString()} 
+                key={service.serviceId.toString()}
                 room={service.room}
               />
+            ))
+            ) : (
+              Array.from({ length: 6 }).map((_, index) => (
+                <Loading key={index} />
+              ))
             )
-          })
         }
       </ul>
     </div>

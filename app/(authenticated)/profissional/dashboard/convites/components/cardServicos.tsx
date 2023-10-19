@@ -28,32 +28,32 @@ interface IEndereco {
     complement: string;
     district: string;
     houseNumber: string;
-  }
+}
 
- interface ApiResponse {
+interface ApiResponse {
     status: number;
     data: ClientData[];
-  }
-  
-  interface ClientData {
+}
+
+interface ClientData {
     client: {
-      serviceId: number;
-      status_service: StatusService[];
-      name: string;
-      photo: string;
-      biography: string;
-      type_clean: string;
-      date_hour: string;
-      obeservation: string;
-      tasks: string;
-      value: number | null;
-      question: Question[];
-      room: Room[];
-      address: IEndereco;
+        serviceId: number;
+        status_service: StatusService[];
+        name: string;
+        photo: string;
+        biography: string;
+        type_clean: string;
+        date_hour: string;
+        obeservation: string;
+        tasks: string;
+        value: number | null;
+        question: Question[];
+        room: Room[];
+        address: IEndereco;
     };
-  }
-  
-  interface IEndereco {
+}
+
+interface IEndereco {
     cep: string;
     id_address: number;
     state: string;
@@ -63,28 +63,28 @@ interface IEndereco {
     complement: string;
     district: string;
     houseNumber: string;
-  }
-  
-  interface StatusService {
+}
+
+interface StatusService {
     status: string;
     data_hora: string;
-  }
-  
-  interface Question {
+}
+
+interface Question {
     asks: string;
     answer: boolean;
-  }
-  
-  interface Room {
+}
+
+interface Room {
     name: string;
     quantity: number;
-  }
-  
-  interface Address {
+}
+
+interface Address {
     state: string;
     city: string;
     cep: string;
-  }
+}
 
 
 
@@ -93,43 +93,43 @@ export function CardServicos({ service_id, type_clean, date, nome, cepEnd, statu
 
     const [responseData, setResponseData] = useState<ApiResponse | null>(null);
 
-    
+
 
     const [addressState, setaddressStateData] = useState<IEndereco | null>(null);
 
     let token: string | null = null;
 
     if (typeof window !== 'undefined') {
-      token = localStorage.getItem("token")
+        token = localStorage.getItem("token")
     }
 
     const fetchData = useCallback(() => {
         const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist`;
         const headers = {
-          'x-api-key': token!!,
+            'x-api-key': token!!,
         };
-    
+
         fetch(apiUrl, { headers })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error('Erro na resposta da API');
-            }
-            return response.json();
-          })
-          .then((result) => {
-        setaddressStateData(result.data.address[0])
-        console.log(result);
-        
-            
-          })
-          .catch((error) => {
-            console.error('Erro ao buscar dados da API:', error);
-          });
-      }, [token]);
-    
-      useEffect(() => {
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Erro na resposta da API');
+                }
+                return response.json();
+            })
+            .then((result) => {
+                setaddressStateData(result.data.address[0])
+                console.log(result);
+
+
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar dados da API:', error);
+            });
+    }, [token]);
+
+    useEffect(() => {
         fetchData();
-      }, [fetchData]);
+    }, [fetchData]);
 
     const datetime = date;
     const dateObject = new Date(datetime);
@@ -171,10 +171,10 @@ export function CardServicos({ service_id, type_clean, date, nome, cepEnd, statu
                         {status}
                     </span>
                 </div>
-                  <iframe
+                <iframe
                     width="600"
                     height="450"
-                    className="w-full h-96 object-cover rounded-2xl"
+                    className="w-full 2xl:h-96 h-64 object-cover rounded-2xl"
                     loading="lazy"
                     allowFullScreen
                     src={`https://www.google.com/maps/embed/v1/directions?key=AIzaSyDuuWnEdVdrg62befHzKSm5uk-hSEjfock&origin=${addressState?.cep}%${addressState?.publicPlace}%${addressState?.city}%${addressState?.houseNumber}&destination=${cepEnd.cep}`}

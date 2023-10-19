@@ -10,8 +10,6 @@ import { Planos } from "./components/tabela";
 
 export default function Home() {
 
-  // const notify = () => alert('teste')
-
   return (
     <>
       <main className=" flex flex-col h-fit">

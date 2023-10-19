@@ -1,76 +1,72 @@
-"use client"
-import { useEffect, useState } from 'react';
+'use client';
 
-declare global {
-  interface Window {
-    gapi: any;
-  }
+import { Button, Timeline } from 'flowbite-react';
+import { HiCalendar } from 'react-icons/hi';
+import MeuIcone from './components/icone';
+import MeuIcone2 from './components/icone2';
+
+export default function VerticalTimeline() {
+  return (
+    
+      <Timeline>
+        <Timeline.Item>
+          <Timeline.Point />
+          <Timeline.Content>
+            <Timeline.Time>
+              February 2022
+            </Timeline.Time>
+            <Timeline.Title>
+              Application UI code in Tailwind CSS
+            </Timeline.Title>
+            <Timeline.Body>
+              <p>
+                Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
+                E-commerce & Marketing pages.
+              </p>
+            </Timeline.Body>
+            <Button color="gray">
+              <p>
+                Learn More
+              </p>
+
+            </Button>
+          </Timeline.Content>
+        </Timeline.Item>
+        <Timeline.Item>
+          <Timeline.Point />
+          <Timeline.Content>
+            <Timeline.Time>
+              March 2022
+            </Timeline.Time>
+            <Timeline.Title>
+              Marketing UI design in Figma
+            </Timeline.Title>
+            <Timeline.Body>
+              <p>
+                All of the pages and components are first designed in Figma and we keep a parity between the two versions even
+                as we update the project.
+              </p>
+            </Timeline.Body>
+          </Timeline.Content>
+        </Timeline.Item>
+        <Timeline.Item>
+          <Timeline.Point />
+          <Timeline.Content>
+            <Timeline.Time>
+              April 2022
+            </Timeline.Time>
+            <Timeline.Title>
+              E-Commerce UI code in Tailwind CSS
+            </Timeline.Title>
+            <Timeline.Body>
+              <p>
+                Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
+              </p>
+            </Timeline.Body>
+          </Timeline.Content>
+        </Timeline.Item>
+      </Timeline>
+  )
 }
 
-const GoogleOAuthComponent: React.FC = () => {
-  const [accessToken, setAccessToken] = useState<string>('');
 
-  useEffect(() => {
-    const handleSignIn = async () => {
-      const CLIENT_ID = '779561139790-utu1eg2kcuv97c94tu6teb6tm6bsamc1.apps.googleusercontent.com';
-      const SCOPES = 'https://www.googleapis.com/auth/drive.readonly'; // Defina os escopos apropriados
-
-      const handleAuthResult = (authResult: any) => {
-        if (authResult && !authResult.error) {
-          setAccessToken(authResult.access_token);
-        } else {
-          console.error('Erro na autenticação');
-        }
-      };
-
-      const initClient = () => {
-        window.gapi.load('auth2', () => {
-          const auth2 = window.gapi.auth2.getAuthInstance();
-          if (!auth2) {
-            window.gapi.auth2.init({
-              client_id: CLIENT_ID,
-              scope: SCOPES,
-            }).then(() => {
-              const authInstance = window.gapi.auth2.getAuthInstance();
-              if (!authInstance.isSignedIn.get()) {
-                authInstance.signIn().then(handleAuthResult);
-              }
-            });
-          } else {
-            const authInstance = window.gapi.auth2.getAuthInstance();
-            if (!authInstance.isSignedIn.get()) {
-              authInstance.signIn().then(handleAuthResult);
-            }
-          }
-        });
-      };
-
-      if (window.gapi) {
-        initClient();
-      } else {
-        console.error('Erro ao carregar o GAPI');
-      }
-    };
-
-    const loadGapiScript = () => {
-      const script = document.createElement('script');
-      script.src = 'https://apis.google.com/js/api.js';
-      script.onload = handleSignIn;
-      document.body.appendChild(script);
-    };
-
-    loadGapiScript();
-  }, []);
-
-  return (
-    <div>
-      {accessToken ? (
-        <p>Token de acesso: {accessToken}</p>
-      ) : (
-        <p>Autenticando...</p>
-      )}
-    </div>
-  );
-};
-
-export default GoogleOAuthComponent;

@@ -20,8 +20,6 @@ interface CardDiaristaProps {
     room: Array<Room>
 }
 
-
-
 export function CardServicos({ service_id, type_clean, value, date, nome, valor, id_diarista, cepStart, cepEnd, status, room }: CardDiaristaProps) {
 
     const valorRenderizado = valor === '0' ? 'À combinar' : `R$${valor}`;
@@ -82,14 +80,15 @@ export function CardServicos({ service_id, type_clean, value, date, nome, valor,
                         {status}
                     </span>
                 </div>
-                <iframe
+                {/* <iframe
                     width="600"
                     height="450"
                     className="w-full h-64 object-cover rounded-2xl"
                     loading="lazy"
                     allowFullScreen
                     src={googleMapsLink}
-                ></iframe>
+                ></iframe> */}
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29254.71428549244!2d-46.69374833689506!3d-23.574214908219755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5778f964d3f9%3A0xb478f686d9bd662c!2sJardins%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1697752158922!5m2!1spt-BR!2sbr" width="600" height="450" className="w-full h-64 object-cover rounded-2xl" allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div className="">
                 <div className="flex mb-2 gap-2 font-semibold">

@@ -100,35 +100,28 @@ export default function Convites() {
 
   const teste = new Date()
 
-
-            {/* <div key={index}>
-              <h2>{item.client.name}</h2>
-              <img src={item.client.photo} alt="Client" />
-              <p>{item.client.biography}</p>
-              <p>Type of Clean: {item.client.type_clean}</p>
-              <p>Date and Time: {item.client.date_hour}</p>
-              <p>State: {item.client.address.state}</p>
-              <p>City: {item.client.address.city}</p>
-              <p>CEP: {item.client.address.cep}</p> */}
-
   return (
-    <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
-    {responseData ? (
+    <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
+      {responseData ? (
         responseData.data.map((item) => (
-              <CardServicos
-               service_id={item.client.serviceId.toString()}
-                type_clean={item.client.type_clean}
-                date={item.client.date_hour}
-                nome={item.client.name}
-                status={item.client.status_service[0].status}
-                key={item.client.serviceId} 
-                room={item.client.room}
-                cepEnd={item.client.address}
-              />
+          <CardServicos
+            service_id={item.client.serviceId.toString()}
+            type_clean={item.client.type_clean}
+            date={item.client.date_hour}
+            nome={item.client.name}
+            status={item.client.status_service[0].status}
+            key={item.client.serviceId}
+            room={item.client.room}
+            cepEnd={item.client.address}
+          />
         ))
       ) : (
-        <Loading />
+        Array.from({ length: 6 }).map((_, index) => (
+          <Loading key={index} />
+        ))
+
       )}
+
     </ul>
   );
 }

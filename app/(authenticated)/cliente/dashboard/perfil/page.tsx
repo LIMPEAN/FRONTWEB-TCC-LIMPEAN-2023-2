@@ -188,9 +188,7 @@ export default function HomeDash() {
 
   }
 
-
   const handleCreateAddressClick = async (json: any, token: string) => {
-    console.log(json);
 
     try {
       const response = await postAddress(json, `http://${process.env.HOST}:8080/v1/limpean/client/new/register/address`, token!!);
@@ -216,7 +214,6 @@ export default function HomeDash() {
     const extensao = file?.name?.split(".")?.pop()?.toLowerCase();
     return formatosValidos.includes(`.${extensao}`);
   }
-
 
   const fetchData = useCallback(() => {
     const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;

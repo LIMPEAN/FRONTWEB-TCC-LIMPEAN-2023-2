@@ -60,7 +60,6 @@ export default function Sidebar({ children }: SideBarProps) {
           ></path>
         </svg>
       </button>
-
       <aside
         ref={sidebarRef}
         className={`fixed top-0 left-0 z-10 w-64 h-screen transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'

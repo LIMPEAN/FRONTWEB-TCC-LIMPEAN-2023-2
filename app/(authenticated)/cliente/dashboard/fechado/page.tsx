@@ -1,9 +1,9 @@
 "use client"
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CardDiarista } from './components/cardDiarista';
-import { getDiaristas } from './service/fetchApi';
 import { debounce } from 'lodash';
 import { Breadcrumb } from 'flowbite-react';
+import Loading from './components/loading';
 
 
 interface user {
@@ -142,10 +142,11 @@ export default function Aberta() {
           <span className="sr-only">Search</span>
         </button>
       </form>
-      <ul className="mt-4 overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-center w-full">
-
+      <ul className="mt-4 h-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-start w-full">
+        <Loading />
+        <Loading />
         {
-          filteredDiaristas ? filteredDiaristas.map((diarist: Diarista) => (
+          filteredDiaristas.length > 0 ? filteredDiaristas.map((diarist: Diarista) => (
             <CardDiarista
               key={diarist.user.id_diarist}
               urlImagem={diarist.user.foto_perfil}
@@ -156,7 +157,12 @@ export default function Aberta() {
               id_diarista={diarist.user.id_diarist}
               valor={diarist.user.media_valor}
             />
-          )) : null
+          )) : (
+            Array.from({ length: 6 }).map((_, index) => (
+              <Loading key={index} />
+            ))
+    
+          )
         }
       </ul>
     </div>

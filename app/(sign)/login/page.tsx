@@ -85,7 +85,8 @@ export default function Login() {
             alt="Logo"
             width={212}
             height={212}
-          />
+
+/>
           <div className="p-4">
             <h2 className="text-3xl font-semibold text-white">Deixe sua casa mais limpa!</h2>
             <p className="text-white w-2/3">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem</p>
@@ -138,7 +139,6 @@ export default function Login() {
               </div>
               <button className="flex items-center justify-center w-full font-extralight py-2 gap-4 rounded-full text-white text-xs h-10 hover:bg-blue-800 bg-blue-700" type="submit" onClick={() => {
                 setIsButtonVisible(true);
-                // handleSubmit(createLogin)();
               }}>Entrar
                 {isButtonVisible && (
                   <svg aria-hidden="true" role="status" className="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -154,7 +154,6 @@ export default function Login() {
               </div>
               <button typeof="submit" className="text-blue-700 grid font-extralight place-items-center bg-transparent text-xs h-10 py-2 px-4 border border-gray-300 hover:bg-gray-200 rounded-full" type="button">Entrar com
               </button>
-
               <div className="flex flex-col items start text-gray-500 text-xs">
                 <span className="w-full ">Ainda não possuí uma conta? Realize seu cadastro como</span>
                 <div className="flex gap-1">
