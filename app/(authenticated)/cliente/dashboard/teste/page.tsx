@@ -1,46 +1,52 @@
 "use client"
+import { useState, useEffect } from "react";
 
-import { Alert } from "flowbite-react";
-import {  useState } from "react";
+const Loading = () => {
+  const [distance, setDistance] = useState<string | null>(null);
 
-export default function Loading() {
+  useEffect(() => {
+    async function getDistance(origin: string, destination: string) {
+      const googleApiKey = 'AIzaSyDuuWnEdVdrg62befHzKSm5uk-hSEjfock';
+      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=`;
+      const distanceUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&`;
 
-  const [isOpen, setIsOpen] = useState(true)
+      try {
+        const response = await fetch(`${geocodeUrl}${encodeURIComponent(origin)}&key=${googleApiKey}`);
+        const data1 = await response.json();
+        const originCoords = data1.results[0]?.geometry?.location;
 
-  function createGoogleMapsLink(startAddress: string, destinationAddress: string, destination: string) {
-    const baseUrl = 'https://www.google.com/maps/embed/v1/directions';
-    const formattedStart = formatAddress(startAddress);
-    const formattedDestination = formatAddress(destinationAddress);
-    return `${baseUrl}?key=AIzaSyDuuWnEdVdrg62befHzKSm5uk-hSEjfock&origin=${formattedStart}&destination=${formattedDestination}`;
-  }
+        const response2 = await fetch(`${geocodeUrl}${encodeURIComponent(destination)}&key=${googleApiKey}`);
+        const data2 = await response2.json();
+        const destCoords = data2.results[0]?.geometry?.location;
 
-  function formatAddress(address: string): string {
-    return encodeURIComponent(address.replace(/\s/g, '+'));
-  }
+        if (!originCoords || !destCoords) {
+          throw new Error("Coordenadas não encontradas");
+        }
 
-  const startAddress = "06655-450";
-  const destinationAddress = "06655-300";
-  const googleMapsLink = createGoogleMapsLink(startAddress, destinationAddress, "");
+        const distResponse = await fetch(
+          `${distanceUrl}origins=${originCoords.lat},${originCoords.lng}&destinations=${destCoords.lat},${destCoords.lng}&key=${googleApiKey}`
+        );
+        const distData = await distResponse.json();
+        const distance = distData.rows[0]?.elements[0]?.distance?.text;
 
-  setTimeout(() => {
-    setIsOpen(false);
-  },5000)
+        if (!distance) {
+          throw new Error("Distância não encontrada");
+        }
 
-  return (
-    <>
+        setDistance(`A distância entre os dois endereços é de aproximadamente ${distance}`);
+      } catch (error) {
+        console.error("Ocorreu um erro ao calcular a distância:", error);
+        setDistance(null);
+      }
+    }
 
-      {isOpen ? <Alert color="info">
-        <span>
-          <p>
-            <span className="font-medium">
-              Info alert!
-            </span>
-            Change a few things up and try submitting again.
-          </p>
-        </span>
-      </Alert>: null
-}
+    const originAddress = 'Rua Amauri, 244, Itaim Bibi, São Paulo, Brasil';
+    const destinationAddress = 'Avenida Paulista, 1578, Bela Vista, São Paulo, Brasil';
 
-    </>
-  )
-}
+    getDistance(originAddress, destinationAddress);
+  }, []);
+
+  return <>{distance ? distance : 'Calculando...'}</>;
+};
+
+export default Loading;
