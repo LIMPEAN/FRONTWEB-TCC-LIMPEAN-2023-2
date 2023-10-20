@@ -6,6 +6,7 @@ import { Mercado } from "./components/mercado";
 import { Valores } from "./components/valores";
 import { Rodape } from "./components/rodape";
 import { Planos } from "./components/tabela";
+import Link from "next/link";
 
 
 export default function Home() {

@@ -124,6 +124,8 @@ export default function Perguntas() {
       startHour: timeValue,
       value: coinValue + '.00'
     }
+    
+    localStorage.setItem('CleaningRequestJson', JSON.stringify(CleaningRequestJson))
     console.log(CleaningRequestJson)
 
     const response = await postService(CleaningRequestJson)
@@ -138,7 +140,9 @@ export default function Perguntas() {
       const response = await postServico(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/client/register/service/`, token!!);
       if (response.status == 201) {
         toast.success("Solicitação de serviço realizada")
-        router.push("/cliente/dashboard/aberto")
+        toast.loading("Aguarde enquanto te direcionamos para o pagamento")
+        // router.push("/cliente/dashboard/aberto")
+        router.push("https://buy.stripe.com/test_3cs4hy1kD1JAesw3cd")
         return true
       } else {
         toast.error("Dados não atualizados, verifique as informações" + response)

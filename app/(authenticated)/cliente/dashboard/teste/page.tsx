@@ -1,52 +1,35 @@
 "use client"
-import { useState, useEffect } from "react";
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
-const Loading = () => {
-  const [distance, setDistance] = useState<string | null>(null);
+const stripePromise = loadStripe('pk_test_51O35p9I2iHRH36N7EJU6K5RaZbf2gYCrTzZCdd5wD5zKBvWFQ64cr6IDTeSNLoclGFc3wEmU0XYWNV14B1J9AV3000EqG4FMk1');
 
-  useEffect(() => {
-    async function getDistance(origin: string, destination: string) {
-      const googleApiKey = 'AIzaSyDuuWnEdVdrg62befHzKSm5uk-hSEjfock';
-      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=`;
-      const distanceUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&`;
+const StripeButton = () => {
+  const handleClick = async () => {
+    const stripe = await stripePromise;
 
-      try {
-        const response = await fetch(`${geocodeUrl}${encodeURIComponent(origin)}&key=${googleApiKey}`);
-        const data1 = await response.json();
-        const originCoords = data1.results[0]?.geometry?.location;
+    // Chame sua rota de criação de sessão do Stripe aqui
+    const response = await fetch('/api/criar-sessao-stripe', {
+      method: 'POST',
+    });
 
-        const response2 = await fetch(`${geocodeUrl}${encodeURIComponent(destination)}&key=${googleApiKey}`);
-        const data2 = await response2.json();
-        const destCoords = data2.results[0]?.geometry?.location;
+    const session = await response.json();
 
-        if (!originCoords || !destCoords) {
-          throw new Error("Coordenadas não encontradas");
-        }
+    const result = await stripe?.redirectToCheckout({
+      sessionId: session.id,
+    });
 
-        const distResponse = await fetch(
-          `${distanceUrl}origins=${originCoords.lat},${originCoords.lng}&destinations=${destCoords.lat},${destCoords.lng}&key=${googleApiKey}`
-        );
-        const distData = await distResponse.json();
-        const distance = distData.rows[0]?.elements[0]?.distance?.text;
-
-        if (!distance) {
-          throw new Error("Distância não encontrada");
-        }
-
-        setDistance(`A distância entre os dois endereços é de aproximadamente ${distance}`);
-      } catch (error) {
-        console.error("Ocorreu um erro ao calcular a distância:", error);
-        setDistance(null);
-      }
+    if (result?.error) {
+      // Caso ocorra algum erro durante o redirecionamento para o checkout
+      console.error(result.error.message);
     }
+  };
 
-    const originAddress = 'Rua Amauri, 244, Itaim Bibi, São Paulo, Brasil';
-    const destinationAddress = 'Avenida Paulista, 1578, Bela Vista, São Paulo, Brasil';
-
-    getDistance(originAddress, destinationAddress);
-  }, []);
-
-  return <>{distance ? distance : 'Calculando...'}</>;
+  return (
+    <button role="link" onClick={handleClick}>
+      Comprar
+    </button>
+  );
 };
 
-export default Loading;
+export default StripeButton;
