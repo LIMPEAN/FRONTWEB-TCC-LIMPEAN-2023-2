@@ -163,7 +163,7 @@ export function CardServicos({ service_id, type_clean, date, nome, cepEnd, statu
     };
 
     return (
-        <div className={`${status.toLowerCase() == "" ? disable : enable} h-fit`
+        <div className={`${status.toLowerCase() == "" ? disable : enable} h-fit `
         }>
             <div>
                 <div className="pb-2 w-full text-center">
@@ -177,7 +177,7 @@ export function CardServicos({ service_id, type_clean, date, nome, cepEnd, statu
                     className="w-full 2xl:h-96 h-64 object-cover rounded-2xl"
                     loading="lazy"
                     allowFullScreen
-                    src={`https://www.google.com/maps/embed/v1/directions?key=AIzaSyDuuWnEdVdrg62befHzKSm5uk-hSEjfock&origin=${addressState?.cep}%${addressState?.publicPlace}%${addressState?.city}%${addressState?.houseNumber}&destination=${cepEnd.cep}`}
+                    src={`https://www.google.com/maps/embed/v1/directions?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&origin=${addressState?.cep} ${addressState?.publicPlace} ${addressState?.city}&destination=${cepEnd.cep}`}
                 ></iframe>
 
             </div>

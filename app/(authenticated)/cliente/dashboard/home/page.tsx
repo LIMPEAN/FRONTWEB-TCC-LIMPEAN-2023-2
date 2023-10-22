@@ -1,9 +1,6 @@
 'use client';
 
 import { Button, Timeline } from 'flowbite-react';
-import { HiCalendar } from 'react-icons/hi';
-import MeuIcone from './components/icone';
-import MeuIcone2 from './components/icone2';
 
 export default function VerticalTimeline() {
   return (
@@ -68,5 +65,3 @@ export default function VerticalTimeline() {
       </Timeline>
   )
 }
-
-

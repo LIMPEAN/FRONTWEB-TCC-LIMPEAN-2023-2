@@ -2,11 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body {
+* {
   font-family: 'Poppins', sans-serif;
-  /* font-weight: inherit; */
-/* font-weight: 800; */
-/* } */
+}
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -27,6 +25,3 @@
   background: transparent;
 }
 
-* {
-  font-family: 'Poppins', sans-serif;
-}

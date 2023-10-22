@@ -2,6 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import Loading from './components/loading';
 import { CardServicos } from './components/cardServicos';
+import { Breadcrumb, Datepicker, Table } from 'flowbite-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { TableServicos } from './components/tableServico';
+import SelectDays from './components/selectDays';
+import { DatePicker } from '@tremor/react';
+import LoadingCard from './components/loading';
+import LoadingTable from './components/loadingTable';
 
 interface ApiResponse {
   status: number;
@@ -101,27 +109,82 @@ export default function Convites() {
   const teste = new Date()
 
   return (
-    <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
-      {responseData ? (
-        responseData.data.map((item) => (
-          <CardServicos
-            service_id={item.client.serviceId.toString()}
-            type_clean={item.client.type_clean}
-            date={item.client.date_hour}
-            nome={item.client.name}
-            status={item.client.status_service[0].status}
-            key={item.client.serviceId}
-            room={item.client.room}
-            cepEnd={item.client.address}
-          />
-        ))
-      ) : (
-        Array.from({ length: 6 }).map((_, index) => (
-          <Loading key={index} />
-        ))
-
-      )}
-
-    </ul>
+    <>
+      <Breadcrumb className='mb-4' aria-label="Default breadcrumb example">
+        <Breadcrumb.Item
+          href="#"
+        >
+          <p>
+            Convites
+          </p>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item
+          href="#"
+        >
+        </Breadcrumb.Item>
+      </Breadcrumb>
+      <Datepicker className='mb-4' />
+      <ul className="lg:hidden mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
+        {responseData ? (
+          responseData.data.map((item) => (
+            <CardServicos
+              service_id={item.client.serviceId.toString()}
+              type_clean={item.client.type_clean}
+              date={item.client.date_hour}
+              nome={item.client.name}
+              status={item.client.status_service[0].status}
+              key={item.client.serviceId}
+              room={item.client.room}
+              cepEnd={item.client.address}
+            />
+          ))
+        ) : (
+          Array.from({ length: 6 }).map((_, index) => (
+            <LoadingCard key={index} />
+          ))
+        )}
+      </ul>
+      <Table hoverable className='lg:table hidden'>
+        <Table.Head className=''>
+          <Table.HeadCell >
+            FOTO
+          </Table.HeadCell>
+          <Table.HeadCell>
+            ID
+          </Table.HeadCell>
+          <Table.HeadCell>
+            DATA
+          </Table.HeadCell>
+          <Table.HeadCell >
+            STATUS
+          </Table.HeadCell>
+          <Table.HeadCell>
+            ENDEREÇO
+          </Table.HeadCell>
+          <Table.HeadCell>
+            AÇÕES
+          </Table.HeadCell>
+        </Table.Head>
+        <Table.Body className="divide-y">
+          {responseData ? (
+            responseData.data.map((item) => (
+              <TableServicos
+                date_hour={item.client.date_hour}
+                name={item.client.name}
+                photo={item.client.photo}
+                serviceId={item.client.serviceId.toString()}
+                status_service={item.client.status_service[0].toString()}
+                address={item.client.address}
+                key={item.client.serviceId}
+              />
+            ))
+          ) : (
+            Array.from({ length: 6 }).map((_, index) => (
+              <LoadingTable key={index} />
+            ))
+          )}
+        </Table.Body>
+      </Table >
+    </>
   );
 }
