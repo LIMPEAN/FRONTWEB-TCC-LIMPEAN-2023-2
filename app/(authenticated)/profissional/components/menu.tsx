@@ -125,7 +125,7 @@ export default function Sidebar({ children }: SideBarProps) {
 
     fetchData()
 
-  }, []);
+  }, [token]);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);

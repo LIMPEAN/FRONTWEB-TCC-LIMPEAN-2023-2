@@ -103,7 +103,7 @@ export default function Convites() {
 
     fetchData()
 
-  }, []);
+  }, [token]);
 
 
   const teste = new Date()
@@ -165,7 +165,7 @@ export default function Convites() {
             AÇÕES
           </Table.HeadCell>
         </Table.Head>
-        <Table.Body className="divide-y">
+        <Table.Body className="divide-y space-y-reverse">
           {responseData ? (
             responseData.data.map((item) => (
               <TableServicos
@@ -175,6 +175,7 @@ export default function Convites() {
                 serviceId={item.client.serviceId.toString()}
                 status_service={item.client.status_service[0].toString()}
                 address={item.client.address}
+                value={item.client.value?.toString()}
                 key={item.client.serviceId}
               />
             ))

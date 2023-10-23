@@ -34,10 +34,10 @@ export default function StatusPayment({
   const [service, setService] = useState<CleaningRequest | null>(null);
 
   let token: string | null = null;
+  token = localStorage.getItem("token");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      token = localStorage.getItem("token");
       const serviceStorage = localStorage.getItem("CleaningRequestJson");
       if (serviceStorage) {
         try {
@@ -48,7 +48,7 @@ export default function StatusPayment({
         }
       }
     }
-  }, []); // Empty dependency array ensures the effect runs only once
+  }, [token]); // Empty dependency array ensures the effect runs only once
 
   const createService = async () => {
     const CleaningRequestJson: CleaningRequest = {

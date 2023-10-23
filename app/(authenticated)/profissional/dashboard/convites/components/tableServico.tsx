@@ -16,8 +16,9 @@ interface CardDiaristaProps {
     name: string,
     date_hour: string,
     serviceId: string,
-    status_service: string
-    address: IEndereco;
+    status_service: string,
+    address: IEndereco,
+    value?: string | null
 }
 
 interface IEndereco {
@@ -34,7 +35,7 @@ interface IEndereco {
 
 
 
-export function TableServicos({ photo, name, date_hour, serviceId, status_service, address }: CardDiaristaProps) {
+export function TableServicos({ photo, name, date_hour, serviceId, status_service, address, value }: CardDiaristaProps) {
     const [open, setOpen] = useState(false);
     const datetime = date_hour;
     const dateObject = new Date(datetime);
@@ -117,12 +118,12 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
             </Table.Cell>
             <Table.Cell>
                 <div className='flex gap-2 items-center justify-start relative'>
-                    <div className='h-2 w-2 rounded-full bg-blue-600'></div>
-                    <span>Em aberto</span>
+                    <div className={`h-2 w-2 rounded-full ${value ? 'bg-green-600' : 'bg-blue-600'}`}></div>
+                    <span>{value ? "Preço enviado" : "Pendente de preço"}</span>
                 </div>
             </Table.Cell>
             <Table.Cell >
-            <div className='flex gap-2 items-center justify-start relative'>
+                <div className='flex gap-2 items-center justify-start relative'>
                     <button
                         onMouseEnter={() => setOpen(true)}
                         onMouseLeave={() => setOpen(false)}
@@ -166,12 +167,7 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
                 </div>
             </Table.Cell>
             <Table.Cell>
-                <a
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                    href="/tables"
-                >
-                    <Link href={`./convites/${serviceId}`}>Ver</Link>
-                </a>
+                <Link className="underline text-blue-700" href={`./convites/${serviceId}`}>Ver</Link>
             </Table.Cell>
         </Table.Row>
     )
