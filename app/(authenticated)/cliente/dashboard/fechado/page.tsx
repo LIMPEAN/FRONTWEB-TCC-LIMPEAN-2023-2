@@ -143,8 +143,6 @@ export default function Aberta() {
         </button>
       </form>
       <ul className="mt-4 h-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-start w-full">
-        <Loading />
-        <Loading />
         {
           filteredDiaristas.length > 0 ? filteredDiaristas.map((diarist: Diarista) => (
             <CardDiarista

@@ -1,13 +1,8 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import Loading from './components/loading';
 import { CardServicos } from './components/cardServicos';
 import { Breadcrumb, Datepicker, Table } from 'flowbite-react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { TableServicos } from './components/tableServico';
-import SelectDays from './components/selectDays';
-import { DatePicker } from '@tremor/react';
 import LoadingCard from './components/loading';
 import LoadingTable from './components/loadingTable';
 
@@ -80,7 +75,7 @@ export default function Convites() {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist/service?idStatus=2`;
+      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client/service-open`;
       const headers = {
         'x-api-key': token!!,
       };
@@ -93,6 +88,7 @@ export default function Convites() {
           return response.json();
         })
         .then((data) => {
+          console.log(data);
           setResponseData(data);
         })
         .catch((error) => {
@@ -103,6 +99,7 @@ export default function Convites() {
     fetchData()
 
   }, [token]);
+
 
   return (
     <>
@@ -119,22 +116,21 @@ export default function Convites() {
         >
         </Breadcrumb.Item>
       </Breadcrumb>
-      <label htmlFor='data' className='hidden'>Calendário</label>
-      <Datepicker className='mb-4' id='Calendario' name='Calendario' />
+      
+      <Datepicker className='mb-4' id='data'/>
       <ul className="lg:hidden mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
         {responseData ? (
           responseData.data.map((item) => (
-            item.client.status_service[item.client.status_service.length - 1].status == "Em aberto" ?
             <CardServicos
               service_id={item.client.serviceId.toString()}
               type_clean={item.client.type_clean}
               date={item.client.date_hour}
               nome={item.client.name}
-              status={item.client.status_service[item.client.status_service.length - 1].status}
+              status={item.client.status_service[0].status}
               key={item.client.serviceId}
               room={item.client.room}
               cepEnd={item.client.address}
-            /> : null
+            />
           ))
         ) : (
           Array.from({ length: 6 }).map((_, index) => (

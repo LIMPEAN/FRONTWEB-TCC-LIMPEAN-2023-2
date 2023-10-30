@@ -1,4 +1,5 @@
 import axios from "axios"
+import toast from "react-hot-toast";
 
 export const putApi = async (jsonData: any, url: string, token: string) => {
 
@@ -8,8 +9,7 @@ export const putApi = async (jsonData: any, url: string, token: string) => {
         "x-api-key": `${token}`,
       },
     });
-    console.log(response.data);
-    return response.data;
+    return response.data
   } catch (error) {
     return error
   }

@@ -131,20 +131,14 @@ export default function Sidebar({ children }: SideBarProps) {
             </li>
             <li>
               <Link
-                href="/cliente/dashboard/todos-servicos"
+                href="/cliente/dashboard/notificacao"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 18"
-                >
-                  <path d="M18 0H6a2 2 0 0 0-2 2h14v12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Z" />
-                  <path d="M14 4H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM2 16v-6h12v6H2Z" />
+                <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M17.133 12.632V10.832C17.1337 9.61541 16.724 8.43419 15.9702 7.47931C15.2163 6.52443 14.1625 5.85173 12.979 5.56998C12.988 5.53507 12.995 5.49968 13 5.46398V3.09998C13 2.83476 12.8946 2.58041 12.7071 2.39287C12.5196 2.20533 12.2652 2.09998 12 2.09998C11.7348 2.09998 11.4804 2.20533 11.2929 2.39287C11.1054 2.58041 11 2.83476 11 3.09998V5.46398C11.005 5.49968 11.012 5.53507 11.021 5.56998C9.83751 5.85173 8.78365 6.52443 8.02984 7.47931C7.27603 8.43419 6.86633 9.61541 6.867 10.832V12.632C6.867 15.018 5 15.614 5 16.807C5 17.4 5 18 5.538 18H18.462C19 18 19 17.4 19 16.807C19 15.614 17.133 15.018 17.133 12.632Z" fill="currentColor" />
+                  <path d="M8.823 19C9.08828 19.623 9.53089 20.1543 10.0958 20.5277C10.6606 20.9011 11.3228 21.1002 12 21.1002C12.6772 21.1002 13.3394 20.9011 13.9042 20.5277C14.4691 20.1543 14.9117 19.623 15.177 19H8.823Z" fill="currentColor" />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Todos serviços</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">Notificações</span>
               </Link>
             </li>
             <li>
@@ -180,7 +174,7 @@ export default function Sidebar({ children }: SideBarProps) {
                     stroke="currentColor"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeWidth="2"
                     d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
                   />
                 </svg>

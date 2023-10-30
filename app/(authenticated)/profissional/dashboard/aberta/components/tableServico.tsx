@@ -68,6 +68,9 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
             })
             .then((result) => {
                 setaddressStateData(result.data.address[0])
+                console.log(result);
+
+
             })
             .catch((error) => {
                 console.error('Erro ao buscar dados da API:', error);
@@ -77,6 +80,9 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
     useEffect(() => {
         fetchData();
     }, [fetchData]);
+
+
+
 
     const statusColor = (status: string) => {
         const statusStr = status.toLowerCase()

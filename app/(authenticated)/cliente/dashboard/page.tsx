@@ -1,7 +1,6 @@
 'use client';
 
 import { Button, Timeline } from 'flowbite-react';
-import { HiCalendar } from 'react-icons/hi';
 
 export default function VerticalTimeline() {
   return (

@@ -122,7 +122,7 @@ export default function Login() {
               </div>
               <div className="flex flex-col">
                 <div className="flex gap-2 text-sm">
-                  <input className="" type="radio" id="huey" value="client" checked {...register("tipo_usuario")} />
+                  <input className="" type="radio" id="huey" value="client" defaultChecked {...register("tipo_usuario")} />
                   <label htmlFor="huey">Cliente</label>
                 </div>
                 <div className="flex gap-2 text-sm">
