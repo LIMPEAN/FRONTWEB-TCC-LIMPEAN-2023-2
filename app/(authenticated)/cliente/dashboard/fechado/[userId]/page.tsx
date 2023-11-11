@@ -6,36 +6,49 @@ import { useEffect, useState } from "react";
 import { AvaliacaoCard } from "./components/avaliacao";
 import Link from "next/link";
 
-interface user {
-  id_diarist: number;
-  nome: string;
-  cpf_diarista: string;
-  data_nascimento: string;
-  biografia: string;
-  foto_perfil: string;
-  email_diarista: string;
-  media_valor: string;
-  genero: 'masculino' | 'feminino' | 'outro';
-  ddd: string;
-  numero_telefone: string;
-  address: [endereco];
-  cidade: string;
-  estado: string;
-  status_conta: string | null;
-  data_status_diarista: string;
+interface StatusAccount {
+  data: string;
+  status: string;
 }
 
-interface endereco {
+interface Phone {
+  ddd: string;
+  number_phone: string;
+}
+
+interface Address {
   state: string;
   city: string;
-  logradouro: string;
-  bairro: string;
+  publicPlace: string;
+  district: string;
+  numberHouse: string;
   cep: string;
-  complento: string;
+  complement: string | null;
 }
 
-interface Diarista {
-  user: user;
+interface User {
+  id_diarist: number;
+  statusAccount: StatusAccount[];
+  name: string;
+  cpf: string;
+  birthDate: string;
+  biography: string | null;
+  photoProfile: string;
+  email: string;
+  medium_value: string;
+  gender: string;
+  assessment: any[]; // You might want to replace `any[]` with a specific type for assessments
+  phone: Phone[];
+  address: Address[];
+}
+
+interface Diarist {
+  user: User;
+}
+
+interface ApiResponse {
+  status: number;
+  diarists: Diarist[];
 }
 
 export default function ModalDiarist({
@@ -66,7 +79,7 @@ export default function ModalDiarist({
     return idade;
   }
 
-  const [data, setData] = useState<Diarista | null>(null);
+  const [data, setData] = useState<Diarist | null>(null);
 
   let token: string | null = null;
 
@@ -91,7 +104,7 @@ export default function ModalDiarist({
         })
         .then((result) => {
           console.log(result.diarists);
-          result.diarists.map((diarist: Diarista) => {
+          result.diarists.map((diarist: Diarist) => {
             if (diarist.user.id_diarist === Number(params.userId)) {
               setData(diarist);
             }
@@ -123,10 +136,10 @@ export default function ModalDiarist({
       <div className="mt-2 flex flex-col lg:flex-row h-full gap-4">
         <div className="flex flex-col lg:w-3/5 gap-4 lg:overflow-auto">
           <div className="flex flex-col px-4 h-fit py-8 gap-4 items-center  text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700">
-            <Image className="w-36 h-36 rounded-full object-cover" src={data?.user?.foto_perfil ? data.user?.foto_perfil : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."} alt="foto de perfil" height={300} width={300} />
+            <Image className="w-36 h-36 rounded-full object-cover" src={data?.user?.photoProfile ? data.user?.photoProfile : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."} alt="foto de perfil" height={300} width={300} />
             <div className="flex gap-1">
-              <span className="text-2xl  text-gray-900 dark:text-white">{data?.user.nome}, </span>
-              <span className="text-2xl font-bold text-gray-900 dark:text-white">{data?.user.data_nascimento ? calcularIdade(data?.user.data_nascimento) : null} anos</span>
+              <span className="text-2xl  text-gray-900 dark:text-white">{data?.user.name}, </span>
+              <span className="text-2xl font-bold text-gray-900 dark:text-white">{data?.user.birthDate ? calcularIdade(data?.user.birthDate) : null} anos</span>
             </div>
             <div className="flex items-center justify-center">
               <svg className="dark:fill-white fill-gray-800" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -151,7 +164,7 @@ export default function ModalDiarist({
             </Rating>
             <div className="flex items-end">
               <span className="text-2xl font-bold text-gray-900 dark:text-white pr-1">R$</span>
-              <span className="text-5xl font-bold text-gray-900 dark:text-white">{data?.user.media_valor}</span>
+              <span className="text-5xl font-bold text-gray-900 dark:text-white">{data?.user.medium_value}</span>
             </div>
             <Link
               href={routeNext}
@@ -163,7 +176,7 @@ export default function ModalDiarist({
           </div>
           <div className="flex flex-col px-4 h-fit py-8 2xl:h-full 2xl:mb-4 gap-4 items-center text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700">
             <span className="text-lg font-bold text-gray-800 dark:bg-gray-800 dark:text-white">Biografia</span>
-            {data?.user.biografia}
+            {data?.user.biography}
           </div>
         </div>
 

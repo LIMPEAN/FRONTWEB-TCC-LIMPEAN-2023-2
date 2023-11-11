@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation"
 import { ChangeEvent, FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { postServico } from "./service/fetchApi";
+import { log } from "console";
 
 
 interface comodos {
@@ -123,6 +124,9 @@ export default function Perguntas() {
   }
 
   async function postService(jsonApi: CleaningRequest) {
+
+    console.log(jsonApi);
+    
     try {
       const response = await postServico(jsonApi, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/register/service/`, token!!);
       if (response.status == 201) {

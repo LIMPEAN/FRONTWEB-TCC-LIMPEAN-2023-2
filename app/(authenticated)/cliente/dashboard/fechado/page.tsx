@@ -6,39 +6,59 @@ import { Breadcrumb } from 'flowbite-react';
 import Loading from './components/loading';
 
 
-interface user {
-  id_diarist: number;
-  nome: string;
-  cpf_diarista: string;
-  data_nascimento: string;
-  biografia: string;
-  foto_perfil: string;
-  email_diarista: string;
-  media_valor: string;
-  genero: 'masculino' | 'feminino' | 'outro';
-  ddd: string;
-  numero_telefone: string;
-  endereco_logradouro: string;
-  endereco_bairro: string;
-  endereco_cep: string;
-  endereco_numero_residencia: string;
-  endereco_complemento: string;
-  cidade: string;
-  estado: string;
-  status_conta: string | null;
-  data_status_diarista: string;
+interface StatusAccount {
+  data: string;
+  status: string;
 }
 
-interface Diarista {
-  user: user
+interface Phone {
+  ddd: string;
+  number_phone: string;
+}
+
+interface Address {
+  state: string;
+  city: string;
+  publicPlace: string;
+  district: string;
+  numberHouse: string;
+  cep: string;
+  complement: string | null;
+}
+
+interface User {
+  id_diarist: number;
+  statusAccount: StatusAccount[];
+  name: string;
+  cpf: string;
+  birthDate: string;
+  biography: string | null;
+  photoProfile: string;
+  email: string;
+  medium_value: string;
+  gender: string;
+  assessment: any[]; // You might want to replace `any[]` with a specific type for assessments
+  phone: Phone[];
+  address: Address[];
+}
+
+interface Diarist {
+  user: User;
+}
+
+interface ApiResponse {
+  status: number;
+  diarists: Diarist[];
 }
 
 export default function Aberta() {
   const [searchQuery, setSearchQuery] = useState(''); // Estado para armazenar a consulta de pesquisa
-  const [diaristas, setDiaristas] = useState<Diarista[]>([]); // Estado para armazenar todos os diaristas
-  const [filteredDiaristas, setFilteredDiaristas] = useState<Diarista[]>([]); // Estado para armazenar os 
+  const [diaristas, setDiaristas] = useState<Diarist[]>([]); // Estado para armazenar todos os diaristas
+  const [filteredDiaristas, setFilteredDiaristas] = useState<Diarist[]>([]); // Estado para armazenar os 
 
   let token: string | null = null;
+
+  console.log(token);
 
   if (typeof window !== 'undefined') {
     token = localStorage.getItem("token")
@@ -50,8 +70,8 @@ export default function Aberta() {
 
   const debouncedSearch = useRef(
     debounce((query: string) => {
-      const filtered = diaristas.filter((diarist: Diarista) =>
-        diarist.user.nome.toLowerCase().includes(query.toLowerCase())
+      const filtered = diaristas.filter((diarist: Diarist) =>
+        diarist.user.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredDiaristas(filtered);
     }, 300)
@@ -70,9 +90,7 @@ export default function Aberta() {
         }
         return response.json();
       })
-      .then((data) => {
-        console.log(data.diarists);
-
+      .then((data: ApiResponse) => {
         setDiaristas(data.diarists);
         setFilteredDiaristas(data.diarists);
       })
@@ -144,16 +162,16 @@ export default function Aberta() {
       </form>
       <ul className="mt-4 h-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-start w-full">
         {
-          filteredDiaristas.length > 0 ? filteredDiaristas.map((diarist: Diarista) => (
+          diaristas.length > 0 ? diaristas?.map((diarist: Diarist) => (
             <CardDiarista
               key={diarist.user.id_diarist}
-              urlImagem={diarist.user.foto_perfil}
-              biografia={diarist.user.biografia}
-              idade={diarist.user.data_nascimento}
-              nome={diarist.user.nome}
+              urlImagem={diarist.user.photoProfile}
+              biografia={diarist.user.biography ?  diarist.user.biography : ""}
+              idade={diarist.user.birthDate}
+              nome={diarist.user.name}
               avaliacao={5.0}
               id_diarista={diarist.user.id_diarist}
-              valor={diarist.user.media_valor}
+              valor={diarist.user.medium_value}
             />
           )) : (
             Array.from({ length: 6 }).map((_, index) => (
