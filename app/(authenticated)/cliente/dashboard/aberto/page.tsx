@@ -75,7 +75,7 @@ export default function Agendado() {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client/service-open`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service-open`;
       const headers = {
         'x-api-key': token!!,
       };

@@ -170,7 +170,7 @@ export default function HomeDash() {
   const handleUpdateClick = async (json: IUpdateAddres, id: number) => {
 
     try {
-      const response = await putApi(json, `http://${process.env.HOST}:8080/v1/limpean/client/update/register/address?id=${id}`, token!!);
+      const response = await putApi(json, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/update/register/address?id=${id}`, token!!);
       if (response.status == undefined) {
         toast.error("Dados não atualizados, verifique as informações")
         toast.error("Informação do servidor: " + response)
@@ -191,7 +191,7 @@ export default function HomeDash() {
   const handleCreateAddressClick = async (json: any, token: string) => {
 
     try {
-      const response = await postAddress(json, `http://${process.env.HOST}:8080/v1/limpean/client/new/register/address`, token!!);
+      const response = await postAddress(json, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/new/register/address`, token!!);
       if (response.status == undefined) {
         toast.error("Dados não atualizados, verifique as informações")
         toast.error("Informação do servidor: " + response)
@@ -216,7 +216,7 @@ export default function HomeDash() {
   }
 
   const fetchData = useCallback(() => {
-    const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client`;
+    const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client`;
     const headers = {
       'x-api-key': token!!,
     };
@@ -332,7 +332,7 @@ export default function HomeDash() {
     }
 
     try {
-      const response = await putApi(jsonUsuario, `http://${process.env.HOST}:8080/v1/limpean/client/`, token!!);
+      const response = await putApi(jsonUsuario, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/`, token!!);
       if (response.status = 201) {
         toast.success("Usuário atualizado com sucesso!")
         fetchData()

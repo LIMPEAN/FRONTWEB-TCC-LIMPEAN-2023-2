@@ -46,7 +46,7 @@ export default function Aberta() {
 
   }
 
-  const url = `http://${process.env.HOST}:8080/v1/limpean/diarists`;
+  const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarists`;
 
   const debouncedSearch = useRef(
     debounce((query: string) => {

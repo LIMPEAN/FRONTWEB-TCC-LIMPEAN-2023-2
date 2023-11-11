@@ -178,7 +178,7 @@ export default function HomeDash() {
 
 
   const fetchData = useCallback(() => {
-    const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist`;
+    const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist`;
     const headers = {
       'x-api-key': token!!,
     };
@@ -304,7 +304,7 @@ export default function HomeDash() {
     }
 
     try {
-      const response = await putApi(jsonUsuario, `http://${process.env.HOST}:8080/v1/limpean/diarist`, token!!);
+      const response = await putApi(jsonUsuario, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist`, token!!);
       if (response.status = 201) {
         toast.success("Usuário atualizado com sucesso!")
         fetchData()

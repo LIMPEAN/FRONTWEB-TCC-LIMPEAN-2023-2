@@ -77,7 +77,7 @@ export default function ModalDiarist({
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarists`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarists`;
       const headers = {
         'x-api-key': token!!,
       };

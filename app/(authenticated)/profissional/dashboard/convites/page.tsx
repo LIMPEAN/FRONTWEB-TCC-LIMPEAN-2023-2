@@ -80,7 +80,7 @@ export default function Convites() {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist/service?idStatus=2`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service?idStatus=2`;
       const headers = {
         'x-api-key': token!!,
       };

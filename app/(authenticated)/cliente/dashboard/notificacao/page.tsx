@@ -66,7 +66,7 @@ export default function Agendado() {
   const props = { openModal, setOpenModal };
 
   const updateService = async (idService: string) => {
-    const url = `http://${process.env.HOST}:8080/v1/limpean/diarist/schedule-service?idService=${idService}&idStatus=2`
+    const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/schedule-service?idService=${idService}&idStatus=2`
 
     const response = putStatusService(url, token!!)
 
@@ -100,7 +100,7 @@ export default function Agendado() {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/client/service?id=1`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service?id=1`;
       const headers = {
         'x-api-key': token!!,
       };

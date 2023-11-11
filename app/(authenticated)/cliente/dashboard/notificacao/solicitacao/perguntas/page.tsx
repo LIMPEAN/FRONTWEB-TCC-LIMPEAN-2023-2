@@ -135,7 +135,7 @@ export default function Perguntas() {
 
   async function postService(jsonApi: CleaningRequest) {
     try {
-      const response = await postServico(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/client/cadastro/servico`, token!!);
+      const response = await postServico(jsonApi, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/cadastro/servico`, token!!);
       if (response.status == 201) {
         toast.success("Solicitação de serviço realizada")
         router.push("/cliente/dashboard/aberto")

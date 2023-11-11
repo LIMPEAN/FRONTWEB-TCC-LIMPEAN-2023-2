@@ -119,16 +119,12 @@ export default function Perguntas() {
       value: null
     }
     console.log(CleaningRequestJson)
-
     const response = await postService(CleaningRequestJson)
-
   }
-
-
 
   async function postService(jsonApi: CleaningRequest) {
     try {
-      const response = await postServico(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/client/register/service/`, token!!);
+      const response = await postServico(jsonApi, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/register/service/`, token!!);
       if (response.status == 201) {
         toast.success("Solicitação de serviço realizada")
       } else {
@@ -137,7 +133,6 @@ export default function Perguntas() {
     } catch (error) {
       toast.error("Servidor indisponível para esse processo")
     }
-
   }
 
 

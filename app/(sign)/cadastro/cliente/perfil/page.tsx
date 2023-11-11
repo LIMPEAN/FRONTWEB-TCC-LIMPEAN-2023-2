@@ -153,7 +153,7 @@ export default function CadastroCliente() {
 
 
     try {
-      const response = await postApi(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/cadastro`);
+      const response = await postApi(jsonApi, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/cadastro`);
       if (response.status = 201) {
         toast.success("Usuário cadastrado com sucesso!")
         toast.loading("Aguarde enquanto redirecionamos você")

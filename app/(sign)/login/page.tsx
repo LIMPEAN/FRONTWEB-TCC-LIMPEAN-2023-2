@@ -50,9 +50,10 @@ export default function Login() {
       email: data.email,
       password: senhaSHA256
     }
+    console.log(jsonApi);
 
     try {
-      const response = await postApi(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/login`);
+      const response = await postApi(jsonApi, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/login`);
       if (response?.status == 200) {
         toast.success("Login permitido!")
         localStorage.setItem("token", response.token)

@@ -29,7 +29,7 @@ export default function ServiceModal({
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist/service`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service`;
       const headers = {
         'x-api-key': token!!,
       };
@@ -73,7 +73,7 @@ export default function ServiceModal({
     }
 
     console.log(jsonPutService);
-    const url = `http://${process.env.HOST}:8080/v1/limpean/diarist/service/price`
+    const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service/price`
     const response = await putPrice(jsonPutService, url, token!!)
     console.log(response.status === 201)
     if (response.status === 201) {

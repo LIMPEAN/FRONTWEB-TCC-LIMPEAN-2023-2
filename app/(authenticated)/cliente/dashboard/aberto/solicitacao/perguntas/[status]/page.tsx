@@ -83,7 +83,7 @@ export default function StatusPayment({
 
   async function postService(jsonApi: CleaningRequest, token: string) {
     try {
-      const response = await postServico(jsonApi, `http://${process.env.HOST}:8080/v1/limpean/client/register/service/`, token);
+      const response = await postServico(jsonApi, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/register/service/`, token);
       if (response.status == 201) {
         toast.success("Solicitação de serviço realizada")
         router.push("/cliente/dashboard/aberto")
