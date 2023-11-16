@@ -142,7 +142,7 @@ export default function Perguntas() {
         toast.success("Solicitação de serviço realizada")
         toast.loading("Aguarde enquanto te direcionamos para o pagamento")
         // router.push("/cliente/dashboard/aberto")
-        router.push("https://buy.stripe.com/test_3cs4hy1kD1JAesw3cd")
+        router.push("https://buy.stripe.com/test_aEU29qbZh1JA4RWbIK")
         return true
       } else {
         toast.error("Dados não atualizados, verifique as informações" + response)
