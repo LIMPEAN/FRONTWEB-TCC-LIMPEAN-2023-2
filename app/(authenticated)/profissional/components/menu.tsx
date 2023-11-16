@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { DarkThemeToggle, Flowbite } from 'flowbite-react';
+import { json } from 'stream/consumers';
 
 interface SideBarProps {
   children?: ReactNode;
@@ -102,7 +103,7 @@ export default function Sidebar({ children }: SideBarProps) {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist/service`;
+      const apiUrl = `backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service`;
       const headers = {
         'x-api-key': token!!,
       };
@@ -115,6 +116,7 @@ export default function Sidebar({ children }: SideBarProps) {
           return response.json();
         })
         .then((data) => {
+          console.log(data);
           setResponseData(data);
         })
         .catch((error) => {

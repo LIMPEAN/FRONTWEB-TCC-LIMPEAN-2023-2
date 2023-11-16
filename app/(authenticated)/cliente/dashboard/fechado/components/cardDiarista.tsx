@@ -16,7 +16,7 @@ interface CardDiaristaProps {
 
 export function CardDiarista({ urlImagem, nome, biografia, valor, avaliacao, idade, id_diarista }: CardDiaristaProps) {
 
-    const valorRenderizado = valor === '0' ? 'À combinar' : `R$${valor}`;
+    const valorRenderizado = valor === '0.00' ? 'À combinar' : `R$${valor}`;
     const urlNext = `/cliente/dashboard/fechado/${id_diarista}`
     return (
         <Link href={urlNext} className="w-full flex flex-col gap-2 h-fit p-4 bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700">

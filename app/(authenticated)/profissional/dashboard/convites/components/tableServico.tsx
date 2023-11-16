@@ -54,7 +54,7 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
     }
 
     const fetchData = useCallback(() => {
-        const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist`;
+        const apiUrl = `backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist`;
         const headers = {
             'x-api-key': token!!,
         };

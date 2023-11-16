@@ -75,7 +75,7 @@ export default function Aberta() {
       );
       setFilteredDiaristas(filtered);
     }, 300)
-  ).current; 
+  ).current;
 
   const fetchData = useCallback(() => {
     const apiUrl = url;
@@ -162,22 +162,21 @@ export default function Aberta() {
       </form>
       <ul className="mt-4 h-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-start w-full">
         {
-          diaristas.length > 0 ? diaristas?.map((diarist: Diarist) => (
+          diaristas ? diaristas?.map((diarist: Diarist) => (
             <CardDiarista
-              key={diarist.user.id_diarist}
-              urlImagem={diarist.user.photoProfile}
-              biografia={diarist.user.biography ?  diarist.user.biography : ""}
-              idade={diarist.user.birthDate}
-              nome={diarist.user.name}
+              key={diarist?.user.id_diarist}
+              urlImagem={diarist?.user.photoProfile}
+              biografia={diarist?.user.biography ?  diarist.user.biography : ""}
+              idade={diarist?.user.birthDate}
+              nome={diarist?.user.name}
               avaliacao={5.0}
-              id_diarista={diarist.user.id_diarist}
-              valor={diarist.user.medium_value}
+              id_diarista={diarist?.user.id_diarist}
+              valor={diarist?.user.medium_value}
             />
           )) : (
             Array.from({ length: 6 }).map((_, index) => (
               <Loading key={index} />
             ))
-    
           )
         }
       </ul>

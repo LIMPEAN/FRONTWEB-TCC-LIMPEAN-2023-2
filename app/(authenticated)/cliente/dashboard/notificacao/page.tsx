@@ -66,9 +66,24 @@ export default function Agendado() {
   const props = { openModal, setOpenModal };
 
   const updateService = async (idService: string) => {
-    const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/schedule-service?idService=${idService}&idStatus=2`
+    const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`
 
-    const response = putStatusService(url, token!!)
+  //   const jsonApi = {
+  //     "idService": Number(idService),
+  //     "date": `${new Date().getUTCFullYear()}/${new Date().getUTCMonth()}/${new Date().getDay()}`,
+  //     "hour": `${new Date().getUTCHours()}:${new Date().getUTCMinutes()}`,
+  //     "schedule": true,
+  //     "newValue": null
+  // }
+  const jsonApi = {
+    "idService": Number(idService),
+    "date": `2002/12/18`,
+    "hour": `08:04`,
+    "schedule": true,
+    "newValue": null
+}
+  console.log(jsonApi)
+    const response = putStatusService(url, jsonApi, token!!)
 
     return response
   }

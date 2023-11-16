@@ -112,10 +112,10 @@ export function CardServicos({ service_id, type_clean, date, nome, cepEnd, statu
     }
 
     const fetchData = useCallback(() => {
-        const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist`;
+        const apiUrl = `backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist`;
         const headers = {
             'x-api-key': token!!,
-        };
+        };      
 
         fetch(apiUrl, { headers })
             .then((response) => {

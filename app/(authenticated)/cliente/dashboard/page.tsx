@@ -1,69 +1,33 @@
-'use client';
+"use client"
 
-import { Button, Timeline } from 'flowbite-react';
+import { FC, useState } from 'react';
+import QrReader from 'react-qr-reader';
 
-export default function VerticalTimeline() {
+const QRCodeReader: FC = () => {
+  const [result, setResult] = useState<string | null>(null);
+
+  const handleScan = (data: string | null) => {
+    if (data) {
+      setResult(data);
+    }
+  };
+
+  const handleError = (error: any) => {
+    console.error(error);
+  };
+
   return (
-    
-      <Timeline>
-        <Timeline.Item>
-          <Timeline.Point />
-          <Timeline.Content>
-            <Timeline.Time>
-              February 2022
-            </Timeline.Time>
-            <Timeline.Title>
-              Application UI code in Tailwind CSS
-            </Timeline.Title>
-            <Timeline.Body>
-              <p>
-                Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
-                E-commerce & Marketing pages.
-              </p>
-            </Timeline.Body>
-            <Button color="gray">
-              <p>
-                Learn More
-              </p>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <h1 className="text-4xl mb-6">QR Code Reader</h1>
+      <QrReader
+        delay={300}
+        onError={handleError}
+        onScan={handleScan}
+        className="w-full"
+      />
+      {result && <p className="mt-4">Resultado: {result}</p>}
+    </div>
+  );
+};
 
-            </Button>
-          </Timeline.Content>
-        </Timeline.Item>
-        <Timeline.Item>
-          <Timeline.Point />
-          <Timeline.Content>
-            <Timeline.Time>
-              March 2022
-            </Timeline.Time>
-            <Timeline.Title>
-              Marketing UI design in Figma
-            </Timeline.Title>
-            <Timeline.Body>
-              <p>
-                All of the pages and components are first designed in Figma and we keep a parity between the two versions even
-                as we update the project.
-              </p>
-            </Timeline.Body>
-          </Timeline.Content>
-        </Timeline.Item>
-        <Timeline.Item>
-          <Timeline.Point />
-          <Timeline.Content>
-            <Timeline.Time>
-              April 2022
-            </Timeline.Time>
-            <Timeline.Title>
-              E-Commerce UI code in Tailwind CSS
-            </Timeline.Title>
-            <Timeline.Body>
-              <p>
-                Get started with dozens of web components and interactive elements built on top of Tailwind CSS.
-              </p>
-            </Timeline.Body>
-          </Timeline.Content>
-        </Timeline.Item>
-      </Timeline>
-  )
-}
-
-
+export default QRCodeReader;
