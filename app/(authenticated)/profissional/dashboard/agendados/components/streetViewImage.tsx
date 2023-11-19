@@ -3,10 +3,10 @@ import { DataApiAddress } from "../interfaces/baseResponseAddress";
 import LoadingImage from "./loading";
 
 import Image from "next/image";
-import { ClientData, IEndereco } from "../interfaces/baseResponseService";
+import { IData, Address } from "../interfaces/baseResponseService";
 
 
-export default function StreetViewImage({service}: ClientData) {
+export default function StreetViewImage({service}: IData) {
   const [address, setAddress] = useState<DataApiAddress | null>(null)
 
   useEffect(() => {

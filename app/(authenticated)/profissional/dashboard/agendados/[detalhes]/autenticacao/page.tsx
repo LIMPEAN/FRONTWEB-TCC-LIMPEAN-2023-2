@@ -61,7 +61,7 @@ export default function Autenticacao({
     };
 
     fetchData()
-  }, [token])
+  }, [token, params.detalhes])
 
   const handleClickBlur = () => {
     setBlurOpen(!blurOpen)

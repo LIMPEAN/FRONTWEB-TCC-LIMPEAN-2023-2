@@ -169,6 +169,7 @@ export default function Agendados() {
           filteredServices ?
             (filteredServices?.map((service: Service) => (
               <CardServicos
+              key={service.serviceId}
                 service={service}
               />
             ))

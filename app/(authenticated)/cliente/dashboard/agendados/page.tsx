@@ -168,9 +168,13 @@ export default function Agendados() {
         {
           filteredServices ?
             (filteredServices?.map((service: Service) => (
-              <CardServicos
+
+              <CardServicos key={service.serviceId}
+
                 service={service}
               />
+
+
             ))
             ) : (
               Array.from({ length: 6 }).map((_, index) => (
