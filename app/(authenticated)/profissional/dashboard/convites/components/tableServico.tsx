@@ -101,7 +101,7 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
     return (
         <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell>
-                <Image className='w-16 h-16 rounded-full' src={photo} alt='foto cliente' width="24" height="24" />
+                    <Image className="rounded-sm" src={photo} alt='foto cliente' width="128" height="128" />
             </Table.Cell>
             <Table.Cell>
                 {/* {name} */}

@@ -62,7 +62,7 @@ interface Address {
   cep: string;
 }
 
-export default function Convites() {
+export default function Aberta() {
 
   let token: string | null = null;
 
@@ -108,7 +108,7 @@ export default function Convites() {
           href="#"
         >
           <p>
-            Convites
+            Solicitações em aberto
           </p>
         </Breadcrumb.Item>
         <Breadcrumb.Item
@@ -118,7 +118,7 @@ export default function Convites() {
       </Breadcrumb>
 
       <Datepicker className='mb-4' id='data' />
-      <ul className="lg:hidden mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
+      <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
         {responseData ? (
           responseData.data.map((item) => (
             <CardServicos
@@ -138,52 +138,6 @@ export default function Convites() {
           ))
         )}
       </ul>
-      <Table hoverable className='lg:table hidden'>
-        <Table.Head className=''>
-          <Table.HeadCell >
-            FOTO
-          </Table.HeadCell>
-          <Table.HeadCell>
-            ID
-          </Table.HeadCell>
-          <Table.HeadCell>
-            DATA
-          </Table.HeadCell>
-          <Table.HeadCell >
-            STATUS
-          </Table.HeadCell>
-          <Table.HeadCell>
-            ENDEREÇO
-          </Table.HeadCell>
-          <Table.HeadCell>
-            AÇÕES
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y space-y-reverse">
-          {responseData ? (
-            responseData.data.map((item) => (
-              <TableServicos
-                date_hour={item.service.date_hour}
-                name={item.service.name}
-                photo={item.service.photo}
-                serviceId={item.service.serviceId.toString()}
-                status_service={item.service.status_service[0].toString()}
-                address={item.service.address}
-                value={item.service.value?.toString()}
-                key={item.service.serviceId}
-              />
-            ))
-          ) : (
-            Array.from({ length: 6 }).map((_, index) => (
-              <LoadingTable key={index} />
-            ))
-          )}
-        </Table.Body>
-      </Table >
-      {/* <span>{responseData ? <div>
-        <span>{JSON.stringify(responseData?.data)}</span>
-        <span>{responseData?.data[0]?.service.name}</span>
-      </div>: null}</span> */}
     </>
   );
 }

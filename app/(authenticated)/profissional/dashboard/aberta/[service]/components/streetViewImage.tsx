@@ -4,13 +4,13 @@ import LoadingImage from "./loading";
 import { ClientData, IEndereco } from "../interfaces/baseResponseService";
 import Image from "next/image";
 
-export default function StreetViewImage({client}: ClientData) {
+export default function StreetViewImage({service}: ClientData) {
   const [address, setAddress] = useState<DataApiAddress | null>(null)
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${client.address.cep}+${client.address.state}+${client.address.city}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`;
-      // const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=06655-265+Rua%estancia+36&key=AIzaSyBAtBZmnQA0lanlxnItwvZ2Zsa-BNs2Q8I`;
+      const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${service.address.cep}+${service.address.state}+${service.address.city}+${service.address.publicPlace}+${service.address.houseNumber}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`;
+
 
       fetch(apiUrl)
         .then((response) => {
@@ -29,7 +29,7 @@ export default function StreetViewImage({client}: ClientData) {
     };
     fetchData()
 
-  }, [client]);
+  }, [service]);
 
   return (
     <>

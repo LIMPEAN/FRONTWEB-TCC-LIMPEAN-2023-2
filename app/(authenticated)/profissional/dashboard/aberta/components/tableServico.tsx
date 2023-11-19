@@ -54,7 +54,7 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
     }
 
     const fetchData = useCallback(() => {
-        const apiUrl = `http://${process.env.HOST}:8080/v1/limpean/diarist`;
+        const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist`;
         const headers = {
             'x-api-key': token!!,
         };
@@ -119,7 +119,7 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
             <Table.Cell>
                 <div className='flex gap-2 items-center justify-start relative'>
                     <div className={`h-2 w-2 rounded-full ${value ? 'bg-green-600' : 'bg-blue-600'}`}></div>
-                    <span>{value ? "Preço enviado" : "Pendente de preço"}</span>
+                    <span>{status_service}</span>
                 </div>
             </Table.Cell>
             <Table.Cell >
@@ -167,7 +167,7 @@ export function TableServicos({ photo, name, date_hour, serviceId, status_servic
                 </div>
             </Table.Cell>
             <Table.Cell>
-                <Link className="underline text-blue-700" href={`./convites/${serviceId}`}>Ver</Link>
+                <Link className="underline text-blue-700" href={`./aberta/${serviceId}`}>Ver</Link>
             </Table.Cell>
         </Table.Row>
     )

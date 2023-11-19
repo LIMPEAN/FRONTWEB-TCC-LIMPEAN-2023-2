@@ -165,8 +165,10 @@ export default function Convites() {
         </Table.Head>
         <Table.Body className="divide-y space-y-reverse">
           {responseData ? (
-            responseData.data.map((item) => (
-              <TableServicos
+            responseData.data.map((item: ClientData) => {
+              const statusLenght = item.client.status_service.length - 1
+              if(item.client.status_service[statusLenght].status.toUpperCase() === "EM ABERTO" ) {
+                return <TableServicos
                 date_hour={item.client.date_hour}
                 name={item.client.name}
                 photo={item.client.photo}
@@ -176,7 +178,9 @@ export default function Convites() {
                 value={item.client.value?.toString()}
                 key={item.client.serviceId}
               />
-            ))
+              }
+            }
+            )
           ) : (
             Array.from({ length: 6 }).map((_, index) => (
               <LoadingTable key={index} />

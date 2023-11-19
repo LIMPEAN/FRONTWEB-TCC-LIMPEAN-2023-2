@@ -95,38 +95,38 @@ export default function Sidebar({ children }: SideBarProps) {
   const [responseData, setResponseData] = useState<ApiResponse | null>(null);
   const sidebarRef = useRef<HTMLDivElement | null>(null);
 
-  let token: string | null = null;
+  // let token: string | null = null;
 
-  if (typeof window !== 'undefined') {
-    token = localStorage.getItem("token")
-  }
+  // if (typeof window !== 'undefined') {
+  //   token = localStorage.getItem("token")
+  // }
 
-  useEffect(() => {
-    const fetchData = () => {
-      const apiUrl = `backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service`;
-      const headers = {
-        'x-api-key': token!!,
-      };
+  // useEffect(() => {
+  //   const fetchData = () => {
+  //     const apiUrl = `backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service`;
+  //     const headers = {
+  //       'x-api-key': token!!,
+  //     };
 
-      fetch(apiUrl, { headers })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Erro na resposta da API');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-          setResponseData(data);
-        })
-        .catch((error) => {
-          console.error('Erro ao buscar dados da API:', error);
-        });
-    };
+  //     fetch(apiUrl, { headers })
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error('Erro na resposta da API');
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         console.log(data);
+  //         setResponseData(data);
+  //       })
+  //       .catch((error) => {
+  //         console.error('Erro ao buscar dados da API:', error);
+  //       });
+  //   };
 
-    fetchData()
+  //   fetchData()
 
-  }, [token]);
+  // }, [token]);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -242,13 +242,13 @@ export default function Sidebar({ children }: SideBarProps) {
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">Convites</span>
                 <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                  {responseData?.data.length}
+                  3
                 </span>
               </Link>
             </li>
             <li>
               <Link
-                href={"#"}
+                href={"/profissional/dashboard/agendados"}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -260,7 +260,7 @@ export default function Sidebar({ children }: SideBarProps) {
                 >
                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Vazio</span>
+                <span className="flex-1 ml-3 whitespace-nowrap">Agendados</span>
               </Link>
             </li>
             <li>

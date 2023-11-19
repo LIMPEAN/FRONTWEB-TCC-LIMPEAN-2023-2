@@ -4,7 +4,7 @@ export interface ResponseService {
 }
 
 export interface ClientData {
-  client: {
+  service: {
     serviceId: number;
     status_service: StatusService[];
     name: string;
@@ -31,6 +31,7 @@ export interface IEndereco {
   complement: string;
   district: string;
   houseNumber: string;
+  numberHouse: string;
 }
 
 interface StatusService {
