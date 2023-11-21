@@ -4,6 +4,9 @@ import { Breadcrumb, Button, Modal, TextInput } from "flowbite-react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
+import { IData, Service } from "../../interfaces/baseResponseService";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 interface ResponseData {
@@ -21,13 +24,14 @@ export default function Autenticacao({
   const [openModal, setOpenModal] = useState(false);
   const [modalPlacement, setModalPlacement] = useState('center')
   const inputRef = useRef<HTMLInputElement>(null);
+  const [service, setService] = useState<Service | null>(null)
+
+  const router = useRouter()
 
   const handleCopy = () => {
     if (inputRef.current) {
       inputRef.current.select();
       document.execCommand('copy');
-      // Ou use o Clipboard API para um método mais moderno
-      // navigator.clipboard.writeText(inputRef.current.value);
     }
   };
 
@@ -60,8 +64,50 @@ export default function Autenticacao({
         });
     };
 
+    const fetchService = () => {
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`;
+      const headers = {
+        'x-api-key': token!!,
+      };
+
+      fetch(apiUrl, { headers })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na resposta da API');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data.data);
+          const filteredData = data.data
+            .map((item: IData) => {
+              if (item.service.serviceId == Number(params.detalhes)) {
+                const statusLength = item.service.status_service.length
+                if (item.service.status_service[statusLength - 1].status.toLowerCase() === "em andamento") {
+                  toast.success("Token autenticado com sucesso, aguarde o redirecionamento")
+                  router.push(`/profissional/dashboard/agendados/${params.detalhes}/andamento`)
+                } 
+              }
+            });
+          setService(filteredData)
+
+        })
+
+        .catch((error) => {
+          console.error('Erro ao buscar dados da API:', error);
+        });
+    };
+
     fetchData()
-  }, [token, params.detalhes])
+    fetchService()
+
+    const interval = setInterval(() => {
+      fetchService()
+    }, 5000);
+
+    // Limpa o intervalo quando o componente é desmontado
+    return () => clearInterval(interval);
+  }, [token, params.detalhes, router])
 
   const handleClickBlur = () => {
     setBlurOpen(!blurOpen)
@@ -139,7 +185,7 @@ export default function Autenticacao({
         </Modal.Header>
         <Modal.Body>
           <div className="flex flex-col gap-2 items-center justify-evenly">
-          
+
             <QRCode
               value={tokenService ? tokenService : "Token inválido"}
               size={296}
@@ -168,12 +214,12 @@ export default function Autenticacao({
         </Modal.Body>
         <Modal.Footer>
           <div className="w-full flex justify-center">
-        <button
-                className='h-12 w-1/2 bg-blue-700 cursor-pointer hover:bg-blue-800 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'
-                onClick={() => setOpenModal(false)}
-              >
-Sair              </button>
-</div>
+            <button
+              className='h-12 w-1/2 bg-blue-700 cursor-pointer hover:bg-blue-800 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'
+              onClick={() => setOpenModal(false)}
+            >
+              Sair              </button>
+          </div>
         </Modal.Footer>
       </Modal>
 

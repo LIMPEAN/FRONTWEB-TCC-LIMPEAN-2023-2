@@ -62,14 +62,14 @@ export function CardServicos({ service }: IData) {
         return color;
     };
 
-    const statusLenght = service.status_service.length - 1
+    const statusLength = service.status_service.length - 1
     return (
-        <div className={service.status_service[statusLenght].status.toLowerCase() == "cancelado" ? disable : enable
+        <div className={service.status_service[statusLength].status.toLowerCase() == "cancelado" ? disable : enable
         }>
             <div className="h-full">
                 <div className="pb-2 w-full text-center">
-                    <span className={`font-bold uppercase ${statusColor(service.status_service[statusLenght].status)}`}>
-                        {service.status_service[statusLenght].status.toLowerCase()}
+                    <span className={`font-bold uppercase ${statusColor(service.status_service[statusLength].status)}`}>
+                        {service.status_service[statusLength].status.toLowerCase()}
                     </span>
                 </div>
                 <StreetViewImage service={service} />
@@ -149,12 +149,12 @@ export function CardServicos({ service }: IData) {
                     <span className="text-base font-bold text-gray-500">#{service.serviceId}</span>
                 </div>
                 {
-                    service.status_service[statusLenght].status.toLowerCase() == "agendado" ?
+                    service.status_service[statusLength].status.toLowerCase() == "agendado" ?
                         <div className="flex items-start justify-between gap-4">
                             <button className="w-1/2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Cancelar</button>
                             <Link href={urlNext} className="w-1/2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Iniciar</Link>
                         </div>
-                        : service.status_service[statusLenght].status.toLowerCase() == "em andamento" ?
+                        : service.status_service[statusLength].status.toLowerCase() == "em andamento" ?
                             <div className="flex items-start justify-between gap-4">
                                 <Link href={urlNext + "/andamento"} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Acompanhar</Link>
                             </div>
