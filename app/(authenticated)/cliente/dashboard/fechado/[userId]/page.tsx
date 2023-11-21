@@ -123,7 +123,7 @@ export default function ModalDiarist({
     <div className="h-full flex flex-col p-2 bg-inherit">
       <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item
-          href="/dashboard/fechado"
+          href="./"
         >
           <p>
             Serviço Fechado

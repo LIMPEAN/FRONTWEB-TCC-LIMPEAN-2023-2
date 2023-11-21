@@ -36,6 +36,7 @@ interface Address {
 
 interface Service {
   serviceId: number;
+  diaristId: number;
   status_service: StatusService[];
   name: string;
   photo: string;

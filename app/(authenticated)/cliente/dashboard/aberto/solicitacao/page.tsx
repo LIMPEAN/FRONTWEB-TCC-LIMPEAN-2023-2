@@ -134,13 +134,13 @@ export default function ModalDiarist() {
     <div className=" flex flex-col p-2 bg-inherit ">
       <Breadcrumb aria-label="Default breadcrumb example">
         <Breadcrumb.Item
-          href="#"
+          href="./"
         >
           <p>
             Meus serviços
           </p>
         </Breadcrumb.Item>
-        <Breadcrumb.Item href="./">
+        <Breadcrumb.Item href="#">
         Solicitação
         </Breadcrumb.Item>
       </Breadcrumb>
