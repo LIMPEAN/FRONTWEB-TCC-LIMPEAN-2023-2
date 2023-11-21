@@ -23,7 +23,7 @@ interface CardDiaristaProps {
 export function CardServicos({ service_id, type_clean, value, date, nome, valor, id_diarista, cepStart, cepEnd, status, room }: CardDiaristaProps) {
 
     const valorRenderizado = valor === '0' ? 'À combinar' : `R$${valor}`;
-    const urlNext = `/cliente/dashboard/aberta/${id_diarista}`;
+    const urlNext = `/cliente/dashboard/aberto/${service_id}`;
 
     function createGoogleMapsLink(startAddress: string, destinationAddress: string, destination: string) {
         const baseUrl = 'https://www.google.com/maps/embed/v1/directions';

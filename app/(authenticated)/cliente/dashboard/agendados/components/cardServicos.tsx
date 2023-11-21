@@ -10,7 +10,8 @@ interface Room {
 
 
 
-export function CardServicos({ service }: IData) {service
+export function CardServicos({ service }: IData) {
+    service
 
     const valorRenderizado = service.value === "0.00" ? 'À combinar' : `R$${service.value}`;
     const urlNext = `/cliente/dashboard/agendados/${service.serviceId}`;
@@ -39,14 +40,14 @@ export function CardServicos({ service }: IData) {service
     const minutes = dateObject.getUTCMinutes();
 
     const enable = "w-full flex flex-col gap-3 h-fit p-4 bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700"
-    const disable = "w-full flex flex-col gap-3 h-fit p-4 bg-white border border-gray-200 rounded-2xl shadow dark:bg-red-800 dark:border-gray-700"
+    const disable = "w-full flex flex-col gap-3 h-fit p-4 bg-gray-100 border border-gray-200 rounded-2xl shadow dark:bg-gray-900 dark:border-gray-700 text-gray-600 dark:text-gray-300"
 
     const statusColor = (status: string) => {
         const statusStr = status.toLowerCase()
         let color = 'text-green-700 dark:text-green-300';
         switch (statusStr) {
             case 'cancelado':
-                color = 'text-red-700 dark:text-red-300';
+                color = 'text-gray-600 dark:text-gray-300';
                 break;
             case 'em aberto':
                 color = 'text-gray-700 dark:text-gray-300';
@@ -65,13 +66,13 @@ export function CardServicos({ service }: IData) {service
     return (
         <div className={service.status_service[statusLenght].status.toLowerCase() == "cancelado" ? disable : enable
         }>
-            <div>
+            <div className="h-full">
                 <div className="pb-2 w-full text-center">
-                    <span className={`font-bold uppercase ${statusColor(status)}`}>
-                        {status}
+                    <span className={`font-bold uppercase ${statusColor(service.status_service[statusLenght].status)}`}>
+                        {service.status_service[statusLenght].status.toLowerCase()}
                     </span>
                 </div>
-                <StreetViewImage  service={service} />
+                <StreetViewImage service={service} />
             </div>
             <div className="">
                 <div className="flex mb-2 gap-2 font-semibold">
@@ -147,10 +148,21 @@ export function CardServicos({ service }: IData) {service
                     </h5>
                     <span className="text-base font-bold text-gray-500">#{service.serviceId}</span>
                 </div>
-                <div className="flex items-start justify-between gap-4">
-                    <button className="w-1/2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Cancelar</button>
-                    <Link href={urlNext} className="w-1/2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Iniciar</Link>
-                </div>
+                {
+                    service.status_service[statusLenght].status.toLowerCase() == "agendado" ?
+                        <div className="flex items-start justify-between gap-4">
+                            <button className="w-1/2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Cancelar</button>
+                            <Link href={urlNext} className="w-1/2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Iniciar</Link>
+                        </div>
+                        : service.status_service[statusLenght].status.toLowerCase() == "em andamento" ?
+                            <div className="flex items-start justify-between gap-4">
+                                <Link href={urlNext + "/andamento"} className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Acompanhar</Link>
+                            </div>
+                            : <div className="flex items-start justify-between gap-4">
+                                <button type="button" disabled className="w-full py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 cursor-not-allowed">Desativado</button>
+
+                            </div>
+                }
             </div>
         </div>
     )

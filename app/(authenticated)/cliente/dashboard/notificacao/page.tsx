@@ -67,14 +67,6 @@ export default function Agendado() {
 
   const updateService = async (idService: string) => {
     const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`
-
-  //   const jsonApi = {
-  //     "idService": Number(idService),
-  //     "date": `${new Date().getUTCFullYear()}/${new Date().getUTCMonth()}/${new Date().getDay()}`,
-  //     "hour": `${new Date().getUTCHours()}:${new Date().getUTCMinutes()}`,
-  //     "schedule": true,
-  //     "newValue": null
-  // }
   const jsonApi = {
     "idService": Number(idService),
     "date": `2002/12/18`,
