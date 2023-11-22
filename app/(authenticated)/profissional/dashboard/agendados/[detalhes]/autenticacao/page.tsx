@@ -4,7 +4,7 @@ import { Breadcrumb, Button, Modal, TextInput } from "flowbite-react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
-import { IData, Service } from "../../interfaces/baseResponseService";
+import { IData, IDataClient, Service } from "../../interfaces/baseResponseService";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -65,7 +65,7 @@ export default function Autenticacao({
     };
 
     const fetchService = () => {
-      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service`;
       const headers = {
         'x-api-key': token!!,
       };
@@ -80,10 +80,13 @@ export default function Autenticacao({
         .then((data) => {
           console.log(data.data);
           const filteredData = data.data
-            .map((item: IData) => {
-              if (item.service.serviceId == Number(params.detalhes)) {
-                const statusLength = item.service.status_service.length
-                if (item.service.status_service[statusLength - 1].status.toLowerCase() === "em andamento") {
+            .map((item: IDataClient) => {
+              const statusLength1 = item.client.status_service.length
+
+              // console.log(item.client.status_service[statusLength1 - 1].status.toLowerCase())
+              if (item.client.serviceId == Number(params.detalhes)) {
+                const statusLength = item.client.status_service.length
+                if (item.client.status_service[statusLength - 1].status.toLowerCase() === "em andamento") {
                   toast.success("Token autenticado com sucesso, aguarde o redirecionamento")
                   router.push(`/profissional/dashboard/agendados/${params.detalhes}/andamento`)
                 } 

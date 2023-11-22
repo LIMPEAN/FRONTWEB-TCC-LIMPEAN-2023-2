@@ -51,7 +51,7 @@ interface Service {
 }
 
 interface Data {
-  service: Service;
+  client: Service;
 }
 
 interface MyData {
@@ -81,7 +81,7 @@ export default function Agendados() {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service`;
       const headers = {
         'x-api-key': token!!,
       };
@@ -94,10 +94,11 @@ export default function Agendados() {
           return response.json();
         })
         .then((data) => {
+          console.log(data)
           console.log(data.data);
           const filteredData = data.data
-            .filter((item: Data) => item.service.status_service[1] !== undefined)
-            .map((item: Data) => item.service);
+            .filter((item: Data) => item.client.status_service[1] !== undefined)
+            .map((item: Data) => item.client);
 
           setServices(filteredData);
           setFilteredServices(filteredData);

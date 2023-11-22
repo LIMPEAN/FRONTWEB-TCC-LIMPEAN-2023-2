@@ -26,6 +26,15 @@ interface Address {
   complement: string | null;
 }
 
+interface assessment {
+  name: string;
+  photo: string;
+  stars: number;
+  comment: string;
+}
+
+
+
 interface User {
   id_diarist: number;
   statusAccount: StatusAccount[];
@@ -37,7 +46,7 @@ interface User {
   email: string;
   medium_value: string;
   gender: string;
-  assessment: any[]; // You might want to replace `any[]` with a specific type for assessments
+  assessment: assessment[]; // You might want to replace `any[]` with a specific type for assessments
   phone: Phone[];
   address: Address[];
 }
@@ -119,6 +128,12 @@ export default function ModalDiarist({
 
   const routeNext = `${params.userId}/solicitacao`
 
+  let totalStars = data?.user.assessment.reduce((sum, assessment) => sum + assessment.stars, 0);
+  let averageStars
+  if (totalStars != null && data?.user.assessment != null) {
+    averageStars = totalStars / data?.user.assessment.length;
+  }
+
   return (
     <div className="h-full flex flex-col p-2 bg-inherit">
       <Breadcrumb aria-label="Default breadcrumb example">
@@ -150,7 +165,7 @@ export default function ModalDiarist({
             <Rating>
               <Rating.Star />
               <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                4.95
+                {averageStars != undefined ? averageStars > 0 ? averageStars : "Novo" : "Novo"}
               </p>
               <span className="mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400" />
               <a
@@ -158,7 +173,7 @@ export default function ModalDiarist({
                 href="#"
               >
                 <p>
-                  73 reviews
+                  {data?.user.assessment.length} avaliações
                 </p>
               </a>
             </Rating>
@@ -181,8 +196,13 @@ export default function ModalDiarist({
         </div>
 
         <div className="flex-col lg:h-full mb-4 2xl:flex-row px-4 lg:overflow-x-auto py-8 gap-4 items-center lg:w-2/5 text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700">
-          <AvaliacaoCard />
-          <AvaliacaoCard />
+          {data?.user.assessment.map((avaliacao: assessment, _index) => <AvaliacaoCard
+            comments={avaliacao.comment}
+            name={avaliacao.name}
+            photo={avaliacao.photo}
+            stars={avaliacao.stars}
+            key={_index}
+          />)}
         </div>
       </div>
     </div>

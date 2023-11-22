@@ -45,6 +45,10 @@ export interface IData {
   service: Service;
 }
 
+export interface IDataClient {
+  client: Service;
+}
+
 export interface MyData {
   data: IData[];
 }
