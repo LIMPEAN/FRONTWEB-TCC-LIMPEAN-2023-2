@@ -165,11 +165,11 @@ export default function Chat() {
                     <button onClick={() => {
                         setIsOpen((prevIsOpen) => !prevIsOpen);
                     }} className={`w-full h-full lg:overflow-x-hidden overflow-y-scroll lg:flex`}>
-                        {services.map((servico: Service) => (
-                            <div className="dark:hover:bg-gray-100/10 hover:bg-gray-400/10 cursor-pointer">
+                        {services.map((servico: Service, _index) => (
+                            <div key={_index} className="dark:hover:bg-gray-100/10 hover:bg-gray-400/10 cursor-pointer">
                                 <div className="flex justify-between p-2 mr-2 ">
                                     <div className="flex gap-2">
-                                        <img className="h-12 w-12 rounded-full object-cover" src={servico.photo} alt="photo" />
+                                        <Image className="h-12 w-12 rounded-full object-cover" src={servico.photo} alt="photo" />
                                         <div className="flex w-full flex-col">
                                             <span className="font-semibold">{servico.name}</span>
                                             <div className="w-full">
@@ -192,7 +192,7 @@ export default function Chat() {
                  ${!isOpen ? "hidden" : "flex flex-col"}`
                 }>
                     <div className="flex gap-2 p-2 h-fit bg-blue-700 dark:bg-blue-900 text-white">
-                        <img className="w-12 h-12 rounded-full object-cover" src={services[0]?.photo} alt="" />
+                        <Image className="w-12 h-12 rounded-full object-cover" src={services[0]?.photo} alt="" />
                         <div>
                             <span className="font-medium">Greyce Adams</span>
                             <div className="truncate text-xs w-44">
@@ -202,11 +202,11 @@ export default function Chat() {
                     </div>
 
                     <div className="bg-black-600 h-full p-2 flex flex-col gap-2 overflow-y-auto">{
-                        messages?.mensagens.map((mensagemMap: Message) => {
+                        messages?.mensagens.map((mensagemMap: Message, _index) => {
                             return (
                                 <>
                                     {mensagemMap.sender.typeUser.toLocaleLowerCase() == "client" ?
-                                        <div className="flex flex-col gap-2 justify-end bg-gray-400 dark:bg-blue-900 pb-2 max-w-[75%] w-fit p-4 rounded-lg text-white">
+                                        <div key={_index} className="flex flex-col gap-2 justify-end bg-gray-400 dark:bg-blue-900 pb-2 max-w-[75%] w-fit p-4 rounded-lg text-white">
                                             <span>apdkpoqwkdpoqdpoqkd qk poqkdpoqwk poqpdo kqop wkodpqk kdp qwk qpdkopk qd</span>
                                             <div className="flex w-full justify-end">
                                                 <span className="text-xs"> {mensagemMap.date}</span>
