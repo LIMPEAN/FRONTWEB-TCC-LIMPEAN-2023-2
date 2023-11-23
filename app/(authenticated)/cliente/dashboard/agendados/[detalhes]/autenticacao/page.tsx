@@ -24,9 +24,27 @@ export default function Autenticacao({
     
 
     try {
-      const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/schedule-service?idService=${params.detalhes}&idStatus=3`
-      console.log(url)
-      const response = await putInitializeService(url, token!!)
+      const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service/status`
+      const year = new Date().getFullYear()
+      const month = new Date().getUTCMonth()
+      const day = new Date().getDay()
+      const hour = new Date().getHours()
+      const minute = new Date().getMinutes()
+
+      const newDay = day < 10 ? "0" + day : day
+      const newMonth = day < 10 ? "0" + month : month
+      const newMinute = minute < 10 ? "0" + minute : minute
+
+      const json = {
+        idService: Number(params.detalhes),
+        date: `${year}/${month}/  ${newDay}`,
+        hour: `${hour}:${newMinute}`,
+        idStatus: 3
+      }
+
+      console.log(json)
+
+      const response = await putInitializeService(url, json, token!!)
 
       if (response.status == 201) {
         toast.success(response.message)

@@ -7,16 +7,16 @@
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 0px;
 }
 
 /* Botão de rolagem */
 ::-webkit-scrollbar-thumb {
   background: transparent;
   /* Cor do botão de rolagem */
-  border-radius: 3px;
+  border-radius: 0px;
   /* Raio da borda do botão de rolagem */
-  height: 20px;
+  height: 0px;
   /* Altura do botão de rolagem (sem !important) */
 }
 
