@@ -43,12 +43,12 @@ export default function Login() {
 
   async function createLogin(data: any) {
 
-    const senhaSHA256 = SHA256(data.senha).toString();
+    // const senhaSHA256 = SHA256(data.senha).toString();
 
     const jsonApi: ILogin = {
       typeUser: data.tipo_usuario || "client",
       email: data.email,
-      password: senhaSHA256
+      password: data.senha
     }
     console.log(jsonApi);
 

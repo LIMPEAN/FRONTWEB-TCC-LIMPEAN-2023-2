@@ -1,10 +1,9 @@
 "use client"
+
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast"
 import { io, Socket } from "socket.io-client"
 import { IData, Service } from "../agendados/interfaces/baseResponseService";
-import { json } from "stream/consumers";
-import Image from "next/image";
+import toast from "react-hot-toast";
 
 interface Sender {
     typeUser: string;
@@ -26,9 +25,9 @@ export default function Chat() {
 
     const [messages, setMessages] = useState<Chat | null>(null)
     const [newMessages, setNewMessages] = useState("")
-    const [searchQuery, setSearchQuery] = useState('');
+    // const [searchQuery, setSearchQuery] = useState('');
     const [services, setServices] = useState<Service[]>([]);
-    const [isOpen, setIsOpen] = useState<boolean>(false)
+    // const [isOpen, setIsOpen] = useState<boolean>(false)
 
     let token: string | null = null;
 
@@ -36,50 +35,48 @@ export default function Chat() {
         token = localStorage.getItem("token")
     }
 
-
-    // const socket = io("http://localhost:8080")
-
+ 
     useEffect(() => {
-        setMessages({
-            "mensagens": [
-                {
-                    "message": "Hello world",
-                    "date": "2023-11-01T12:00:00.000Z",
-                    "sender": {
-                        "typeUser": "CLIENT",
-                        "name": "Fernanda",
-                        "photoUrl": "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2F2023_11_18_13_28_27_istockphoto-1311084168-612x612.jpg?alt=media&token=4a35cb13-3f55-4807-a76f-24cd48f48e7a"
-                    }
-                },
-                {
-                    "message": "Hello world!",
-                    "date": "2023-11-01T12:00:00.000Z",
-                    "sender": {
-                        "typeUser": "CLIENT",
-                        "name": "Fernanda",
-                        "photoUrl": "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2F2023_11_18_13_28_27_istockphoto-1311084168-612x612.jpg?alt=media&token=4a35cb13-3f55-4807-a76f-24cd48f48e7a"
-                    }
-                },
-                {
-                    "message": "Hello world!",
-                    "date": "2023-11-01T12:00:00.000Z",
-                    "sender": {
-                        "typeUser": "CLIENT",
-                        "name": "Fernanda",
-                        "photoUrl": "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2F2023_11_18_13_28_27_istockphoto-1311084168-612x612.jpg?alt=media&token=4a35cb13-3f55-4807-a76f-24cd48f48e7a"
-                    }
-                },
-                {
-                    "message": "Ola222",
-                    "date": "2023-11-01T12:00:00.000Z",
-                    "sender": {
-                        "typeUser": "DIARIST",
-                        "name": "Arnaldo",
-                        "photoUrl": "http://photoArnaldo.jpg"
-                    }
-                }
-            ]
-        })
+        // setMessages({
+        //     "mensagens": [
+        //         {
+        //             "message": "Hello world",
+        //             "date": "2023-11-01T12:00:00.000Z",
+        //             "sender": {
+        //                 "typeUser": "CLIENT",
+        //                 "name": "Fernanda",
+        //                 "photoUrl": "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2F2023_11_18_13_28_27_istockphoto-1311084168-612x612.jpg?alt=media&token=4a35cb13-3f55-4807-a76f-24cd48f48e7a"
+        //             }
+        //         },
+        //         {
+        //             "message": "Hello world!",
+        //             "date": "2023-11-01T12:00:00.000Z",
+        //             "sender": {
+        //                 "typeUser": "CLIENT",
+        //                 "name": "Fernanda",
+        //                 "photoUrl": "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2F2023_11_18_13_28_27_istockphoto-1311084168-612x612.jpg?alt=media&token=4a35cb13-3f55-4807-a76f-24cd48f48e7a"
+        //             }
+        //         },
+        //         {
+        //             "message": "Hello world!",
+        //             "date": "2023-11-01T12:00:00.000Z",
+        //             "sender": {
+        //                 "typeUser": "CLIENT",
+        //                 "name": "Fernanda",
+        //                 "photoUrl": "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2F2023_11_18_13_28_27_istockphoto-1311084168-612x612.jpg?alt=media&token=4a35cb13-3f55-4807-a76f-24cd48f48e7a"
+        //             }
+        //         },
+        //         {
+        //             "message": "Ola222",
+        //             "date": "2023-11-01T12:00:00.000Z",
+        //             "sender": {
+        //                 "typeUser": "DIARIST",
+        //                 "name": "Arnaldo",
+        //                 "photoUrl": "http://photoArnaldo.jpg"
+        //             }
+        //         }
+        //     ]
+        // })
 
         const fetchData = () => {
             const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`;
@@ -95,44 +92,47 @@ export default function Chat() {
                     return response.json();
                 })
                 .then((data) => {
-                    console.log(data.data);
                     const filteredData = data.data
                         .filter((item: IData) => item.service.status_service[1] !== undefined)
                         .map((item: IData) => item.service);
-
                     setServices(filteredData);
                 })
+
+
 
                 .catch((error) => {
                     console.error('Erro ao buscar dados da API:', error);
                 });
         };
 
-        fetchData()
+        const socket = io("https://back-mongo-limpean-2023.azurewebsites.net")
+        socket.on('connect', function () {
+            let socketName = socket.id
+            toast.success("Conectou")
+            const room = {
+                serviceMysqlId: 1
+            }
+            socket.emit('class', room);
+        })
 
+        socket.on('push', (data: Chat) => {
+            console.log(data);
 
-        // socket.on('connect', function () {
-        //     let socketName = socket.id
-        //     toast.success("Conectou")
-        //     const room = {
-        //         serviceMysqlId: 1
-        //     }
-        //     socket.emit('class', room);
-        // })
-        // return () => {
-        //     socket.on('disconnect', function () {
-        //         toast.error("Desconectou")
-        //     });
-        // }
+            setMessages(data)
+        });
+
+        // fetchData()
+
+        return () => {
+            socket.on('disconnect', function () {
+                toast.error("Desconectou")
+            });
+        };
+
 
     }, [token])
 
 
-    // socket.on('push', (data: Chat) => {
-    //     console.log(data);
-
-    //     setMessages(data)
-    // });
 
     const handleClickSend = () => {
 
@@ -155,23 +155,24 @@ export default function Chat() {
             date: `${year}-${newMonth}-${newDay}`,
             hour: `${hour}:${minute}`
         }
+
+        
     }
 
     return (
         <>
-            <div className="flex w-full h-full lg:gap-2">
-                <div className={`lg:w-1/4 w-full rounded-md h-full  overflow-y-hidden flex flex-col lg:flex-row  bg-white border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700  ${!isOpen ? "flex flex-col" : "hidden"}`}>
-
+            {JSON.stringify(messages)}
+            {/* <div className="flex w-full h-full lg:gap-2">
+                <div className={`lg:w-1/4 w-full rounded-md h-full  overflow-y-hidden flex flex-col lg:flex-row  bg-white border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700 `}>
                     <button onClick={() => {
-                        setIsOpen((prevIsOpen) => !prevIsOpen);
-                    }} className={`w-full h-full lg:overflow-x-hidden overflow-y-scroll lg:flex`}>
-                        {services.map((servico: Service, _index) => (
+                    }} className="w-full h-full lg:overflow-x-hidden overflow-y-scroll lg:flex">
+                        {services?.map((servico: Service, _index) => (
                             <div key={_index} className="dark:hover:bg-gray-100/10 hover:bg-gray-400/10 cursor-pointer">
                                 <div className="flex justify-between p-2 mr-2 ">
                                     <div className="flex gap-2">
-                                        <Image className="h-12 w-12 rounded-full object-cover" src={servico.photo} alt="photo" />
+                                        <Image className="h-12 w-12 rounded-full object-cover" src={servico?.photo} alt="photo" />
                                         <div className="flex w-full flex-col">
-                                            <span className="font-semibold">{servico.name}</span>
+                                            <span className="font-semibold">{servico?.name}</span>
                                             <div className="w-full">
                                                 <div className="truncate text-xs w-44">
                                                     Mensagem comum de teste
@@ -188,9 +189,8 @@ export default function Chat() {
                         ))}
                     </button>
                 </div>
-                <div className={`lg:w-3/4 justify-between lg:flex lg:flex-col h-full w-full rounded-md   overflow-y-hidden bg-white border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700
-                 ${!isOpen ? "hidden" : "flex flex-col"}`
-                }>
+                            <div className="lg:w-3/4 justify-between lg:flex lg:flex-col h-full w-full rounded-md   overflow-y-hidden bg-white border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700"
+                >
                     <div className="flex gap-2 p-2 h-fit bg-blue-700 dark:bg-blue-900 text-white">
                         <Image className="w-12 h-12 rounded-full object-cover" src={services[0]?.photo} alt="" />
                         <div>
@@ -205,11 +205,11 @@ export default function Chat() {
                         messages?.mensagens.map((mensagemMap: Message, _index) => {
                             return (
                                 <>
-                                    {mensagemMap.sender.typeUser.toLocaleLowerCase() == "client" ?
+                                    {mensagemMap?.sender.typeUser.toLocaleLowerCase() == "client" ?
                                         <div key={_index} className="flex flex-col gap-2 justify-end bg-gray-400 dark:bg-blue-900 pb-2 max-w-[75%] w-fit p-4 rounded-lg text-white">
                                             <span>apdkpoqwkdpoqdpoqkd qk poqkdpoqwk poqpdo kqop wkodpqk kdp qwk qpdkopk qd</span>
                                             <div className="flex w-full justify-end">
-                                                <span className="text-xs"> {mensagemMap.date}</span>
+                                                <span className="text-xs"> {mensagemMap?.date}</span>
                                             </div>
                                         </div>
                                         :
@@ -217,7 +217,7 @@ export default function Chat() {
                                             <div className="flex flex-col gap-2 text-end bg-gray-600 dark:bg-gray-700 pb-2 max-w-[75%] w-fit p-4 rounded-lg text-white">
                                                 <span>apdkpoqwkdpoqdpoqkd qk poqkdpoqwk poqpdo kqop wkodpqk kdp qwk qpdkopk qd</span>
                                                 <div className="flex w-full justify-end">
-                                                    <span className="text-xs"> {mensagemMap.date}</span>
+                                                    <span className="text-xs"> {mensagemMap?.date}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,8 +255,14 @@ export default function Chat() {
                         </div>
                     </form>
                 </div>
+            </div> */}
 
-                {/* <span>{
+        </>
+    )
+}
+
+
+{/* <span>{
                     messages?.mensagens.map((menssagemMap: Message) => {
                         return (
                             <>
@@ -271,7 +277,7 @@ export default function Chat() {
                                     :
                                     <div className="flex flex-col  w-full items-end bg-yellow-700">
                                         <span>foto {menssagemMap.sender.photoUrl}</span>
-                                        <span>foto {menssagemMap.sender.name}</span>
+                                        <span>foto {menssagemMap.sender.name}</span>;
                                         <span>foto {menssagemMap.sender.typeUser}</span>
                                         <span>foto {menssagemMap.message}</span>
                                     </div>
@@ -282,7 +288,7 @@ export default function Chat() {
                     })
 
                 }</span> */}
-                {/* </div>
+{/* </div>
             <input value={newMessages} onChange={
                 (e) => {
                     setNewMessages(e.target.value)
@@ -290,7 +296,3 @@ export default function Chat() {
             } type="text" />
             <button onClick={handleClickSend}>Enviar</button>
             <div> */}
-            </div>
-        </>
-    )
-}

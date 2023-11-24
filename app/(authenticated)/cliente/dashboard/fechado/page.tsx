@@ -53,8 +53,8 @@ interface ApiResponse {
 
 export default function Aberta() {
   const [searchQuery, setSearchQuery] = useState(''); // Estado para armazenar a consulta de pesquisa
-  const [diaristas, setDiaristas] = useState<Diarist[]>([]); // Estado para armazenar todos os diaristas
-  const [filteredDiaristas, setFilteredDiaristas] = useState<Diarist[]>([]); // Estado para armazenar os 
+  const [diaristas, setDiaristas] = useState<Diarist[]>([]);   // Estado para armazenar todos os diaristas
+  const [filteredDiaristas, setFilteredDiaristas] = useState<Diarist[] | null>([]); // Estado para armazenar os 
 
   let token: string | null = null;
 
@@ -70,10 +70,13 @@ export default function Aberta() {
 
   const debouncedSearch = useRef(
     debounce((query: string) => {
-      const filtered = diaristas.filter((diarist: Diarist) =>
-        diarist.user.name.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredDiaristas(filtered);
+      const filtered: Diarist[] = diaristas
+        .filter((diarist: Diarist) =>
+          diarist.user.name.toLowerCase().includes(query.toLowerCase()) &&
+          diarist.user.statusAccount[0].status
+        );
+
+      setDiaristas(filtered);
     }, 300)
   ).current;
 
@@ -162,11 +165,12 @@ export default function Aberta() {
       </form>
       <ul className="mt-4 h-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-start w-full">
         {
+
           diaristas ? diaristas?.map((diarist: Diarist) => (
             <CardDiarista
               key={diarist?.user.id_diarist}
               urlImagem={diarist?.user.photoProfile}
-              biografia={diarist?.user.biography ?  diarist.user.biography : ""}
+              biografia={diarist?.user.biography ? diarist.user.biography : ""}
               idade={diarist?.user.birthDate}
               nome={diarist?.user.name}
               avaliacao={5.0}

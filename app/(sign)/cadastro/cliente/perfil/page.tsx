@@ -128,7 +128,7 @@ export default function CadastroCliente() {
       district: `${jsonEndereco.bairro}`,
       houseNumber: `${jsonEndereco.numero}`
     }
-    const senhaSHA256 = SHA256(data.senha).toString();
+    // const senhaSHA256 = SHA256(data.senha).toString();
 
     const telefoneLimpo = jsonCliente.telefone.replace(/\D/g, '');
     const ddd = telefoneLimpo.slice(0, 2);
@@ -137,7 +137,7 @@ export default function CadastroCliente() {
     const jsonApi: CreateUserRequest = {
       typeUser: "client",
       email: `${jsonPerfil.email}`,
-      password: `${senhaSHA256}`,
+      password: `${data.senha}`,
       nameUser: `${jsonCliente.nome}`,
       photoUser: `${jsonPerfil.urlFoto}`,
       phone: `${restante}`,
