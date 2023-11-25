@@ -13,7 +13,7 @@ export default function ScannerScreen() {
         height: 250,
       },
       fps: 5,
-    }, true)
+    }, false)
 
 
     const success = (result: any) => {
