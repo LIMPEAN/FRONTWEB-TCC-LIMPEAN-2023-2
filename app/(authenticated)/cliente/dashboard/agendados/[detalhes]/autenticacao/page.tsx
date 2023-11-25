@@ -1,11 +1,12 @@
 "use client"
 
-import { Breadcrumb, Button, TextInput } from "flowbite-react";
+import { Breadcrumb, Button, Modal, TextInput } from "flowbite-react";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { getVerifyToken } from "./service/fetchApi";
 import toast from "react-hot-toast";
 import { putInitializeService } from "./service/putStatusService";
+import { Html5QrcodeScanner } from "html5-qrcode"
 
 export default function Autenticacao({
   params,
@@ -13,15 +14,40 @@ export default function Autenticacao({
   params: { detalhes: string };
 }) {
 
+  const [openModal, setOpenModal] = useState(false);
+  const [modalPlacement, setModalPlacement] = useState('center')
   const [tokenServiceWrite, setTokenServiceWrite] = useState("")
+  const [scanResult, setScanResult] = useState<any | null>(null)
   let token: string | null = null;
+
+
+  useEffect(() => {
+    const scanner = new Html5QrcodeScanner('reader', {
+      qrbox: {
+        width: 250,
+        height: 250,
+      },
+      fps: 5,
+    }, true)
+
+
+    const success = (result: any) => {
+      scanner.clear()
+      setScanResult(result)
+    }
+    const error = (err: any) => {
+      console.warn(err)
+    }
+    scanner.render(success, error)
+
+  }, [])
 
   if (typeof window !== 'undefined') {
     token = localStorage.getItem("token")
   }
 
   const updateService = async () => {
-    
+
 
     try {
       const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service/status`
@@ -74,9 +100,6 @@ export default function Autenticacao({
     }
   }
 
-
-  
-
   return (
     <div className="h-screen overflow-hidden flex flex-col lg:pb-4 pb-14">
       <Breadcrumb className='mb-4' aria-label="Default breadcrumb example">
@@ -127,6 +150,7 @@ export default function Autenticacao({
               >
                 Iniciar
               </button>
+              <button onClick={() => setOpenModal(true)}>Ler QrCode</button>
             </div>
             <div className="w-full flex items-center justify-between gap-2">
               <div className="w-full bg-gray-300 h-px"></div>
@@ -148,6 +172,28 @@ export default function Autenticacao({
           </div>
         </div>
       </div>
+      <Modal
+        show={openModal}
+        position={modalPlacement}
+        onClose={() => setOpenModal(false)}
+      >
+        <Modal.Header >
+          <span >Token da solicitação #{params.detalhes}</span>
+        </Modal.Header>
+        <Modal.Body>
+          <div id="reader"></div>
+          <span>Resultado: {scanResult}</span>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="w-full flex justify-center">
+            <button
+              className='h-12 w-1/2 bg-blue-700 cursor-pointer hover:bg-blue-800 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'
+              onClick={() => setOpenModal(false)}
+            >
+              Sair</button>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
