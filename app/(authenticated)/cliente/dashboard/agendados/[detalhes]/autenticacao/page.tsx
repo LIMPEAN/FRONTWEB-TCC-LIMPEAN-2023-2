@@ -1,12 +1,12 @@
 "use client"
 
-import { Breadcrumb, Button, Modal, TextInput } from "flowbite-react";
+import { Html5QrcodeScanner } from "html5-qrcode"
+import { Breadcrumb, Modal, TextInput } from "flowbite-react";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getVerifyToken } from "./service/fetchApi";
 import toast from "react-hot-toast";
 import { putInitializeService } from "./service/putStatusService";
-import { Html5QrcodeScanner } from "html5-qrcode"
 
 export default function Autenticacao({
   params,
@@ -19,28 +19,6 @@ export default function Autenticacao({
   const [tokenServiceWrite, setTokenServiceWrite] = useState("")
   const [scanResult, setScanResult] = useState<any | null>(null)
   let token: string | null = null;
-
-
-  useEffect(() => {
-    const scanner = new Html5QrcodeScanner('reader', {
-      qrbox: {
-        width: 250,
-        height: 250,
-      },
-      fps: 5,
-    }, true)
-
-
-    const success = (result: any) => {
-      scanner.clear()
-      setScanResult(result)
-    }
-    const error = (err: any) => {
-      console.warn(err)
-    }
-    scanner.render(success, error)
-
-  }, [])
 
   if (typeof window !== 'undefined') {
     token = localStorage.getItem("token")
@@ -100,8 +78,33 @@ export default function Autenticacao({
     }
   }
 
+  useEffect(() => {
+    const modalIsOpen = () => {
+      const scanner = new Html5QrcodeScanner('reader', {
+        qrbox: {
+          width: 250,
+          height: 250,
+        },
+        fps: 5,
+      }, false)
+
+      const success = (result: any) => {
+        scanner.clear()
+        setScanResult(result)
+        setOpenModal(false)
+      }
+      const error = (err: any) => {
+        console.warn(err)
+      }
+      scanner.render(success, error)
+    }
+    modalIsOpen()
+  }, [])
+
+
   return (
     <div className="h-screen overflow-hidden flex flex-col lg:pb-4 pb-14">
+      <div className={openModal ? "fixed z-50 h-full w-full": "hidden"} id="reader"></div>
       <Breadcrumb className='mb-4' aria-label="Default breadcrumb example">
         <Breadcrumb.Item
           href="../"
@@ -150,7 +153,12 @@ export default function Autenticacao({
               >
                 Iniciar
               </button>
-              <button onClick={() => setOpenModal(true)}>Ler QrCode</button>
+              <button
+                onClick={() => setOpenModal(true)}
+                className='h-12 w-full bg-blue-700 cursor-pointer hover:bg-blue-800 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'
+              >
+                Ler token
+              </button>
             </div>
             <div className="w-full flex items-center justify-between gap-2">
               <div className="w-full bg-gray-300 h-px"></div>
@@ -172,28 +180,7 @@ export default function Autenticacao({
           </div>
         </div>
       </div>
-      <Modal
-        show={openModal}
-        position={modalPlacement}
-        onClose={() => setOpenModal(false)}
-      >
-        <Modal.Header >
-          <span >Token da solicitação #{params.detalhes}</span>
-        </Modal.Header>
-        <Modal.Body>
-          <div id="reader"></div>
-          <span>Resultado: {scanResult}</span>
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="w-full flex justify-center">
-            <button
-              className='h-12 w-1/2 bg-blue-700 cursor-pointer hover:bg-blue-800 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'
-              onClick={() => setOpenModal(false)}
-            >
-              Sair</button>
-          </div>
-        </Modal.Footer>
-      </Modal>
     </div>
+
   )
 }
