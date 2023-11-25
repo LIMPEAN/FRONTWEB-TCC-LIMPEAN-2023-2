@@ -16,7 +16,7 @@ export default function Autenticacao({
 
   const [openModal, setOpenModal] = useState(false);
   const [modalPlacement, setModalPlacement] = useState('center')
-  const [tokenServiceWrite, setTokenServiceWrite] = useState("")
+  const [tokenServiceWrite, setTokenServiceWrite] = useState<string>("")
   const [scanResult, setScanResult] = useState<any | null>(null)
   let token: string | null = null;
 
@@ -64,7 +64,6 @@ export default function Autenticacao({
 
 
   async function verificadorDoToken() {
-    alert(tokenServiceWrite)
     try {
       const response = await getVerifyToken(`https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service/token?idService=${params.detalhes}&token=${tokenServiceWrite}`, token!!);
       if (response.status == 201) {
@@ -90,9 +89,9 @@ export default function Autenticacao({
       }, false)
 
       const success = (result: any) => {
+        alert(result)
         scanner.clear()
-        const resultadoLeitura = result.toString()
-        setTokenServiceWrite(resultadoLeitura)
+        setTokenServiceWrite(result)
         setOpenModal(false)
         verificadorDoToken()
       }
