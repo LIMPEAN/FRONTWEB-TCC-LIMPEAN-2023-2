@@ -78,6 +78,23 @@ export default function Autenticacao({
     }
   }
 
+  async function verificadorDoQrCode(qrCode: string) {
+    toast.success("O código encontrado: " + qrCode)
+    try {
+      const response = await getVerifyToken(`https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service/token?idService=${params.detalhes}&token=${qrCode}`, token!!);
+      if (response.status == 201) {
+        toast.success(response.message)
+        updateService()
+
+      } else {
+        toast.error("Token inválido")
+      }
+    } catch (error) {
+      toast.error("Servidor indisponível para esse processo")
+    }
+  }
+
+
   useEffect(() => {
     const modalIsOpen = () => {
       const scanner = new Html5QrcodeScanner('reader', {
@@ -89,11 +106,9 @@ export default function Autenticacao({
       }, false)
 
       const success = (result: any) => {
-        alert(result)
         scanner.clear()
-        setTokenServiceWrite(result)
         setOpenModal(false)
-        verificadorDoToken()
+        verificadorDoQrCode(result)
       }
       const error = (err: any) => {
         console.warn(err)
