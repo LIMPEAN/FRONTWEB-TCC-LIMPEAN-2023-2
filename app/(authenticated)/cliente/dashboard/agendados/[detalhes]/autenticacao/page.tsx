@@ -64,6 +64,7 @@ export default function Autenticacao({
 
 
   async function verificadorDoToken() {
+    alert(tokenServiceWrite)
     try {
       const response = await getVerifyToken(`https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service/token?idService=${params.detalhes}&token=${tokenServiceWrite}`, token!!);
       if (response.status == 201) {
