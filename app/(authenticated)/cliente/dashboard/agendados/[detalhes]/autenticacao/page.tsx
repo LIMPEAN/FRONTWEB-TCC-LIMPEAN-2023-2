@@ -90,8 +90,9 @@ export default function Autenticacao({
 
       const success = (result: any) => {
         scanner.clear()
-        setScanResult(result)
+        setTokenServiceWrite(result)
         setOpenModal(false)
+        verificadorDoToken()
       }
       const error = (err: any) => {
         console.warn(err)
