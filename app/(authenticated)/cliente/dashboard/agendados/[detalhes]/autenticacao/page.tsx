@@ -91,7 +91,8 @@ export default function Autenticacao({
 
       const success = (result: any) => {
         scanner.clear()
-        setTokenServiceWrite(result)
+        const resultadoLeitura = result.toString()
+        setTokenServiceWrite(resultadoLeitura)
         setOpenModal(false)
         verificadorDoToken()
       }
