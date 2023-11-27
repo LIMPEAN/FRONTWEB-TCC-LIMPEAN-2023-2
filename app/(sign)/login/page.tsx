@@ -59,7 +59,7 @@ export default function Login() {
         localStorage.setItem("token", response.token)
         if(data.tipo_usuario =="client")
         {
-          router.push(`/cliente/dashboard/`)
+          router.push(`/cliente/dashboard/home`)
         }else{
           router.push(`/profissional/dashboard/home`)
         }
