@@ -58,6 +58,7 @@ export default function Agendado() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [filteredServices, setFilteredServices] = useState<Service[]>([]);
 
   let token: string | null = null;
@@ -88,9 +89,9 @@ export default function Agendado() {
           return response.json();
         })
         .then((data) => {
-          console.log(data.data);
-          setServices(data.data.map((item: Data) => item.service)); // assuming data is an array of Data
-          setFilteredServices(data.data.map((item: Data) => item.service)); // assuming data is an array of Data
+          setIsLoading(false)
+          setServices(data.data.map((item: Data) => item.service)); 
+          setFilteredServices(data.data.map((item: Data) => item.service));
         })
         .catch((error) => {
           console.error('Erro ao buscar dados da API:', error);
@@ -179,11 +180,11 @@ export default function Agendado() {
                 room={service.room}
               />
             ))
-            ) : (
+            ) : isLoading ? (
               Array.from({ length: 6 }).map((_, index) => (
                 <Loading key={index} />
               ))
-            )
+            ) : null
         }
       </ul>
     </div>

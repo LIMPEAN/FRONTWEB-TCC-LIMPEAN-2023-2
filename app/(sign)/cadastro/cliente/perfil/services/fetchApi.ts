@@ -10,6 +10,4 @@ export const postApi = async (jsonData: any, url: string) => {
     console.error('Erro ao fazer a solicitação POST:', error);
     
   }
-
-
 }

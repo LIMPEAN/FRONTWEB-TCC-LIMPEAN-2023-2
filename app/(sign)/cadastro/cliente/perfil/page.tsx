@@ -18,6 +18,13 @@ import { env } from 'process';
 
 const app = initializeApp(firebaseConfig);
 
+interface JsonMongo {
+    typeUser: string,
+    userMysqlId: number,
+    name: string,
+    photoUrl: string
+}
+
 interface Address {
   typeHouse: number;
   state: number;
@@ -48,6 +55,7 @@ export default function CadastroCliente() {
   const router = useRouter()
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [id, setId] = useState<string>("");
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     toast.loading("Carregando imagem")
@@ -81,6 +89,21 @@ export default function CadastroCliente() {
     email: z.string().nonempty("* Este campo é obrigatório").email("Formato de e-mail inválido"),
     senha: z.string().nonempty("* Este campo é obrigatório").min(6, "Crie uma senha de no mínimo 6 caracteres"),
   })
+
+  const createPerfilMongo = async (jsonMongo: JsonMongo) => {
+    console.log(jsonMongo)
+    try {
+      const response = await postApi(jsonMongo, `https://back-mongo-limpean-2023.azurewebsites.net/api/v1/limpean/chat/register`);
+      if (response.status == 201) {
+        toast.success("Chat cadastro com sucesso!")
+        router.push("/login")
+      } else {
+        toast.error("Chat não cadastrado")
+      }
+    } catch (error) {
+      toast.error("Servidor indisponível para esse processo")
+    }
+  }
 
   const {
     register,
@@ -151,13 +174,19 @@ export default function CadastroCliente() {
 
     console.log(jsonApi);
 
-
     try {
       const response = await postApi(jsonApi, `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/cadastro`);
-      if (response.status = 201) {
+      if (response.status == 201) {
         toast.success("Usuário cadastrado com sucesso!")
         toast.loading("Aguarde enquanto redirecionamos você")
-          router.push("/login")
+        const jsonMongo: JsonMongo = {
+          typeUser: "client",
+          userMysqlId: Number(response.clientId),
+          name: jsonCliente.nome,
+          photoUrl: imageUrl ? imageUrl : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."
+        }
+        createPerfilMongo(jsonMongo)
+        // router.push("/login")
       } else {
         toast.error("Usuário não cadastrado, verifique as informações")
       }

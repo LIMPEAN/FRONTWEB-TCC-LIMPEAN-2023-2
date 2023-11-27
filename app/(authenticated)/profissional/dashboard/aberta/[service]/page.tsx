@@ -104,7 +104,7 @@ export default function ServiceModal({
 
     const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/schedule-service?idService=${responseData?.service.serviceId}&idStatus=2`
     const response = await putStatus(url, token!!)
-    console.log(response.status === 201)
+    console.log(response)
     if (response.status === 201) {
       toast.success("Serviço agendado com sucesso!")
       router.push("./")

@@ -19,6 +19,13 @@ import toast from 'react-hot-toast';
 
 const app = initializeApp(firebaseConfig);
 
+interface JsonMongo {
+  typeUser: string,
+  userMysqlId: number,
+  name: string,
+  photoUrl: string
+}
+
 
 interface Address {
   state: number;
@@ -91,6 +98,21 @@ export default function CadastroCliente() {
       } catch (error) {
         toast.error("Erro ao realizar upload, tente novamente")
       }
+    }
+  }
+
+  const createPerfilMongo = async (jsonMongo: JsonMongo) => {
+    console.log(jsonMongo)
+    try {
+      const response = await postApi(jsonMongo, `https://back-mongo-limpean-2023.azurewebsites.net/api/v1/limpean/chat/register`);
+      if (response.status == 201) {
+        toast.success("Chat cadastro com sucesso!")
+        router.push("/login")
+      } else {
+        toast.error("Chat não cadastrado")
+      }
+    } catch (error) {
+      toast.error("Servidor indisponível para esse processo")
     }
   }
 
@@ -183,9 +205,13 @@ export default function CadastroCliente() {
       if(response.status = 201) {
         toast.success("Usuário cadastrado com sucesso!")
         toast.loading("Aguarde enquanto redirecionamos você")
-        setTimeout(()=> {
-          router.push("/login")
-        }, 1000)
+        const jsonMongo: JsonMongo = {
+          typeUser: "diarist",
+          userMysqlId: Number(response.diaristId),
+          name: jsonCliente.nome,
+          photoUrl: imageUrl ? imageUrl : "https://firebasestorage.googleapis.com/v0/b/tcc-limpean.appspot.com/o/imagens%2Fprofile-default.webp?alt=media&token=8a68000c-eb45-4948-9fae-f01a00a10d1e&_gl=1*1u1domm*_ga*MTAyMTA0OTYwOS4xNjk0NTU2NDQx*_ga_CW55HF8NVT*MTY5NjExNzIyOC4zLjEuMTY5NjExNzI4Ny4xLjAuMA.."
+        }
+        createPerfilMongo(jsonMongo)
       }else{
         toast.error("Usuário não cadastrado, verifique as informações")
       }

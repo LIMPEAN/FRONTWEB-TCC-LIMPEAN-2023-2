@@ -1,8 +1,8 @@
-import { Timeline } from "./components/timeline";
-
 export default function Home() {
 
   return (
-    <Timeline />
-  );
+    <div className='w-1/2 h-full'>
+      <span>home</span>
+    </div>
+  )
 }
