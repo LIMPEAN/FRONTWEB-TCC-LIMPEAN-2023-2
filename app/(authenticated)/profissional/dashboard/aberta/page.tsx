@@ -118,7 +118,7 @@ export default function Aberta() {
       </Breadcrumb>
 
       <Datepicker className='mb-4' id='data' />
-      <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2  2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
+      <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3  gap-2  place-items-start place-content-start">
         {responseData ? (
           responseData.data.map((item) => (
             <CardServicos

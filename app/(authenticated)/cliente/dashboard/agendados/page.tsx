@@ -165,7 +165,7 @@ export default function Agendados() {
           <span className="sr-only">Search</span>
         </button>
       </form>
-      <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3 5xl:grid-cols-4 gap-2  place-items-start">
+      <ul className="mt-4 overflow-y-auto h-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 gap-2  place-items-start place-content-start">
         {
           filteredServices ?
             (filteredServices?.map((service: Service) => (

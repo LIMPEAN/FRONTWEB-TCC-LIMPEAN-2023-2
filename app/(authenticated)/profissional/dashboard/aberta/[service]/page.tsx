@@ -103,6 +103,7 @@ export default function ServiceModal({
     event?.preventDefault()
 
     const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/schedule-service?idService=${responseData?.service.serviceId}&idStatus=2`
+    console.log(url)
     const response = await putStatus(url, token!!)
     console.log(response)
     if (response.status === 201) {
@@ -115,7 +116,7 @@ export default function ServiceModal({
   }
 
   return (
-    <div className="h-screen overflow-hidden flex flex-col lg:pb-4 pb-14">
+    <div className="h-screen  overflow-hidden flex flex-col lg:pb-4 pb-14">
       <Breadcrumb className='mb-4' aria-label="Default breadcrumb example">
         <Breadcrumb.Item
           href="./"

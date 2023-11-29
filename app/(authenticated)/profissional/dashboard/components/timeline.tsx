@@ -1,6 +1,6 @@
 "use client"
 import { Table } from "flowbite-react";
-import LoadingTable from "../../convites/components/loadingTable";
+import LoadingTable from "../convites/components/loadingTable";
 
 export function Timeline() {
   return (

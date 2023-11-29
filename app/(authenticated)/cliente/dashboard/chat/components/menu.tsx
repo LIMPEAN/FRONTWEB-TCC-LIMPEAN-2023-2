@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { DarkThemeToggle, Flowbite } from 'flowbite-react';
+import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface SideBarProps {
   children?: ReactNode;
@@ -34,6 +36,8 @@ export default function Sidebar({ children }: SideBarProps) {
       document.removeEventListener("mousedown", closeSidebar);
     };
   }, [isOpen]);
+
+  const router = useRouter()
 
   return (
     <>
@@ -70,7 +74,7 @@ export default function Sidebar({ children }: SideBarProps) {
           <ul className="space-y-2 font-medium ">
             <li>
               <Link
-                href="/cliente/dashboard/home"
+                href="/cliente/dashboard/"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <svg
@@ -168,79 +172,8 @@ export default function Sidebar({ children }: SideBarProps) {
                 <span className="flex-1 ml-3 whitespace-nowrap">Chat</span>
               </Link>
             </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
-                  <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
-                  <path d="M8.961 16a.93.93 0 0 0 .189-.019l3.4-.679a.961.961 0 0 0 .49-.263l6.118-6.117a2.884 2.884 0 0 0-4.079-4.078l-6.117 6.117a.96.96 0 0 0-.263.491l-.679 3.4A.961.961 0 0 0 8.961 16Zm7.477-9.8a.958.958 0 0 1 .68-.281.961.961 0 0 1 .682 1.644l-.315.315-1.36-1.36.313-.318Zm-5.911 5.911 4.236-4.236 1.359 1.359-4.236 4.237-1.7.339.341-1.699Z" />
-                </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Vazio</span>
-              </a>
-            </li>
           </ul>
           <ul className="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
-              >
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 17 20"
-                >
-                  <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z" />
-                </svg>
-                <span className="ml-4">Vazio</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
-              >
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 16 20"
-                >
-                  <path d="M16 14V2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 0 0 0-2h-1v-2a2 2 0 0 0 2-2ZM4 2h2v12H4V2Zm8 16H3a1 1 0 0 1 0-2h9v2Z" />
-                </svg>
-                <span className="ml-3">Vazio</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
-              >
-                <svg
-                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 18"
-                >
-                  <path d="M18 0H6a2 2 0 0 0-2 2h14v12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Z" />
-                  <path d="M14 4H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM2 16v-6h12v6H2Z" />
-                </svg>
-                <span className="ml-3">Vazio</span>
-              </a>
-            </li>
             <li>
               <Link
                 href="/cliente/dashboard/perfil"
@@ -259,12 +192,29 @@ export default function Sidebar({ children }: SideBarProps) {
                 <span className="ml-3">Perfil</span>
               </Link>
             </li>
+            <li>
+              <button
+                className="flex w-full items-center p-2 text-gray-900 transition duration-75 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                onClick={() => {
+                  localStorage.clear()
+                  toast.success("Você foi desconectado")
+                  router.push("/login")
+                }}
+              >
+                <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M14.4999 7.04595H11.9999V6.11795C12.0082 5.7115 11.8995 5.31123 11.6867 4.9648C11.474 4.61838 11.1661 4.34039 10.7999 4.16395C10.4748 4.01626 10.1136 3.96701 9.76084 4.02228C9.40808 4.07754 9.07923 4.23491 8.8149 4.47495L3.7059 8.96495C3.48162 9.17102 3.30258 9.42141 3.1801 9.70027C3.05762 9.97913 2.99438 10.2804 2.99438 10.5849C2.99438 10.8895 3.05762 11.1908 3.1801 11.4696C3.30258 11.7485 3.48162 11.9989 3.7059 12.2049L8.8149 16.6999C9.07956 16.9398 9.40862 17.0969 9.76152 17.152C10.1144 17.2071 10.4757 17.1577 10.8009 17.0099C11.1677 16.8329 11.4757 16.5541 11.6883 16.2067C11.901 15.8593 12.0091 15.4581 11.9999 15.0509V14.1229H12.9999C13.5364 14.1298 14.0482 14.3492 14.4231 14.7329C14.7981 15.1167 15.0055 15.6335 14.9999 16.1699V18.9999C14.9999 19.1548 15.0359 19.3076 15.1051 19.4462C15.1742 19.5848 15.2746 19.7054 15.3983 19.7986C15.522 19.8918 15.6657 19.9549 15.818 19.9831C15.9703 20.0113 16.127 20.0037 16.2759 19.9609C17.7883 19.514 19.0903 18.5397 19.9458 17.2149C20.8014 15.8901 21.1537 14.3025 20.9388 12.7401C20.724 11.1778 19.9562 9.7442 18.7749 8.69948C17.5935 7.65476 16.0768 7.0681 14.4999 7.04595Z" fill="currentColor" />
+                </svg>
+                <span className="ml-3">Sair</span>
+              </button>
+            </li>
           </ul>
           <Flowbite>
             <DarkThemeToggle />
           </Flowbite>
         </div>
-      </aside>
+      </aside >
       <div className="sm:ml-64 lg:p-2 h-screen text-gray-900 dark:bg-gray-900 dark:text-white dark:border-gray-700 z-0">
         {children}
       </div>

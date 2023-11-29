@@ -8,6 +8,8 @@ import { getVerifyToken } from "./service/fetchApi";
 import toast from "react-hot-toast";
 import { putInitializeService } from "./service/putStatusService";
 import { Tooltip } from 'flowbite-react';
+import { IData } from "../../interfaces/baseResponseService";
+import { useRouter } from "next/navigation";
 
 
 export default function Autenticacao({
@@ -26,9 +28,9 @@ export default function Autenticacao({
     token = localStorage.getItem("token")
   }
 
+  const router = useRouter()
+
   const updateService = async () => {
-
-
     try {
       const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service/status`
       const year = new Date().getFullYear()
@@ -36,11 +38,9 @@ export default function Autenticacao({
       const day = new Date().getDay()
       const hour = new Date().getHours()
       const minute = new Date().getMinutes()
-
       const newDay = day < 10 ? "0" + day : day
       const newMonth = day < 10 ? "0" + month : month
       const newMinute = minute < 10 ? "0" + minute : minute
-
       const newDate = `${year}/${month}/${day}`.trim()
       const json = {
         idService: Number(params.detalhes),
@@ -48,23 +48,17 @@ export default function Autenticacao({
         hour: `${hour}:${newMinute}`,
         idStatus: 3
       }
-
-      console.log(json)
-
       const response = await putInitializeService(url, json, token!!)
-
       if (response.status == 201) {
         toast.success(response.message)
-
+        router.push(`/cliente/dashboard/agendados/${params.detalhes}/andamento`)
       } else {
         toast.error("Não foi possível atualizar o serviço")
       }
     } catch (error) {
       toast.error("Servidor indisponível para esse processo")
     }
-
   }
-
 
   async function verificadorDoToken() {
     try {
@@ -72,7 +66,6 @@ export default function Autenticacao({
       if (response.status == 201) {
         toast.success(response.message)
         updateService()
-
       } else {
         toast.error("Token inválido")
       }
@@ -88,7 +81,6 @@ export default function Autenticacao({
       if (response.status == 201) {
         toast.success(response.message)
         updateService()
-
       } else {
         toast.error("Token inválido")
       }
@@ -96,31 +88,6 @@ export default function Autenticacao({
       toast.error("Servidor indisponível para esse processo")
     }
   }
-
-
-  useEffect(() => {
-    const modalIsOpen = () => {
-      const scanner = new Html5QrcodeScanner('reader', {
-        qrbox: {
-          width: 250,
-          height: 250,
-        },
-        fps: 5,
-      }, false)
-
-      const success = (result: any) => {
-        scanner.clear()
-        setOpenModal(false)
-        verificadorDoQrCode(result)
-      }
-      const error = (err: any) => {
-        console.warn(err)
-      }
-      scanner.render(success, error)
-    }
-    modalIsOpen()
-  }, [])
-
 
   return (
     <div className="h-screen overflow-hidden flex flex-col lg:pb-4 pb-14">
@@ -174,7 +141,7 @@ export default function Autenticacao({
                 >
                   Iniciar
                 </button>
-                <Tooltip  content="Leitor de QRCODE">
+                <Tooltip content="Leitor de QRCODE">
                   <button
                     onClick={() => setOpenModal(true)}
                     className='h-12 w-12 bg-blue-700 cursor-pointer hover:bg-blue-800 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'

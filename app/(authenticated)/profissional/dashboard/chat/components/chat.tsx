@@ -105,7 +105,7 @@ export default function ChatComponent({ servico, onClose, id }: ChatComponentPro
 
     socket.on('push', (data: any) => {
       console.log(data.mensagens.length)
-      if(data.mensagens.length){
+      if (data.mensagens.length) {
         setMessages(data)
       }
     });
@@ -149,14 +149,14 @@ export default function ChatComponent({ servico, onClose, id }: ChatComponentPro
 
   const handleClickSend = () => {
 
-    const year = new Date().getFullYear()
-    const month = new Date().getUTCMonth()
-    const day = new Date().getDay()
-    const hour = new Date().getHours()
-    const minute = new Date().getMinutes()
+    let dataAtual = new Date();
+    let ano = dataAtual.getUTCFullYear();
+    let mes = (dataAtual.getUTCMonth() + 1).toString().padStart(2, '0');
+    let dia = dataAtual.getUTCDate().toString().padStart(2, '0');
+    let horas = dataAtual.getHours().toString().padStart(2, '0');
+    let minutos = dataAtual.getMinutes().toString().padStart(2, '0');
 
-    const newDay = day < 10 ? "0" + day : day
-    const newMonth = day < 10 ? "0" + month : month
+    let dataFormatada = `${ano}-${mes}-${Number(dia) - 1}`;
 
     const json = {
       serviceMysqlId: Number(servico.serviceId),
@@ -165,8 +165,8 @@ export default function ChatComponent({ servico, onClose, id }: ChatComponentPro
       typeRecipient: "client",
       recipientId: servico.clientId,
       message: newMessages,
-      date: `2023-11-26`,
-      hour: `14:21`
+      date: dataFormatada,
+      hour: `${horas}:${minutos}`
     }
 
     socket.emit('new-message', json)

@@ -9,6 +9,7 @@ import Image from 'next/image';
 import ButtonGroup from 'flowbite-react/lib/esm/components/Button/ButtonGroup';
 import { putStatusService } from './service/putStatusService';
 import toast from 'react-hot-toast';
+import Loading from '../perfil/loading';
 
 interface StatusService {
   status: string;
@@ -67,14 +68,14 @@ export default function Agendado() {
 
   const updateService = async (idService: string) => {
     const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`
-  const jsonApi = {
-    "idService": Number(idService),
-    "date": `2002/12/18`,
-    "hour": `08:04`,
-    "schedule": true,
-    "newValue": null
-}
-  console.log(jsonApi)
+    const jsonApi = {
+      "idService": Number(idService),
+      "date": `2002/12/18`,
+      "hour": `08:04`,
+      "schedule": true,
+      "newValue": null
+    }
+    console.log(jsonApi)
     const response = putStatusService(url, jsonApi, token!!)
 
     return response
@@ -208,7 +209,10 @@ export default function Agendado() {
                 </div>
               )
             }
-          }) : null
+          }) : Array.from({ length: 6 }).map((_, index) => (
+            <Loading key={index} />
+          ))
+
         }
       </ul >
       <Modal show={props.openModal === 'pop-up'} className='align-middle' size="lg" popup onClose={() => props.setOpenModal(undefined)}>

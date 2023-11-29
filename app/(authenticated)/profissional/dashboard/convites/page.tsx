@@ -80,11 +80,10 @@ export default function Convites() {
 
   useEffect(() => {
     const fetchData = () => {
-      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service?idStatus=2`;
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist/service?idStatus=1`;
       const headers = {
         'x-api-key': token!!,
       };
-
       fetch(apiUrl, { headers })
         .then((response) => {
           if (!response.ok) {
@@ -102,6 +101,10 @@ export default function Convites() {
 
     fetchData()
 
+    const interval = setInterval(() => {
+      fetchData()
+    }, 5000);
+    return () => clearInterval(interval);
   }, [token]);
 
   return (
@@ -125,16 +128,16 @@ export default function Convites() {
         {responseData ? (
           responseData.data.map((item) => (
             item.client.status_service[item.client.status_service.length - 1].status == "Em aberto" ?
-            <CardServicos
-              service_id={item.client.serviceId.toString()}
-              type_clean={item.client.type_clean}
-              date={item.client.date_hour}
-              nome={item.client.name}
-              status={item.client.status_service[item.client.status_service.length - 1].status}
-              key={item.client.serviceId}
-              room={item.client.room}
-              cepEnd={item.client.address}
-            /> : null
+              <CardServicos
+                service_id={item.client.serviceId.toString()}
+                type_clean={item.client.type_clean}
+                date={item.client.date_hour}
+                nome={item.client.name}
+                status={item.client.status_service[item.client.status_service.length - 1].status}
+                key={item.client.serviceId}
+                room={item.client.room}
+                cepEnd={item.client.address}
+              /> : null
           ))
         ) : (
           Array.from({ length: 6 }).map((_, index) => (
@@ -143,23 +146,23 @@ export default function Convites() {
         )}
       </ul>
       <Table hoverable className='lg:table hidden'>
-        <Table.Head className=''>
-          <Table.HeadCell >
+        <Table.Head className='bg-blue-700 text-white'>
+          <Table.HeadCell className='bg-inherit'>
             FOTO
           </Table.HeadCell>
-          <Table.HeadCell>
+          <Table.HeadCell className='bg-inherit'>
             ID
           </Table.HeadCell>
-          <Table.HeadCell>
+          <Table.HeadCell className='bg-inherit'>
             DATA
           </Table.HeadCell>
-          <Table.HeadCell >
+          <Table.HeadCell className='bg-inherit'>
             STATUS
           </Table.HeadCell>
-          <Table.HeadCell>
+          <Table.HeadCell className='bg-inherit'>
             ENDEREÇO
           </Table.HeadCell>
-          <Table.HeadCell>
+          <Table.HeadCell className='bg-inherit'>
             AÇÕES
           </Table.HeadCell>
         </Table.Head>
@@ -167,17 +170,17 @@ export default function Convites() {
           {responseData ? (
             responseData.data.map((item: ClientData) => {
               const statusLenght = item.client.status_service.length - 1
-              if(item.client.status_service[statusLenght].status.toUpperCase() === "EM ABERTO" ) {
+              if (item.client.status_service[statusLenght].status.toUpperCase() === "EM ABERTO") {
                 return <TableServicos
-                date_hour={item.client.date_hour}
-                name={item.client.name}
-                photo={item.client.photo}
-                serviceId={item.client.serviceId.toString()}
-                status_service={item.client.status_service[0].toString()}
-                address={item.client.address}
-                value={item.client.value?.toString()}
-                key={item.client.serviceId}
-              />
+                  date_hour={item.client.date_hour}
+                  name={item.client.name}
+                  photo={item.client.photo}
+                  serviceId={item.client.serviceId.toString()}
+                  status_service={item.client.status_service[0].toString()}
+                  address={item.client.address}
+                  value={item.client.value?.toString()}
+                  key={item.client.serviceId}
+                />
               }
             }
             )

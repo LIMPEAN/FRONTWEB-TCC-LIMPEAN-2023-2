@@ -36,7 +36,7 @@ export default function StreetViewImage({service}: IData) {
   return (
     <>
       {address ? <Image
-        className="h-full w-full  rounded-lg object-cover"
+        className="h-full w-full pb-6  rounded-lg object-cover"
         src={`https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${address?.results[0].geometry.location.lat},${address?.results[0].geometry.location.lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
         alt="imagem da residência" width={300} height={300}
       /> : <LoadingImage />}

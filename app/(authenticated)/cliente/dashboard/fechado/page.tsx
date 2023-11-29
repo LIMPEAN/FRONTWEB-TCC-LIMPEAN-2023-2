@@ -163,7 +163,7 @@ export default function Aberta() {
           <span className="sr-only">Search</span>
         </button>
       </form>
-      <ul className="mt-4 h-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2  place-items-start w-full">
+      <ul className="mt-4 h-full overflow-y-auto grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  gap-2  place-items-start place-content-start  w-full">
         {
 
           diaristas ? diaristas?.map((diarist: Diarist) => (

@@ -112,10 +112,6 @@ export default function Autenticacao({
     return () => clearInterval(interval);
   }, [token, params.detalhes, router])
 
-  const handleClickBlur = () => {
-    setBlurOpen(!blurOpen)
-  }
-
 
   return (
     <>

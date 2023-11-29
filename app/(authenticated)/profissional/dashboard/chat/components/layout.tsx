@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Image from "next/image";
 import { Toaster } from "react-hot-toast";
-import Sidebar from "./components/menu";
+import Sidebar from "./menu";
 
 const mainFontFamily = Poppins({
   weight: ["300", "400", "500", "600", "700", "800"],

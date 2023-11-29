@@ -1,6 +1,6 @@
 "use client"
 import { useCallback, useEffect, useState } from 'react';
-import EChartsComponent from './Charts/EChartsComponent'
+import EChartsComponent from '@/app/(authenticated)/cliente/dashboard/Charts/EChartsComponent'; 
 import Image from 'next/image';
 import { EChartsOption } from 'echarts';
 
@@ -89,7 +89,7 @@ export default function Home() {
         type: 'pie',
         radius: '100%',
         data: [
-          { value: 0, name: 'Em Aberto' },
+          { value: 0, name: 'Em Aberto'},
           { value: 0, name: 'Finalizado' },
           { value: 0, name: 'Em andamento' },
           { value: 0, name: 'Cancelado' },
@@ -148,7 +148,7 @@ export default function Home() {
   };
 
   const fetchData = useCallback(() => {
-    const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client`;
+    const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/diarist`;
     const headers = {
       'x-api-key': token!!,
     };

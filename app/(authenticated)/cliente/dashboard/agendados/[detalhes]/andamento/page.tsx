@@ -164,54 +164,50 @@ export default function ServicoEmAndamento({
       });
   };
 
-  const fetchData = () => {
-    const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`;
-    const headers = {
-      'x-api-key': token!!,
-    };
-
-    fetch(apiUrl, { headers })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Erro na resposta da API');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-
-        data.data.map((data: IData) => {
-          if (data.service.serviceId == Number(params.detalhes)) {
-            setResponseData(data);
-            const statusLength = data.service.status_service.length - 1
-            console.log(data.service.status_service[statusLength].status.toLocaleLowerCase())
-            if (data.service.status_service[statusLength].status.toLocaleLowerCase() == "finalizado") {
-              clearTimeout(timeoutRef.current!);
-              setOpenModal(true)
-              fetchDiarist(data.service.diaristId)
-            }
-          }
-        })
-      })
-      .catch((error) => {
-        console.error('Erro ao buscar dados da API:', error);
-      });
-  };
 
 
   useEffect(() => {
-    const revalidate = (): void => {
-      fetchData();
-      toast.success(`chamada`);
+    const fetchData = () => {
+      const apiUrl = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`;
+      const headers = {
+        'x-api-key': token!!,
+      };
+
+      fetch(apiUrl, { headers })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Erro na resposta da API');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+
+          data.data.map((data: IData) => {
+            if (data.service.serviceId == Number(params.detalhes)) {
+              setResponseData(data);
+              const statusLength = data.service.status_service.length - 1
+              console.log(data.service.status_service[statusLength].status.toLocaleLowerCase())
+              if (data.service.status_service[statusLength].status.toLocaleLowerCase() == "finalizado") {
+                clearTimeout(timeoutRef.current!);
+                setOpenModal(true)
+                fetchDiarist(data.service.diaristId)
+              }
+            }
+          })
+        })
+        .catch((error) => {
+          console.error('Erro ao buscar dados da API:', error);
+        });
     };
 
-    timeoutRef.current = setTimeout(revalidate, 10000)
+    fetchData()
 
-    return () => {
-      clearTimeout(timeoutRef.current!);
-    };
-
-  }, [params.detalhes, token, fetchData]);
+    const interval: any = setInterval(() => {
+      fetchData()
+    }, 5000);
+    // return () => clearInterval(interval);
+  }, [params.detalhes, token]);
 
 
 

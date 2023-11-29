@@ -107,7 +107,7 @@ export default function ChatComponent({ servico, onClose }: ChatComponentProps) 
 
     socket.on('push', (data: any) => {
       console.log(data.mensagens.length)
-      if(data.mensagens.length){
+      if (data.mensagens.length) {
         setMessages(data)
       }
     });
@@ -150,15 +150,14 @@ export default function ChatComponent({ servico, onClose }: ChatComponentProps) 
   }, [servico])
 
   const handleClickSend = () => {
-
-    const year = new Date().getFullYear()
-    const month = new Date().getUTCMonth()
-    const day = new Date().getDay()
-    const hour = new Date().getHours()
-    const minute = new Date().getMinutes()
-
-    const newDay = day < 10 ? "0" + day : day
-    const newMonth = day < 10 ? "0" + month : month
+    let dataAtual = new Date();
+    let ano = dataAtual.getUTCFullYear();
+    let mes = (dataAtual.getUTCMonth() + 1).toString().padStart(2, '0');
+    let dia = dataAtual.getUTCDate().toString().padStart(2, '0');
+    let horas = dataAtual.getHours().toString().padStart(2, '0');
+    let minutos = dataAtual.getMinutes().toString().padStart(2, '0');
+    
+    let dataFormatada = `${ano}-${mes}-${Number(dia) - 1}`;
 
     const json = {
       serviceMysqlId: Number(servico.serviceId),
@@ -167,9 +166,11 @@ export default function ChatComponent({ servico, onClose }: ChatComponentProps) 
       typeRecipient: "diarist",
       recipientId: Number(servico.diaristId),
       message: newMessages,
-      date: `2023-11-26`,
-      hour: `14:21`
+      date: dataFormatada,
+      hour: `${horas}:${minutos}`
     }
+
+    console.log(json)
 
     socket.emit('new-message', json)
 
@@ -204,6 +205,19 @@ export default function ChatComponent({ servico, onClose }: ChatComponentProps) 
         </div>
         <div className="bg-black-600 h-fit px-2 py-8 flex flex-col gap-2 overflow-y-scroll justify-start">
           {messages?.mensagens.map((mensagemMap: Message, _index) => {
+
+            let dataObj = new Date(mensagemMap.date); // Substitua isso pelo seu objeto Date
+            // Obtém os componentes da data e hora
+            let horas = dataObj.getUTCHours().toString().padStart(2, '0');
+            let minutos = dataObj.getUTCMinutes().toString().padStart(2, '0');
+            let dia = dataObj.getUTCDate().toString().padStart(2, '0');
+            let mes = (dataObj.getUTCMonth() + 1).toString().padStart(2, '0'); // Adiciona 1 porque os meses em JavaScript começam do zero
+            let ano = dataObj.getUTCFullYear();
+
+            // Formata a string de saída
+            let resultado = `${horas}:${minutos} ${dia}/${mes}/${ano}`;
+
+
             return (
               <>
                 {mensagemMap?.sender.typeUser.toLocaleLowerCase() == "client" ?
@@ -211,14 +225,14 @@ export default function ChatComponent({ servico, onClose }: ChatComponentProps) 
                     <div className="flex flex-col gap-2 text-end bg-gray-600 dark:bg-gray-700 pb-2 max-w-[75%] w-fit p-4 rounded-lg text-white">
                       <span>{mensagemMap.message}</span>
                       <div className="flex w-full justify-end">
-                        <span className="text-xs"> {mensagemMap?.date}</span>
+                        <span className="text-xs"> {resultado}</span>
                       </div>
                     </div>
                   </div> :
                   <div key={_index} className="flex flex-col gap-2 justify-end bg-gray-400 dark:bg-blue-900 pb-2 max-w-[75%] w-fit p-4 rounded-lg text-white">
                     <span>{mensagemMap.message}</span>
                     <div className="flex w-full justify-end">
-                      <span className="text-xs"> {mensagemMap?.date}</span>
+                      <span className="text-xs"> {resultado}</span>
                     </div>
                   </div>
                 }

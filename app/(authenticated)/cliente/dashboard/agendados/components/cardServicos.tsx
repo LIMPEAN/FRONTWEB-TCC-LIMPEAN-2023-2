@@ -39,7 +39,7 @@ export function CardServicos({ service }: IData) {
     const hours = dateObject.getUTCHours();
     const minutes = dateObject.getUTCMinutes();
 
-    const enable = "w-full flex flex-col gap-3 h-fit p-4 bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700"
+    const enable = "w-full flex flex-col gap-3 h-full p-4 bg-white border border-gray-200 rounded-2xl shadow dark:bg-gray-800 dark:border-gray-700"
     const disable = "w-full flex flex-col gap-3 h-fit p-4 bg-gray-100 border border-gray-200 rounded-2xl shadow dark:bg-gray-900 dark:border-gray-700 text-gray-600 dark:text-gray-300"
 
     const statusColor = (status: string) => {
@@ -64,9 +64,8 @@ export function CardServicos({ service }: IData) {
 
     const statusLength = service.status_service.length - 1
     return (
-        <div className={service.status_service[statusLength].status.toLowerCase() == "cancelado" ? disable : enable
-        }>
-            <div className="h-full">
+        <div className={`${service.status_service[statusLength].status.toLowerCase() == "cancelado" ? disable : enable}`}>
+            <div className="">
                 <div className="pb-2 w-full text-center">
                     <span className={`font-bold uppercase ${statusColor(service.status_service[statusLength].status)}`}>
                         {service.status_service[statusLength].status.toLowerCase()}

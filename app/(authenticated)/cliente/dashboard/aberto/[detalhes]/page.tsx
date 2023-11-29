@@ -9,6 +9,8 @@ import IconClock from "@/app/(authenticated)/profissional/dashboard/aberta/[serv
 import DetailsImage from "./components/detailsImage";
 import Image from "next/image";
 import { IData } from "../../agendados/interfaces/baseResponseService";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 export default function ServiceModal({
@@ -24,6 +26,8 @@ export default function ServiceModal({
   if (typeof window !== 'undefined') {
     token = localStorage.getItem("token")
   }
+
+  const router = useRouter()
 
 
   useEffect(() => {
@@ -41,24 +45,23 @@ export default function ServiceModal({
           return response.json();
         })
         .then((data) => {
-
-          data.data.map((data: IData) => {
-            if (data.service.serviceId === Number(params.detalhes)) {
-              console.log(data)
-              setResponseData(data);
-            }
-          })
+          console.log(data);
+          // data.data.map((data: IData) => {
+          //   if (data.service.serviceId == Number(params.detalhes)) {
+          //     const statusLength = data.service.status_service.length
+          //     if (data.service.status_service[statusLength - 1].status.toLowerCase() === "em andamento") {
+          //       toast.success("Token autenticado com sucesso, aguarde o redirecionamento")
+          //       // router.push(`/profissional/dashboard/agendados/${params.detalhes}/andamento`)
+          //     }
+          //   }
+          // })
         })
         .catch((error) => {
           console.error('Erro ao buscar dados da API:', error);
         });
     };
-
     fetchData()
-
-  }, [params.detalhes, token]);
-
-
+  }, [token]);
 
   return (
     <div className="h-screen overflow-hidden flex flex-col lg:pb-4 pb-14">
