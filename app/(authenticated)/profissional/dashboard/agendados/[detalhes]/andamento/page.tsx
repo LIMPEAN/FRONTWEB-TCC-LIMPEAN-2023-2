@@ -138,33 +138,22 @@ export default function ServicoEmAndamento({
   const postRating = async () => {
 
     const avalicaoFinal = starRatings.filter((filled) => filled).length
+    let dataAtual = new Date();
+    let ano = dataAtual.getUTCFullYear();
+    let mes = (dataAtual.getUTCMonth() + 1).toString().padStart(2, '0');
+    let dia = dataAtual.getUTCDate().toString().padStart(2, '0');
+    let horas = dataAtual.getHours().toString().padStart(2, '0');
+    let minutos = dataAtual.getMinutes().toString().padStart(2, '0');
 
-    var dataAtual = new Date();
-
-    // Obtenha o ano, mês e dia da data atual
-    var ano = dataAtual.getFullYear();
-    // Adicione 1 ao mês, pois os meses em JavaScript são indexados de 0 a 11
-    var mes = dataAtual.getMonth() + 1;
-    var dia = dataAtual.getDate();
-
-    var hora: number = dataAtual.getHours();
-    var minuto: number = dataAtual.getMinutes();
-
-    // Formate os valores da hora e dos minutos para garantir que tenham dois dígitos
-    var horaString: string = hora < 10 ? '0' + hora : hora.toString();
-    var minutoString: string = minuto < 10 ? '0' + minuto : minuto.toString();
-
-    var dataFormatada = ano + '-' + mes + '-' + dia;
-    var horaFormatada: string = horaString + ':' + minutoString;
+    let dataFormatada = `${ano}-${mes}-${dia}`;
 
     const json = {
-
       typeUser: "diarist",
-      "date": `${ano}-${mes}-${dia}`,
-      "hour": `${horaFormatada}`,
-      "personEvaluatedId": responseData?.client.clientId,
-      "star": avalicaoFinal,
-      "comment": comment
+      date: dataFormatada,
+      hour: `${horas}:${minutos}`,
+      personEvaluatedId: responseData?.client.clientId,
+      star: avalicaoFinal,
+      comment: comment
     }
 
     console.log(JSON.stringify(json))

@@ -33,21 +33,22 @@ export default function Autenticacao({
   const updateService = async () => {
     try {
       const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service/status`
-      const year = new Date().getFullYear()
-      const month = new Date().getUTCMonth()
-      const day = new Date().getDay()
-      const hour = new Date().getHours()
-      const minute = new Date().getMinutes()
-      const newDay = day < 10 ? "0" + day : day
-      const newMonth = day < 10 ? "0" + month : month
-      const newMinute = minute < 10 ? "0" + minute : minute
-      const newDate = `${year}/${month}/${day}`.trim()
+      let dataAtual = new Date();
+      let ano = dataAtual.getUTCFullYear();
+      let mes = (dataAtual.getUTCMonth() + 1).toString().padStart(2, '0');
+      let dia = dataAtual.getUTCDate().toString().padStart(2, '0');
+      let horas = dataAtual.getHours().toString().padStart(2, '0');
+      let minutos = dataAtual.getMinutes().toString().padStart(2, '0');
+
+      let dataFormatada = `${ano}-${mes}-${dia}`;
+
       const json = {
         idService: Number(params.detalhes),
-        date: "2023/11/12",
-        hour: `${hour}:${newMinute}`,
+        date: dataFormatada,
+        hour: `${horas}:${minutos}`,
         idStatus: 3
       }
+      console.log(json);
       const response = await putInitializeService(url, json, token!!)
       if (response.status == 201) {
         toast.success(response.message)
