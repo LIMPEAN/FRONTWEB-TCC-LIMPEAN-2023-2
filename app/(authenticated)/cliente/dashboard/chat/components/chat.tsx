@@ -157,7 +157,7 @@ export default function ChatComponent({ servico, onClose }: ChatComponentProps) 
     let horas = dataAtual.getHours().toString().padStart(2, '0');
     let minutos = dataAtual.getMinutes().toString().padStart(2, '0');
     
-    let dataFormatada = `${ano}-${mes}-${Number(dia) - 1}`;
+    let dataFormatada = `${ano}-${mes}-${dia}`;
 
     const json = {
       serviceMysqlId: Number(servico.serviceId),
