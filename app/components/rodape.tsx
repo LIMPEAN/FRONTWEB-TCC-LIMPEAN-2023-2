@@ -6,93 +6,39 @@ import Link from "next/link";
 
 export function Rodape() {
 
-  // const [menuOpen, setMenuOpen] = useState(false);
-
-  // const toggleMenu = () => {
-  //   setMenuOpen(!menuOpen);
-  // };
-
-  // const closeMenu = () => {
-  //   setMenuOpen(false);
-  // };
-
   return (
     <>
-      <footer className=" p-6 bg-white">
-        <div className="items-center justify-items-center grid grid-cols-1 lg:grid-cols-3 2xl:grid-cols-3 bg-white">
-          <Image
-            className="h-8"
-            src="/assets/logo.svg"
-            alt="Logo"
-            width={140}
-            height={140}
-          />
-          <div className="flex gap-10">
-            <Link
-              href="#home"
-              className="border-b-2 hover:border-black border-transparent"
-              // onClick={closeMenu}
-            >
-              Home
-            </Link>
-            <Link
-              href="#beneficios"
-              className="border-b-2 hover:border-black border-transparent"
-              // onClick={closeMenu}
-            >
-              Benefícios
-            </Link>
-            <Link
-              href="#mercado"
-              className="border-b-2 hover:border-black border-transparent"
-              // onClick={closeMenu}
-            >
-              Mercado
-            </Link>
+
+
+      <footer className="bg-white rounded-lg shadow dark:bg-gray-900 m-4">
+        <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+          <div className="sm:flex sm:items-center sm:justify-between">
+            <div className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
+              <Image width={300} height={300} src="/assets/logo.svg" className="mr-3  h-9 w-32" alt="logo limpean" />
+            </div>
+            <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+              <li>
+                <Link href="#home" className="hover:underline me-4 md:me-6">Home</Link>
+              </li>
+              <li>
+                <Link href="#beneficios" className="hover:underline me-4 md:me-6">Benefícios</Link>
+              </li>
+              <li>
+                <Link href="#mercado" className="hover:underline me-4 md:me-6">Mercado</Link>
+              </li>
+              <li>
+                <Link href="#valores" className="hover:underline me-4 md:me-6">Valores</Link>
+              </li>
+              <li>
+                <Link href="/login" className="hover:underline">Login</Link>
+              </li>
+            </ul>
           </div>
-          <div className="flex gap-10">
-            <Link
-              href="#"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-600 bg-white hover:bg-blue-700"
-              // onClick={closeMenu}
-            >
-              <Image
-                className=""
-                src="/assets/facebook.svg"
-                alt="Logo"
-                width={32}
-                height={24}
-              />
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-600 bg-white hover:bg-blue-700"
-              // onClick={closeMenu}
-            >
-              <Image
-                className=""
-                src="/assets/twitter.svg"
-                alt="Logo"
-                width={32}
-                height={24}
-              />
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center justify-center w-12 h-12 rounded-full border border-gray-600 bg-white hover:bg-blue-700"
-              // onClick={closeMenu}
-            >
-              <Image
-                className=""
-                src="/assets/linkedin.svg"
-                alt="Logo"
-                width={32}
-                height={24}
-              />
-            </Link>
-          </div>
+          <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+          <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <Link href="#" className="hover:underline">Limpean™</Link>. All Rights Reserved.</span>
         </div>
       </footer>
+
 
     </>
   )

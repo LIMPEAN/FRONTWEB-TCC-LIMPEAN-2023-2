@@ -2,57 +2,64 @@
 
 import { Card } from 'flowbite-react';
 
-export default function PricingCard() {
+interface PricingCardProps {
+  price: number;
+  typePlan: 0 | 1 | 2;
+}
+
+enum TIPOPLANO {
+  "Básico",
+  "Intermediário",
+  "Avançado"
+}
+
+export default function PricingCard(
+  {
+    price,
+    typePlan
+  }:
+    PricingCardProps
+) {
   return (
-    <Card>
-      <h5 className="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
-        Standard plan
+    <Card className='w-full'>
+      <h5 className=" mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">
+        {TIPOPLANO[typePlan]}
       </h5>
       <div className="flex items-baseline text-gray-900 dark:text-white">
-        <span className="text-3xl font-semibold">
-          $
+        <span className="text-xl font-light">
+          R$
         </span>
-        <span className="text-5xl font-extrabold tracking-tight">
-          49
+        <span className="text-5xl font-black tracking-tight">
+          {price}
         </span>
         <span className="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">
-          /month
+          /mês
         </span>
       </div>
       <ul className="my-7 space-y-5">
         <li className="flex space-x-3">
           <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-            2 team members
+            {typePlan == 0 ? "10 serviços mensais" : "Serviços ilimitados"}
           </span>
         </li>
         <li className="flex space-x-3">
           <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-            20GB Cloud storage
+          {typePlan == 0 ? "5 chats simultâneos" : "Chats ilimitados"}
           </span>
         </li>
-        <li className="flex space-x-3">
-          <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">
-            Integration help
+        <li className={`${typePlan < 1 ? "line-through decoration-gray-500" : "decoration-blue-600"} flex space-x-3  `}>
+          <span className="text-base font-normal text-gray-500">
+            Turbo de avaliação
           </span>
         </li>
-        <li className="flex space-x-3 line-through decoration-gray-500">
+        <li className={`${typePlan < 1 ? "line-through decoration-gray-500" : ""} flex space-x-3`}>
           <span className="text-base font-normal leading-tight text-gray-500">
-            Sketch Files
+            Relatórios
           </span>
         </li>
-        <li className="flex space-x-3 line-through decoration-gray-500">
+        <li className={`${typePlan < 2 ? "line-through decoration-gray-500" : ""} flex space-x-3`}>
           <span className="text-base font-normal leading-tight text-gray-500">
-            API Access
-          </span>
-        </li>
-        <li className="flex space-x-3 line-through decoration-gray-500">
-          <span className="text-base font-normal leading-tight text-gray-500">
-            Complete documentation
-          </span>
-        </li>
-        <li className="flex space-x-3 line-through decoration-gray-500">
-          <span className="text-base font-normal leading-tight text-gray-500">
-            24×7 phone & email support
+            Descontos
           </span>
         </li>
       </ul>
@@ -61,10 +68,10 @@ export default function PricingCard() {
         type="button"
       >
         <p>
-          Choose plan
+          Escolher plano
         </p>
       </button>
-    </Card>
+    </Card >
   )
 }
 
