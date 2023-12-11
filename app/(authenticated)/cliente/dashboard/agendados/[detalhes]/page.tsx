@@ -19,11 +19,36 @@ export default function ServiceModal({
 
   const [responseData, setResponseData] = useState<IData | null>(null);
 
+  let dataAtual;
+  let ano;
+  let mes;
+  let dia;
+  let horas;
+  let minutos;
+
+  let dataFormatada = `${ano}-${mes}-${dia}`;
+  let horaFormatada = `${horas}:${minutos}`
+
   let token: string | null = null;
 
   if (typeof window !== 'undefined') {
     token = localStorage.getItem("token")
   }
+
+  const preencherDados = () => {
+    dataAtual = new Date(responseData!!.service.date_hour);
+    ano = dataAtual.getUTCFullYear();
+    mes = (dataAtual.getUTCMonth() + 1).toString().padStart(2, '0');
+    dia = dataAtual.getUTCDate().toString().padStart(2, '0');
+    horas = dataAtual.getHours().toString().padStart(2, '0');
+    minutos = dataAtual.getMinutes().toString().padStart(2, '0');
+    dataFormatada = `${dia}/${mes}/${ano}`;
+    horaFormatada = `${horas}:${minutos}`
+  }
+
+  responseData ? preencherDados()
+
+    : null
 
 
   useEffect(() => {
@@ -41,10 +66,9 @@ export default function ServiceModal({
           return response.json();
         })
         .then((data) => {
-          
+
           data.data.map((data: IData) => {
             if (data.service.serviceId === Number(params.detalhes)) {
-              console.log(data)
               setResponseData(data);
             }
           })
@@ -157,40 +181,29 @@ export default function ServiceModal({
             <div className="flex gap-2">
               <div className="w-full">
                 <Label className="font-semibold text-base 2xl:text-lg" htmlFor="data">Data do serviço</Label>
-                <Datepicker id="data" className="w-full" disabled value={
-                  responseData ? `${new Date(responseData.service.date_hour).getDay()}/${new Date(responseData.service.date_hour).getMonth()}/${new Date(responseData.service.date_hour).getFullYear()}` : "null"} />
+                <TextInput type="text" className="w-full" disabled value={dataFormatada} />
               </div>
               <div className="w-full">
                 <Label className="font-semibold text-base 2xl:text-lg" htmlFor="time">Horário de início</Label>
                 <TextInput id="time" className="w-full"
-                  disabled type="text" icon={IconClock} value={
-                    responseData ? `${new Date(responseData.service.date_hour).getHours()}:${new Date(responseData.service.date_hour).getMinutes()}` : "null"} />
+                  disabled type="text" icon={IconClock} value={horaFormatada} />
               </div>
             </div>
             <div className="w-full">
               <Label className="font-semibold text-base 2xl:text-lg" htmlFor="endereco">Foto da residência</Label>
-              {/* <iframe
-                id="endereco"
-                width="600"
-                height="450"
-                className="w-full 2xl:h-96 h-64 object-cover rounded-lg"
-                loading="lazy"
-                allowFullScreen
-                src={`https://www.google.com/maps/embed/v1/directions?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&origin=06655-450&destination=${responseData?.service.address.cep}`}
-              ></iframe> */}
               <div>
                 {responseData ? <StreetViewImage service={responseData.service}
                 /> : <LoadingImage />}
               </div>
             </div>
             <div className="w-full">
-              <Label className="font-semibold text-base 2xl:text-lg" htmlFor="data">Defina um preço pra essa solicitação</Label>
+              <Label className="font-semibold text-base 2xl:text-lg" htmlFor="data">Preço da solicitação</Label>
               <TextInput id="data" className="w-full"
-                type="number"
+                type="text"
                 min={0}
                 addon="R$"
                 disabled
-                value={responseData?.service?.value + ".00" ?? "0.00"}
+                value={responseData?.service?.value}
               />
             </div>
             <div className="w-full flex gap-2">
@@ -200,8 +213,8 @@ export default function ServiceModal({
               >
                 Cancelar
               </Link>
-              <Link 
-              href={`./${params.detalhes}/autenticacao`}
+              <Link
+                href={`./${params.detalhes}/autenticacao`}
                 className='h-12 w-full bg-blue-700 cursor-pointer hover:bg-blue-800 text-white flex text-center justify-center items-center custom-file-label font-medium rounded-lg'
               >Iniciar</Link>
             </div>

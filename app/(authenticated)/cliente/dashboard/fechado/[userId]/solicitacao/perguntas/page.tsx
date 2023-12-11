@@ -53,7 +53,7 @@ export default function Perguntas() {
   const [timeValue, setTimeValue] = useState<string>('');
   const [criancasValue, setCriancasValue] = useState<string>('');
   const [animaisValue, setAnimaisValue] = useState<string>('');
-  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<string | number>(1);
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);

@@ -10,6 +10,7 @@ import ButtonGroup from 'flowbite-react/lib/esm/components/Button/ButtonGroup';
 import { putStatusService } from './service/putStatusService';
 import toast from 'react-hot-toast';
 import Loading from '../perfil/loading';
+import { useRouter } from 'next/navigation';
 
 interface StatusService {
   status: string;
@@ -66,6 +67,8 @@ export default function Agendado() {
   const [openModal, setOpenModal] = useState<string | undefined>();
   const props = { openModal, setOpenModal };
 
+  const router = useRouter()
+
   const updateService = async (idService: string) => {
     const url = `https://backend-tcc-limpean-crud.azurewebsites.net/v1/limpean/client/service`
     const jsonApi = {
@@ -86,6 +89,7 @@ export default function Agendado() {
     console.log(response)
     if (response.status === 201) {
       toast.success("Solicitação agendada com sucesso")
+      router.push("https://buy.stripe.com/test_8wMaFW5ATgEu2JOdQV")
     } else {
       toast.error("Falha ao agendar, realize o processo novamente")
     }
@@ -143,9 +147,6 @@ export default function Agendado() {
     debouncedSearch(query);
   };
 
-
-
-
   return (
     <div className="flex flex-col w-full h-full pb-8">
       <Breadcrumb aria-label="Default breadcrumb example">
@@ -167,6 +168,16 @@ export default function Agendado() {
           services.length ? services?.map((service: Service) => {
             let ultimoIndice = service.status_service.length - 1
             if (service.isInvitation) {
+              const dateObject = new Date(service.date_hour);
+              const year = dateObject.getFullYear();
+              const month = dateObject.getMonth() + 1;
+              const day = dateObject.getDate();
+              const hours = dateObject.getUTCHours();
+              const minutes = dateObject.getUTCMinutes();
+
+              const dataFormatada = `${day.toString().length <= 1 ? '0' + day : day}/${month.toString().length <= 1 ? '0' + month : month}/${year}`
+              const horaFormatada = `${hours.toString().length <= 1 ? '0' + hours : hours}:${minutes.toString().length <= 1 ? '0' + minutes : minutes}`
+
               return (
                 <div key={service.serviceId} className='flex p-4 gap-4 lg:flex-row w-full justify-between lg:items-start items-end text-gray-800  rounded-lg shadow dark:bg-gray-800 dark:text-white dark:border-gray-700 cursor-pointer'>
                   <div className='flex lg:flex-row gap-4 items-start lg:items-start'>
@@ -183,10 +194,10 @@ export default function Agendado() {
                           </div>
                         }
                         <div className='flex items-center text-xs gap-1 text-gray-500 pb-2'>
-                          <span>{`${new Date(service.date_hour).getUTCHours()}:${new Date(service.date_hour).getUTCMinutes()}`}</span>
+                          <span>{horaFormatada}</span>
                           <div className='w-1 h-1 bg-gray-500 rounded-full'></div>
                           <span>
-                            {`${new Date(service.date_hour).getDay()}/${new Date(service.date_hour).getMonth()}/${new Date(service.date_hour).getUTCFullYear()}`}
+                            {dataFormatada}
                           </span>
                         </div>
                       </div>
